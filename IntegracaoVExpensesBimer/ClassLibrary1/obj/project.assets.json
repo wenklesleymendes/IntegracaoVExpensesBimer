@@ -13,9 +13,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\wmosy\\OneDrive\\Área de Trabalho\\Clone WMO\\VExpense\\IntegracaoVExpensesBimer\\ClassLibrary1\\ClassLibrary1.csproj",
-      "projectName": "ClassLibrary1",
-      "projectPath": "C:\\Users\\wmosy\\OneDrive\\Área de Trabalho\\Clone WMO\\VExpense\\IntegracaoVExpensesBimer\\ClassLibrary1\\ClassLibrary1.csproj",
+      "projectUniqueName": "C:\\Users\\wmosy\\OneDrive\\Área de Trabalho\\Clone WMO\\VExpense\\IntegracaoVExpensesBimer\\ClassLibrary1\\Infrastructure.csproj",
+      "projectName": "Infrastructure",
+      "projectPath": "C:\\Users\\wmosy\\OneDrive\\Área de Trabalho\\Clone WMO\\VExpense\\IntegracaoVExpensesBimer\\ClassLibrary1\\Infrastructure.csproj",
       "packagesPath": "C:\\Users\\wmosy\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\wmosy\\OneDrive\\Área de Trabalho\\Clone WMO\\VExpense\\IntegracaoVExpensesBimer\\ClassLibrary1\\obj\\",
       "projectStyle": "PackageReference",

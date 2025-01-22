@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VExpenses", "VExpenses.csproj", "{1822E3FF-B653-4FE1-BD21-5C2A420817C2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VExpenses", "VExpenses.csproj", "{1822E3FF-B653-4FE1-BD21-5C2A420817C2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1-VExpense.API", "1-VExpense.API", "{6135A3F8-8434-4E9D-8262-DC8E29923BBD}"
 EndProject
@@ -15,11 +15,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4-VExpense.Infrastructure",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5-VExpense.Documentacao", "5-VExpense.Documentacao", "{E158208E-FE3D-48D8-841B-DE73161B6665}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "..\Application\Application.csproj", "{EEF47AE5-B5AB-49A8-9484-1FEF0CB37A1F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "..\Application\Application.csproj", "{EEF47AE5-B5AB-49A8-9484-1FEF0CB37A1F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "..\Domain\Domain.csproj", "{22F0C967-00AC-47AD-8FD5-6D58F7AEB4E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "..\Domain\Domain.csproj", "{22F0C967-00AC-47AD-8FD5-6D58F7AEB4E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLibrary1", "..\ClassLibrary1\ClassLibrary1.csproj", "{A75A35C9-54D4-450F-84E4-655F44C69210}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "..\ClassLibrary1\Infrastructure.csproj", "{A75A35C9-54D4-450F-84E4-655F44C69210}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

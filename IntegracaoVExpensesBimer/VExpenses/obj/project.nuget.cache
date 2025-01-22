@@ -1,11 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "9w4Sp+isDTHhGBDdgOGk14LZSNYvrE1RnLb5PX6wP4he5BOSXW1WEikxzJr1F9QS+Rxl9E5sk5X4NxTU+Dz2yA==",
+  "dgSpecHash": "D5CEKnhi87+TW1Xn9111Xc26LXQB4oBCnvEnEmPSuIo+8f4gdicaU3ldnvrfPFO3E6hnogha2+u12rnthsJ08Q==",
   "success": true,
   "projectFilePath": "C:\\Users\\wmosy\\OneDrive\\Área de Trabalho\\Clone WMO\\VExpense\\IntegracaoVExpensesBimer\\VExpenses\\VExpenses.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\wmosy\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
+    "C:\\Users\\wmosy\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\9.0.1\\microsoft.extensions.dependencyinjection.abstractions.9.0.1.nupkg.sha512",
+    "C:\\Users\\wmosy\\.nuget\\packages\\microsoft.extensions.options\\9.0.1\\microsoft.extensions.options.9.0.1.nupkg.sha512",
+    "C:\\Users\\wmosy\\.nuget\\packages\\microsoft.extensions.primitives\\9.0.1\\microsoft.extensions.primitives.9.0.1.nupkg.sha512",
     "C:\\Users\\wmosy\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\wmosy\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\wmosy\\.nuget\\packages\\swashbuckle.aspnetcore\\6.4.0\\swashbuckle.aspnetcore.6.4.0.nupkg.sha512",
     "C:\\Users\\wmosy\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.4.0\\swashbuckle.aspnetcore.swagger.6.4.0.nupkg.sha512",
     "C:\\Users\\wmosy\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.4.0\\swashbuckle.aspnetcore.swaggergen.6.4.0.nupkg.sha512",

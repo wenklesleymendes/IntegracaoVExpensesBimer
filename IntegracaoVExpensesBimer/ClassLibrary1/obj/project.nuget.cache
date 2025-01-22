@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "QczjYtZ4ZmnOtjtios+YM79gdEx35Ycl0RdGuaugfF9Cm9deidaF5LSz9EmcnDCRlHtyIzbFKSYjTMR7scJ5zw==",
+  "dgSpecHash": "V0MYekN+Rwfypb+TNG4oWWBolp0zFiw33rMg2QdVpfOb+IwBGnmRTEmDz6fp+WVVUl802f1Vn/m9shHhSr6sUg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\wmosy\\OneDrive\\Área de Trabalho\\Clone WMO\\VExpense\\IntegracaoVExpensesBimer\\ClassLibrary1\\ClassLibrary1.csproj",
+  "projectFilePath": "C:\\Users\\wmosy\\OneDrive\\Área de Trabalho\\Clone WMO\\VExpense\\IntegracaoVExpensesBimer\\ClassLibrary1\\Infrastructure.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

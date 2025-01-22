@@ -1,8 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "DJMRwjMP8gsaHps7P4VMhUZOjD+Eo/SMOXtRkFIIGZmL2h+yI7GaBpjmrqi6rx+84XQ/DJg9MXHC43UzqoK8ug==",
+  "dgSpecHash": "w0wd5Dprm5FYfP5FcOMGPsVPxELedAU+P2Ln4uU51hAql51wwj+KZybjAnxHcpEpkL5qUDuNyoql5FSF3fEPYw==",
   "success": true,
   "projectFilePath": "C:\\Users\\wmosy\\OneDrive\\Área de Trabalho\\Clone WMO\\VExpense\\IntegracaoVExpensesBimer\\Application\\Application.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\wmosy\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\9.0.1\\microsoft.extensions.dependencyinjection.abstractions.9.0.1.nupkg.sha512",
+    "C:\\Users\\wmosy\\.nuget\\packages\\microsoft.extensions.options\\9.0.1\\microsoft.extensions.options.9.0.1.nupkg.sha512",
+    "C:\\Users\\wmosy\\.nuget\\packages\\microsoft.extensions.primitives\\9.0.1\\microsoft.extensions.primitives.9.0.1.nupkg.sha512",
+    "C:\\Users\\wmosy\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
   "logs": []
 }
