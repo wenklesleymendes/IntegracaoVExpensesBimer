@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "9w4Sp+isDTHhGBDdgOGk14LZSNYvrE1RnLb5PX6wP4he5BOSXW1WEikxzJr1F9QS+Rxl9E5sk5X4NxTU+Dz2yA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\wmosy\\OneDrive\\Área de Trabalho\\Clone WMO\\VExpense\\IntegracaoVExpensesBimer\\VExpenses\\VExpenses.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\wmosy\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
+    "C:\\Users\\wmosy\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\wmosy\\.nuget\\packages\\swashbuckle.aspnetcore\\6.4.0\\swashbuckle.aspnetcore.6.4.0.nupkg.sha512",
+    "C:\\Users\\wmosy\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.4.0\\swashbuckle.aspnetcore.swagger.6.4.0.nupkg.sha512",
+    "C:\\Users\\wmosy\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.4.0\\swashbuckle.aspnetcore.swaggergen.6.4.0.nupkg.sha512",
+    "C:\\Users\\wmosy\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.4.0\\swashbuckle.aspnetcore.swaggerui.6.4.0.nupkg.sha512"
+  ],
+  "logs": []
+}
