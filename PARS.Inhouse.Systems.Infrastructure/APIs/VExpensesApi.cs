@@ -15,17 +15,18 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
             _httpClient = httpClient;
         }
 
-        public async Task<List<Report>> GetReportsByStatusAsync(string status, string token, string uri)
+        public async Task<List<Report>> GetReportsByStatusAsync(string status, string filtros, string token, string uri)
         {
+            var content = JsonConvert.DeserializeObject<Filtros>(filtros);
+
             using var requestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
             requestMessage.Headers.Authorization = new AuthenticationHeaderValue(token);
-
+            
             var response = await _httpClient.SendAsync(requestMessage);
 
-           // var response = await _httpClient.GetAsync();
             response.EnsureSuccessStatusCode();
-            var content = await response.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<ApiResponse>(content);
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var result = JsonConvert.DeserializeObject<ApiResponse>(responseContent);
             return result?.Data ?? new List<Report>();
         }
 

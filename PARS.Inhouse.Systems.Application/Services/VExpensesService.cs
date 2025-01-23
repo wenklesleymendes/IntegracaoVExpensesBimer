@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using PARS.Inhouse.Systems.Application.Configurations;
 using PARS.Inhouse.Systems.Application.DTOs;
 using PARS.Inhouse.Systems.Infrastructure.APIs;
+using System.Text.Json.Nodes;
 
 namespace PARS.Inhouse.Systems.Application.Services
 {
@@ -16,11 +18,13 @@ namespace PARS.Inhouse.Systems.Application.Services
             _options = options?.Value;
         }
 
-        public async Task<List<ReportDto>> GetReportsByStatusAsync(string status, string token)
+        public async Task<List<ReportDto>> GetReportsByStatusAsync(string status, FiltrosDto filtrosDto, string token)
         {
+            var filtros = JsonConvert.SerializeObject(filtrosDto);
+
             var uri = _options.VExpenseReport.Replace("{status}", $"{status}");
 
-            var reports = await _vExpensesApi.GetReportsByStatusAsync(status, token, uri);
+            var reports = await _vExpensesApi.GetReportsByStatusAsync(status, filtros, token, uri);
             return reports.Select(r => new ReportDto
             {
                 Id = r.Id,

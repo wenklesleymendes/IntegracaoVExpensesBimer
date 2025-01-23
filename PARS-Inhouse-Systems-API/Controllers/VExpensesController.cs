@@ -16,12 +16,12 @@ namespace PARS_Inhouse_Systems_API.Controllers
         }
 
         [HttpGet("reports")]
-        public async Task<IActionResult> GetReportsByStatus(string status)
+        public async Task<IActionResult> GetReportsByStatus(string status, [FromQuery] FiltrosDto filtros)
         {
-                var token = "fS9ZjxxCHEUZbX6i5aOa0vB6yHhzEWMNyJ1CwWGAhi1pPny1ecXGAlxlYbgG";
+            var token = "fS9ZjxxCHEUZbX6i5aOa0vB6yHhzEWMNyJ1CwWGAhi1pPny1ecXGAlxlYbgG";
             try
             {
-                var reports = await _vExpensesService.GetReportsByStatusAsync(status, token);
+                var reports = await _vExpensesService.GetReportsByStatusAsync(status, filtros, token);
                 return Ok(reports);
             }
             catch (Exception ex)
