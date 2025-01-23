@@ -1,0 +1,393 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS-Inhouse-Systems-API\\PARS-Inhouse-Systems-API.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS-Inhouse-Systems-API\\PARS-Inhouse-Systems-API.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS-Inhouse-Systems-API\\PARS-Inhouse-Systems-API.csproj",
+        "projectName": "PARS-Inhouse-Systems-API",
+        "projectPath": "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS-Inhouse-Systems-API\\PARS-Inhouse-Systems-API.csproj",
+        "packagesPath": "C:\\Users\\Mendes\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS-Inhouse-Systems-API\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Mendes\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS.Inhouse.Systems.Application\\PARS.Inhouse.Systems.Application.csproj": {
+                "projectPath": "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS.Inhouse.Systems.Application\\PARS.Inhouse.Systems.Application.csproj"
+              },
+              "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS.Inhouse.Systems.Infrastructure\\PARS.Inhouse.Systems.Infrastructure.csproj": {
+                "projectPath": "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS.Inhouse.Systems.Infrastructure\\PARS.Inhouse.Systems.Infrastructure.csproj"
+              },
+              "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS.Inhouse.Systems.Shared\\PARS.Inhouse.Systems.Shared.csproj": {
+                "projectPath": "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS.Inhouse.Systems.Shared\\PARS.Inhouse.Systems.Shared.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.OpenApi": {
+              "target": "Package",
+              "version": "[8.0.3, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[7.2.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS.Inhouse.Systems.Application\\PARS.Inhouse.Systems.Application.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS.Inhouse.Systems.Application\\PARS.Inhouse.Systems.Application.csproj",
+        "projectName": "PARS.Inhouse.Systems.Application",
+        "projectPath": "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS.Inhouse.Systems.Application\\PARS.Inhouse.Systems.Application.csproj",
+        "packagesPath": "C:\\Users\\Mendes\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS.Inhouse.Systems.Application\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Mendes\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS.Inhouse.Systems.Domain\\PARS.Inhouse.Systems.Domain.csproj": {
+                "projectPath": "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS.Inhouse.Systems.Domain\\PARS.Inhouse.Systems.Domain.csproj"
+              },
+              "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS.Inhouse.Systems.Infrastructure\\PARS.Inhouse.Systems.Infrastructure.csproj": {
+                "projectPath": "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS.Inhouse.Systems.Infrastructure\\PARS.Inhouse.Systems.Infrastructure.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "FluentValidation": {
+              "target": "Package",
+              "version": "[11.11.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS.Inhouse.Systems.Domain\\PARS.Inhouse.Systems.Domain.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS.Inhouse.Systems.Domain\\PARS.Inhouse.Systems.Domain.csproj",
+        "projectName": "PARS.Inhouse.Systems.Domain",
+        "projectPath": "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS.Inhouse.Systems.Domain\\PARS.Inhouse.Systems.Domain.csproj",
+        "packagesPath": "C:\\Users\\Mendes\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS.Inhouse.Systems.Domain\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Mendes\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS.Inhouse.Systems.Infrastructure\\PARS.Inhouse.Systems.Infrastructure.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS.Inhouse.Systems.Infrastructure\\PARS.Inhouse.Systems.Infrastructure.csproj",
+        "projectName": "PARS.Inhouse.Systems.Infrastructure",
+        "projectPath": "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS.Inhouse.Systems.Infrastructure\\PARS.Inhouse.Systems.Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\Mendes\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS.Inhouse.Systems.Infrastructure\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Mendes\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS.Inhouse.Systems.Domain\\PARS.Inhouse.Systems.Domain.csproj": {
+                "projectPath": "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS.Inhouse.Systems.Domain\\PARS.Inhouse.Systems.Domain.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[9.0.1, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[9.0.1, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
+            },
+            "RestSharp": {
+              "target": "Package",
+              "version": "[112.1.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS.Inhouse.Systems.Shared\\PARS.Inhouse.Systems.Shared.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS.Inhouse.Systems.Shared\\PARS.Inhouse.Systems.Shared.csproj",
+        "projectName": "PARS.Inhouse.Systems.Shared",
+        "projectPath": "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS.Inhouse.Systems.Shared\\PARS.Inhouse.Systems.Shared.csproj",
+        "packagesPath": "C:\\Users\\Mendes\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS.Inhouse.Systems.Shared\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Mendes\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
