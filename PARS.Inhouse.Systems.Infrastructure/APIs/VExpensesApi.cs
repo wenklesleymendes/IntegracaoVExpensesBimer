@@ -15,9 +15,9 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
             _httpClient = httpClient;
         }
 
-        public async Task<List<Report>> GetReportsByStatusAsync(string status, string token)
+        public async Task<List<Report>> GetReportsByStatusAsync(string status, string token, string uri)
         {
-            using var requestMessage = new HttpRequestMessage(HttpMethod.Get, $"https://api.vexpenses.com/v2/reports/status/{status}");
+            using var requestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
             requestMessage.Headers.Authorization = new AuthenticationHeaderValue(token);
 
             var response = await _httpClient.SendAsync(requestMessage);

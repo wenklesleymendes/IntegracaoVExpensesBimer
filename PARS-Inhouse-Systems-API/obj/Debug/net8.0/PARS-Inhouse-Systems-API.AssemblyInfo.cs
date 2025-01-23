@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PARS-Inhouse-Systems-API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+02c19580dac270f83952ab531e7a6c9f6ae0132f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+02c8b43798a7dd61f623d708fea5aa2cc84a0349")]
 [assembly: System.Reflection.AssemblyProductAttribute("PARS-Inhouse-Systems-API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PARS-Inhouse-Systems-API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
