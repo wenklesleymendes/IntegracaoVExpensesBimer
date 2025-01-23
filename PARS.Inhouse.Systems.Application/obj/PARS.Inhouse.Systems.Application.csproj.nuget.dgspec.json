@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS.Inhouse.Systems.Application\\PARS.Inhouse.Systems.Application.csproj": {}
+    "C:\\Users\\wmosy\\OneDrive\\Área de Trabalho\\Clone WMO\\VExpense\\PARS.Inhouse.Systems.Application\\PARS.Inhouse.Systems.Application.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS.Inhouse.Systems.Application\\PARS.Inhouse.Systems.Application.csproj": {
+    "C:\\Users\\wmosy\\OneDrive\\Área de Trabalho\\Clone WMO\\VExpense\\PARS.Inhouse.Systems.Application\\PARS.Inhouse.Systems.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS.Inhouse.Systems.Application\\PARS.Inhouse.Systems.Application.csproj",
+        "projectUniqueName": "C:\\Users\\wmosy\\OneDrive\\Área de Trabalho\\Clone WMO\\VExpense\\PARS.Inhouse.Systems.Application\\PARS.Inhouse.Systems.Application.csproj",
         "projectName": "PARS.Inhouse.Systems.Application",
-        "projectPath": "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS.Inhouse.Systems.Application\\PARS.Inhouse.Systems.Application.csproj",
-        "packagesPath": "C:\\Users\\Mendes\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS.Inhouse.Systems.Application\\obj\\",
+        "projectPath": "C:\\Users\\wmosy\\OneDrive\\Área de Trabalho\\Clone WMO\\VExpense\\PARS.Inhouse.Systems.Application\\PARS.Inhouse.Systems.Application.csproj",
+        "packagesPath": "C:\\Users\\wmosy\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\wmosy\\OneDrive\\Área de Trabalho\\Clone WMO\\VExpense\\PARS.Inhouse.Systems.Application\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Mendes\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\wmosy\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -26,18 +22,17 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS.Inhouse.Systems.Domain\\PARS.Inhouse.Systems.Domain.csproj": {
-                "projectPath": "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS.Inhouse.Systems.Domain\\PARS.Inhouse.Systems.Domain.csproj"
+              "C:\\Users\\wmosy\\OneDrive\\Área de Trabalho\\Clone WMO\\VExpense\\PARS.Inhouse.Systems.Domain\\PARS.Inhouse.Systems.Domain.csproj": {
+                "projectPath": "C:\\Users\\wmosy\\OneDrive\\Área de Trabalho\\Clone WMO\\VExpense\\PARS.Inhouse.Systems.Domain\\PARS.Inhouse.Systems.Domain.csproj"
               },
-              "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS.Inhouse.Systems.Infrastructure\\PARS.Inhouse.Systems.Infrastructure.csproj": {
-                "projectPath": "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS.Inhouse.Systems.Infrastructure\\PARS.Inhouse.Systems.Infrastructure.csproj"
+              "C:\\Users\\wmosy\\OneDrive\\Área de Trabalho\\Clone WMO\\VExpense\\PARS.Inhouse.Systems.Infrastructure\\PARS.Inhouse.Systems.Infrastructure.csproj": {
+                "projectPath": "C:\\Users\\wmosy\\OneDrive\\Área de Trabalho\\Clone WMO\\VExpense\\PARS.Inhouse.Systems.Infrastructure\\PARS.Inhouse.Systems.Infrastructure.csproj"
               }
             }
           }
@@ -78,25 +73,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS.Inhouse.Systems.Domain\\PARS.Inhouse.Systems.Domain.csproj": {
+    "C:\\Users\\wmosy\\OneDrive\\Área de Trabalho\\Clone WMO\\VExpense\\PARS.Inhouse.Systems.Domain\\PARS.Inhouse.Systems.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS.Inhouse.Systems.Domain\\PARS.Inhouse.Systems.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\wmosy\\OneDrive\\Área de Trabalho\\Clone WMO\\VExpense\\PARS.Inhouse.Systems.Domain\\PARS.Inhouse.Systems.Domain.csproj",
         "projectName": "PARS.Inhouse.Systems.Domain",
-        "projectPath": "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS.Inhouse.Systems.Domain\\PARS.Inhouse.Systems.Domain.csproj",
-        "packagesPath": "C:\\Users\\Mendes\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS.Inhouse.Systems.Domain\\obj\\",
+        "projectPath": "C:\\Users\\wmosy\\OneDrive\\Área de Trabalho\\Clone WMO\\VExpense\\PARS.Inhouse.Systems.Domain\\PARS.Inhouse.Systems.Domain.csproj",
+        "packagesPath": "C:\\Users\\wmosy\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\wmosy\\OneDrive\\Área de Trabalho\\Clone WMO\\VExpense\\PARS.Inhouse.Systems.Domain\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Mendes\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\wmosy\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -104,7 +95,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -143,25 +133,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS.Inhouse.Systems.Infrastructure\\PARS.Inhouse.Systems.Infrastructure.csproj": {
+    "C:\\Users\\wmosy\\OneDrive\\Área de Trabalho\\Clone WMO\\VExpense\\PARS.Inhouse.Systems.Infrastructure\\PARS.Inhouse.Systems.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS.Inhouse.Systems.Infrastructure\\PARS.Inhouse.Systems.Infrastructure.csproj",
+        "projectUniqueName": "C:\\Users\\wmosy\\OneDrive\\Área de Trabalho\\Clone WMO\\VExpense\\PARS.Inhouse.Systems.Infrastructure\\PARS.Inhouse.Systems.Infrastructure.csproj",
         "projectName": "PARS.Inhouse.Systems.Infrastructure",
-        "projectPath": "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS.Inhouse.Systems.Infrastructure\\PARS.Inhouse.Systems.Infrastructure.csproj",
-        "packagesPath": "C:\\Users\\Mendes\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS.Inhouse.Systems.Infrastructure\\obj\\",
+        "projectPath": "C:\\Users\\wmosy\\OneDrive\\Área de Trabalho\\Clone WMO\\VExpense\\PARS.Inhouse.Systems.Infrastructure\\PARS.Inhouse.Systems.Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\wmosy\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\wmosy\\OneDrive\\Área de Trabalho\\Clone WMO\\VExpense\\PARS.Inhouse.Systems.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Mendes\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\wmosy\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -169,15 +155,14 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS.Inhouse.Systems.Domain\\PARS.Inhouse.Systems.Domain.csproj": {
-                "projectPath": "C:\\Users\\Mendes\\Desktop\\Clones\\IntegracaoVExpensesBimer\\PARS.Inhouse.Systems.Domain\\PARS.Inhouse.Systems.Domain.csproj"
+              "C:\\Users\\wmosy\\OneDrive\\Área de Trabalho\\Clone WMO\\VExpense\\PARS.Inhouse.Systems.Domain\\PARS.Inhouse.Systems.Domain.csproj": {
+                "projectPath": "C:\\Users\\wmosy\\OneDrive\\Área de Trabalho\\Clone WMO\\VExpense\\PARS.Inhouse.Systems.Domain\\PARS.Inhouse.Systems.Domain.csproj"
               }
             }
           }
@@ -232,7 +217,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

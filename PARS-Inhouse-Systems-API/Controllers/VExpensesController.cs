@@ -18,9 +18,10 @@ namespace PARS_Inhouse_Systems_API.Controllers
         [HttpGet("reports")]
         public async Task<IActionResult> GetReportsByStatus(string status)
         {
+                var token = "fS9ZjxxCHEUZbX6i5aOa0vB6yHhzEWMNyJ1CwWGAhi1pPny1ecXGAlxlYbgG";
             try
             {
-                var reports = await _vExpensesService.GetReportsByStatusAsync(status);
+                var reports = await _vExpensesService.GetReportsByStatusAsync(status, token);
                 return Ok(reports);
             }
             catch (Exception ex)

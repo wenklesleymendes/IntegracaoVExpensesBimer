@@ -1,0 +1,31 @@
+# Build artifacts
+*.bin
+*.obj
+
+# Visual Studio specific
+.vs/
+bin/
+obj/
+bin/Debug/
+bin/Debug/net8.0/
+
+# Logs
+*.log
+
+# Dependency directories
+node_modules/
+venv/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# IDE specific
+.idea/
+*.iml
+
+# Environment files
+.env
+.env.local

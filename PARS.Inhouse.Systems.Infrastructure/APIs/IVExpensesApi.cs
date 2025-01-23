@@ -4,6 +4,6 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
 {
     public interface IVExpensesApi
     {
-        Task<List<Report>> GetReportsByStatusAsync(string status);
+        Task<List<Report>> GetReportsByStatusAsync(string status, string token);
     }
 }

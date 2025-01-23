@@ -12,9 +12,9 @@ namespace PARS.Inhouse.Systems.Application.Services
             _vExpensesApi = vExpensesApi;
         }
 
-        public async Task<List<ReportDto>> GetReportsByStatusAsync(string status)
+        public async Task<List<ReportDto>> GetReportsByStatusAsync(string status, string token)
         {
-            var reports = await _vExpensesApi.GetReportsByStatusAsync(status);
+            var reports = await _vExpensesApi.GetReportsByStatusAsync(status, token);
             return reports.Select(r => new ReportDto
             {
                 Id = r.Id,
