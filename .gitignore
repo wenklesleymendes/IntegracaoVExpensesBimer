@@ -33,3 +33,16 @@ __pycache__/
 *.exe
 *.cache
 *.dll
+/PARS-Inhouse-Systems-API/obj/Debug/net8.0/PARS-Inhouse-Systems-API.AssemblyInfo.cs
+/PARS-Inhouse-Systems-API/obj/Debug/net8.0/PARS-Inhouse-Systems-API.AssemblyInfoInputs.cache
+/PARS-Inhouse-Systems-API/obj/Debug/net8.0/PARS-Inhouse-Systems-API.csproj.AssemblyReference.cache
+/PARS.Inhouse.Systems.Application/obj/Debug/net8.0/PARS.Inhouse.Systems.Application.AssemblyInfo.cs
+/PARS.Inhouse.Systems.Application/obj/Debug/net8.0/PARS.Inhouse.Systems.Application.csproj.AssemblyReference.cache
+/PARS.Inhouse.Systems.Application/obj/Debug/net8.0/PARS.Inhouse.Systems.Application.AssemblyInfoInputs.cache
+/PARS.Inhouse.Systems.Domain/obj/Debug/net8.0/PARS.Inhouse.Systems.Domain.AssemblyInfo.cs
+/PARS.Inhouse.Systems.Domain/obj/Debug/net8.0/PARS.Inhouse.Systems.Domain.AssemblyInfoInputs.cache
+/PARS.Inhouse.Systems.Infrastructure/obj/Debug/net8.0/PARS.Inhouse.Systems.Infrastructure.AssemblyInfoInputs.cache
+/PARS.Inhouse.Systems.Infrastructure/obj/Debug/net8.0/PARS.Inhouse.Systems.Infrastructure.csproj.AssemblyReference.cache
+/PARS.Inhouse.Systems.Infrastructure/obj/Debug/net8.0/PARS.Inhouse.Systems.Infrastructure.AssemblyInfo.cs
+/PARS.Inhouse.Systems.Shared/obj/Debug/net8.0/PARS.Inhouse.Systems.Shared.AssemblyInfoInputs.cache
+/PARS.Inhouse.Systems.Shared/obj/Debug/net8.0/PARS.Inhouse.Systems.Shared.AssemblyInfo.cs
