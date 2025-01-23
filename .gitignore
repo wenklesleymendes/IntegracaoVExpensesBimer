@@ -1,31 +1,56 @@
-# Build artifacts
-*.bin/
-*.obj/
-
-# Visual Studio specific
+# Ignorar arquivos de configuração do Visual Studio
 .vs/
-*.bin/
-*.obj/
-*.bin/Debug/
-*.bin/Debug/net8.0/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
 
-# Logs
+# Ignorar pastas bin e obj
+bin/
+obj/
+
+# Ignorar arquivos específicos de debug e build
+*.dll
+*.pdb
+*.exe
+*.cache
+*.csproj.user
+
+# Ignorar arquivos e pastas gerados automaticamente
+bin/Debug/
+obj/Debug/
+bin/Release/
+obj/Release/
+
+# Diretório do VS Code
+.vscode/
+
+# Arquivos de log
 *.log
 
-# Dependency directories
-node_modules/
-venv/
+# Pacotes NuGet
+*.nupkg
+.nuget/
 
-# Python cache
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
+# Arquivos temporários
+*.tmp
+*.temp
 
-# IDE specific
-.idea/
-*.iml
+# Arquivos de backup
+*.bak
 
+# Diretório de publicação
+publish/
+
+# Dependências locais
+*.local
+
+# Arquivos de configuração sensíveis
+secrets.json
+
+# Outros caches e arquivos temporários
+.vs/**
+ProjectEvaluation/**
 # Environment files
 .env
 .env.local

@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using PARS.Inhouse.Systems.Application.Configurations;
 using PARS.Inhouse.Systems.Application.DTOs;
 using PARS.Inhouse.Systems.Application.Services;
 
@@ -9,16 +11,18 @@ namespace PARS_Inhouse_Systems_API.Controllers
     public class VExpensesController : ControllerBase
     {
         private readonly IVExpensesService _vExpensesService;
+        private readonly OpcoesUrls _options;
 
-        public VExpensesController(IVExpensesService vExpensesService)
+        public VExpensesController(IVExpensesService vExpensesService, IOptions<OpcoesUrls> options)
         {
             _vExpensesService = vExpensesService;
+            _options = options?.Value;
         }
 
         [HttpGet("reports")]
         public async Task<IActionResult> GetReportsByStatus(string status, [FromQuery] FiltrosDto filtros)
         {
-            var token = "fS9ZjxxCHEUZbX6i5aOa0vB6yHhzEWMNyJ1CwWGAhi1pPny1ecXGAlxlYbgG";
+            var token = _options.Token;
             try
             {
                 var reports = await _vExpensesService.GetReportsByStatusAsync(status, filtros, token);

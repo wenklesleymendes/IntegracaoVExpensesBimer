@@ -11,11 +11,18 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.Configure<OpcoesUrls>(builder.Configuration.GetSection("VExpense"));
+builder.Services.Configure<OpcoesUrls>(builder.Configuration.GetSection("TokenApiKey"));
 
 builder.Services.AddHttpClient<IVExpensesApi, VExpensesApi>(client =>
 {
     client.BaseAddress = new Uri(builder.Configuration["VExpense:VExpenseReport"]);
 });
+
+builder.Services.AddHttpClient<IVExpensesService, VExpensesService>(client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["TokenApiKey:Token"]);
+});
+
 builder.Services.AddScoped<IVExpensesService, VExpensesService>();
 
 var app = builder.Build();
