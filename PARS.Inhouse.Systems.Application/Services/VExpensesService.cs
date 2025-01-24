@@ -14,11 +14,13 @@ namespace PARS.Inhouse.Systems.Application.Services
     {
         private readonly IVExpensesApi _vExpensesApi;
         private readonly OpcoesUrls _options;
+        private readonly HttpClient _httpClient;
 
-        public VExpensesService(IVExpensesApi vExpensesApi, IOptions<OpcoesUrls> options)
+        public VExpensesService(IVExpensesApi vExpensesApi, IOptions<OpcoesUrls> options, HttpClient httpClient)
         {
             _vExpensesApi = vExpensesApi;
             _options = options?.Value;
+            _httpClient = httpClient;
         }
 
         public async Task<List<ReportDto>> GetReportsByStatusAsync(string status, FiltrosDto filtrosDto, string token)
@@ -43,7 +45,11 @@ namespace PARS.Inhouse.Systems.Application.Services
         {
             try
             {
-               // _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(token);
+                if (string.IsNullOrEmpty(token))
+                {
+                    throw new ArgumentNullException("Token inválido!");
+                }
+               _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(token);
             }
             catch (Exception ex)
             {

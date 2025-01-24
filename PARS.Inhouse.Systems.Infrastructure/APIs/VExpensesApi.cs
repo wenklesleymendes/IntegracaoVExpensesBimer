@@ -21,7 +21,21 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
 
             using var requestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
             requestMessage.Headers.Authorization = new AuthenticationHeaderValue(token);
-            
+
+            // Adicione filtros como parâmetros da query string
+            var query = new Dictionary<string, string>
+            {
+                { "include", content.include },
+                { "search", content.search },
+                { "searchField", content.searchField },
+                { "searchJoin", content.searchJoin }
+            };
+
+            // Montar a URI com os parâmetros
+            var queryString = string.Join("&", query.Where(q => !string.IsNullOrEmpty(q.Value))
+                                                    .Select(q => $"{q.Key}={Uri.EscapeDataString(q.Value)}"));
+            requestMessage.RequestUri = new Uri($"{uri}?{queryString}");
+
             var response = await _httpClient.SendAsync(requestMessage);
 
             response.EnsureSuccessStatusCode();
@@ -29,6 +43,7 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
             var result = JsonConvert.DeserializeObject<ApiResponse>(responseContent);
             return result?.Data ?? new List<Report>();
         }
+
 
         private class ApiResponse
         {

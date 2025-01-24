@@ -4,6 +4,8 @@ using Newtonsoft.Json.Linq;
 using PARS.Inhouse.Systems.Application.Configurations;
 using PARS.Inhouse.Systems.Application.DTOs;
 using PARS.Inhouse.Systems.Application.Services;
+using Swashbuckle.AspNetCore.Annotations;
+using System.ComponentModel;
 
 namespace PARS_Inhouse_Systems_API.Controllers
 {
@@ -21,11 +23,28 @@ namespace PARS_Inhouse_Systems_API.Controllers
         }
 
         [HttpGet("reports")]
-        public async Task<IActionResult> GetReportsByStatus(string status, [FromQuery] FiltrosDto filtros)
+        public async Task<IActionResult> GetReportsByStatus(
+            [FromQuery, DefaultValue("APROVADO"), SwaggerSchema("Status padrão: ABERTO")] string status, 
+            [FromQuery] FiltrosDto filtros
+            )
         {
-            var token = _options.Token;
             try
             {
+                // Valores permitidos e padrão
+                var allowedStatuses = new[] { "ABERTO", "APROVADO", "REPROVADO", "REABERTO", "PAGO", "ENVIADO" };
+
+                if (!allowedStatuses.Contains(status))
+                {
+                    return BadRequest(new { Message = $"O status '{status}' não é permitido. Valores permitidos: {string.Join(", ", allowedStatuses)}" });
+                }
+
+                filtros.include ??= "expenses"; 
+                filtros.search ??= string.Empty;
+                filtros.searchField ??= "approval_date:between";
+                filtros.searchJoin ??= "and";
+
+                var token = _options.Token;
+
                 var reports = await _vExpensesService.GetReportsByStatusAsync(status, filtros, token);
                 return Ok(reports);
             }
