@@ -1,75 +1,46 @@
-# Ignorar arquivos de configuração do Visual Studio
+# Arquivos de configuração do Visual Studio
 .vs/
 *.suo
 *.user
 *.userosscache
 *.sln.docstates
 
-# Ignorar pastas bin e obj
-bin/
-obj/
-
-# Ignorar arquivos específicos de debug e build
+# Binários e arquivos de build
+**/bin/
+**/obj/
+**/publish/
+**/out/
 *.dll
 *.pdb
 *.exe
 *.cache
 *.csproj.user
 
-# Ignorar arquivos e pastas gerados automaticamente
-bin/Debug/
-obj/Debug/
-bin/Release/
-obj/Release/
-
-# Diretório do VS Code
-.vscode/
-
-# Arquivos de log
-*.log
-
-# Pacotes NuGet
+# Configuração específica do .NET
+**/Debug/
+**/Release/
 *.nupkg
 .nuget/
 
-# Arquivos temporários
+# Logs e temporários
+*.log
 *.tmp
 *.temp
-
-# Arquivos de backup
 *.bak
-
-# Diretório de publicação
-publish/
-
-# Dependências locais
-*.local
-
-# Arquivos de configuração sensíveis
 secrets.json
 
-# Outros caches e arquivos temporários
-.vs/**
-ProjectEvaluation/**
-# Environment files
+# IDEs adicionais
+.vscode/
+.idea/
+*.sln.ide
+
+# Arquivos gerados automaticamente pelo projeto (refatorei os caminhos específicos)
+**/obj/**/*.cs
+**/obj/**/*.cache
+**/obj/**/*.dll
+**/obj/**/*.pdb
+**/obj/**/*.json
+
+# Ambiente local
 .env
 .env.local
-*.pdb
-*.exe
-*.cache
-*.dll
-/PARS-Inhouse-Systems-API/obj/Debug/net8.0/PARS-Inhouse-Systems-API.AssemblyInfo.cs
-/PARS-Inhouse-Systems-API/obj/Debug/net8.0/PARS-Inhouse-Systems-API.AssemblyInfoInputs.cache
-/PARS-Inhouse-Systems-API/obj/Debug/net8.0/PARS-Inhouse-Systems-API.csproj.AssemblyReference.cache
-/PARS.Inhouse.Systems.Application/obj/Debug/net8.0/PARS.Inhouse.Systems.Application.AssemblyInfo.cs
-/PARS.Inhouse.Systems.Application/obj/Debug/net8.0/PARS.Inhouse.Systems.Application.csproj.AssemblyReference.cache
-/PARS.Inhouse.Systems.Application/obj/Debug/net8.0/PARS.Inhouse.Systems.Application.AssemblyInfoInputs.cache
-/PARS.Inhouse.Systems.Domain/obj/Debug/net8.0/PARS.Inhouse.Systems.Domain.AssemblyInfo.cs
-/PARS.Inhouse.Systems.Domain/obj/Debug/net8.0/PARS.Inhouse.Systems.Domain.AssemblyInfoInputs.cache
-/PARS.Inhouse.Systems.Infrastructure/obj/Debug/net8.0/PARS.Inhouse.Systems.Infrastructure.AssemblyInfoInputs.cache
-/PARS.Inhouse.Systems.Infrastructure/obj/Debug/net8.0/PARS.Inhouse.Systems.Infrastructure.csproj.AssemblyReference.cache
-/PARS.Inhouse.Systems.Infrastructure/obj/Debug/net8.0/PARS.Inhouse.Systems.Infrastructure.AssemblyInfo.cs
-/PARS.Inhouse.Systems.Shared/obj/Debug/net8.0/PARS.Inhouse.Systems.Shared.AssemblyInfoInputs.cache
-/PARS.Inhouse.Systems.Shared/obj/Debug/net8.0/PARS.Inhouse.Systems.Shared.AssemblyInfo.cs
-*.BuildWithSkipAnalyzers
-/PARS-Inhouse-Systems-API/obj/Debug/net8.0/ApiEndpoints.json

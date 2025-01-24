@@ -3,7 +3,10 @@ using Newtonsoft.Json;
 using PARS.Inhouse.Systems.Application.Configurations;
 using PARS.Inhouse.Systems.Application.DTOs;
 using PARS.Inhouse.Systems.Infrastructure.APIs;
+using System.Net.Http.Headers;
+using System;
 using System.Text.Json.Nodes;
+using System.Net.Http;
 
 namespace PARS.Inhouse.Systems.Application.Services
 {
@@ -34,6 +37,18 @@ namespace PARS.Inhouse.Systems.Application.Services
                 PdfLink = r.PdfLink,
                 ExcelLink = r.ExcelLink
             }).ToList();
+        }
+
+        public void TokenValidation(string token)
+        {
+            try
+            {
+               // _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(token);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Ocorreu um erro na validação do token! Detalhes: {ex.Message}");
+            }
         }
     }
 }
