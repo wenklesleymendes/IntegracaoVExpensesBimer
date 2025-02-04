@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace PARS.Inhouse.Systems.Application.Services
@@ -38,6 +39,29 @@ namespace PARS.Inhouse.Systems.Application.Services
             {
                 throw new Exception($"Ocorreu um erro durante a criação de Titulo a pagar! Detalhes do erro: {ex.Message}");
             }
+        }
+
+        public async Task<AuthResponseDto> AuthenticateAsync(AuthRequestDto requestDto)
+        {
+            var uri = _options.TokenServico;
+            var content = new FormUrlEncodedContent(new[]
+            {
+            new KeyValuePair<string, string>("client_id", requestDto.ClientId),
+                new KeyValuePair<string, string>("client_secret", requestDto.ClientSecret),
+                new KeyValuePair<string, string>("grant_type", requestDto.GrantType),
+                new KeyValuePair<string, string>("username", requestDto.Username),
+                new KeyValuePair<string, string>("password", requestDto.Password)
+            });
+
+            var response = await _httpClient.PostAsync(uri, content);
+            var responseString = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception($"Erro na autenticação: {responseString}");
+            }
+
+            return System.Text.Json.JsonSerializer.Deserialize<AuthResponseDto>(responseString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
     }
 }

@@ -11,6 +11,7 @@ namespace PARS_Inhouse_Systems_API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [ApiExplorerSettings(GroupName = "Integração - VExpenses")]
     public class VExpensesController : ControllerBase
     {
         private readonly IVExpensesService _vExpensesService;
@@ -54,19 +55,19 @@ namespace PARS_Inhouse_Systems_API.Controllers
             }
         }
 
-        [HttpGet("Verify")]
-        public async Task<IActionResult> VerifyAuthentication()
-        {
-            var token = _options.Token;
-            try
-            {
-                _vExpensesService.TokenValidation(token);
-                return Ok("Validação realizada com êxito!");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { Message = ex.Message });
-            }
-        }
+        //[HttpGet("Verify")]
+        //public async Task<IActionResult> VerifyAuthentication()
+        //{
+        //    var token = _options.Token;
+        //    try
+        //    {
+        //        _vExpensesService.TokenValidation(token);
+        //        return Ok("Validação realizada com êxito!");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(500, new { Message = ex.Message });
+        //    }
+        //}
     }
 }

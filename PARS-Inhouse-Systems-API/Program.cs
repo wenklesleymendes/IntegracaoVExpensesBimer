@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Configuration;
+using Microsoft.OpenApi.Models;
 using PARS.Inhouse.Systems.Application.Configurations;
 using PARS.Inhouse.Systems.Application.Interfaces;
 using PARS.Inhouse.Systems.Application.Services;
@@ -10,7 +11,43 @@ var builder = WebApplication.CreateBuilder(args);
 // Configurações de serviços
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "PARS RJ",
+        Version = "v1",
+        Description = "Essa API é a principal para utilização de outros EndPoints."
+    });
+
+    c.DocInclusionPredicate((_, apiDesc) => true);
+    c.TagActionsBy(api => new List<string> { api.GroupName });
+
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Por favor, insira 'Bearer' [espaço] e então seu token no campo abaixo.",
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey
+    });
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+        {
+            {
+                new OpenApiSecurityScheme
+                {
+                    Reference = new OpenApiReference
+                    {
+                        Type = ReferenceType.SecurityScheme,
+                        Id = "Bearer"
+                    },
+                    Scheme = "oauth2",
+                    Name = "Bearer",
+                    In = ParameterLocation.Header,
+                },
+                new List<string>()
+            }
+        });
+});
 
 builder.Services.Configure<OpcoesUrls>(builder.Configuration.GetSection("VExpense"));
 builder.Services.Configure<OpcoesUrls>(builder.Configuration.GetSection("Integracao"));
@@ -31,14 +68,13 @@ builder.Services.AddHttpClient<IIntegracaoBimerService, IntegracaoBimerService>(
     client.BaseAddress = new Uri(builder.Configuration["Integracao:Bimer"]);
 });
 
-builder.Services.AddHttpClient<IAuthService, AuthService>(client =>
+builder.Services.AddHttpClient<IIntegracaoBimerService, IntegracaoBimerService>(client =>
 {
     client.BaseAddress = new Uri(builder.Configuration["Integracao:TokenServico"]);
 });
 
 builder.Services.AddScoped<IIntegracaoBimerAPI, IntegracaoBimerAPI>();
 
-builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IIntegracaoBimerService, IntegracaoBimerService>();
 builder.Services.AddScoped<IVExpensesService, VExpensesService>();
 
