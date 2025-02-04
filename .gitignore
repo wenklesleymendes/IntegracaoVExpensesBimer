@@ -48,3 +48,5 @@ secrets.json
 /PARS-Inhouse-Systems-API/obj/Debug/net8.0/PARS-Inhouse-Systems-API.csproj.CoreCompileInputs.cache
 /PARS-Inhouse-Systems-API/bin/Debug/net8.0/PARS-Inhouse-Systems-API.deps.json
 /PARS-Inhouse-Systems-API/obj/Debug/net8.0/PARS-Inhouse-Systems-API.csproj.FileListAbsolute.txt
+/PARS-Inhouse-Systems-API/bin/Debug/net8.0/PARS.Inhouse.Systems.Domain.dll
+/PARS-Inhouse-Systems-API/bin/Debug/net8.0/PARS.Inhouse.Systems.Domain.pdb
