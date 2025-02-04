@@ -23,7 +23,7 @@ namespace PARS_Inhouse_Systems_API.Controllers
             _options = options?.Value;
         }
 
-        [HttpGet("reports")]
+        [HttpGet("Relatorio")]
         public async Task<IActionResult> GetReportsByStatus(
             [FromQuery, DefaultValue("APROVADO"), SwaggerSchema("Status padrão: ABERTO")] string status, 
             [FromQuery] FiltrosDto filtros
