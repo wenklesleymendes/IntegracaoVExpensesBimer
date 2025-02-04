@@ -31,8 +31,14 @@ builder.Services.AddHttpClient<IIntegracaoBimerService, IntegracaoBimerService>(
     client.BaseAddress = new Uri(builder.Configuration["Integracao:Bimer"]);
 });
 
+builder.Services.AddHttpClient<IAuthService, AuthService>(client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["Integracao:TokenServico"]);
+});
+
 builder.Services.AddScoped<IIntegracaoBimerAPI, IntegracaoBimerAPI>();
 
+builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IIntegracaoBimerService, IntegracaoBimerService>();
 builder.Services.AddScoped<IVExpensesService, VExpensesService>();
 

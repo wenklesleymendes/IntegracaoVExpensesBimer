@@ -10,6 +10,7 @@ namespace PARS.Inhouse.Systems.Application.Configurations
     {
         public string VExpenseReport { get; set; }
         public string Bimer { get; set; }
+        public string TokenServico { get; set; }
         public string Token { get; set; }
     }
 }
