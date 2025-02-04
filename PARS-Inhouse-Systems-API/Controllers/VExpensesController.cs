@@ -3,7 +3,7 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
 using PARS.Inhouse.Systems.Application.Configurations;
 using PARS.Inhouse.Systems.Application.DTOs;
-using PARS.Inhouse.Systems.Application.Services;
+using PARS.Inhouse.Systems.Application.Interfaces;
 using Swashbuckle.AspNetCore.Annotations;
 using System.ComponentModel;
 

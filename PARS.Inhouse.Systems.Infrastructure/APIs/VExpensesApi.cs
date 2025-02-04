@@ -3,6 +3,7 @@ using System.Net.Http.Headers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using PARS.Inhouse.Systems.Domain.Entities;
+using PARS.Inhouse.Systems.Infrastructure.Interfaces;
 
 namespace PARS.Inhouse.Systems.Infrastructure.APIs
 {
@@ -22,7 +23,6 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
             using var requestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
             requestMessage.Headers.Authorization = new AuthenticationHeaderValue(token);
 
-            // Adicione filtros como parâmetros da query string
             var query = new Dictionary<string, string>
             {
                 { "include", content.include },
@@ -31,7 +31,6 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
                 { "searchJoin", content.searchJoin }
             };
 
-            // Montar a URI com os parâmetros
             var queryString = string.Join("&", query.Where(q => !string.IsNullOrEmpty(q.Value))
                                                     .Select(q => $"{q.Key}={Uri.EscapeDataString(q.Value)}"));
             requestMessage.RequestUri = new Uri($"{uri}?{queryString}");

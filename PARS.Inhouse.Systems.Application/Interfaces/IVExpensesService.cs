@@ -1,6 +1,6 @@
 ﻿using PARS.Inhouse.Systems.Application.DTOs;
 
-namespace PARS.Inhouse.Systems.Application.Services
+namespace PARS.Inhouse.Systems.Application.Interfaces
 {
     public interface IVExpensesService
     {

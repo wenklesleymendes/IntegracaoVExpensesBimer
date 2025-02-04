@@ -1,6 +1,6 @@
 ﻿using PARS.Inhouse.Systems.Domain.Entities;
 
-namespace PARS.Inhouse.Systems.Infrastructure.APIs
+namespace PARS.Inhouse.Systems.Infrastructure.Interfaces
 {
     public interface IVExpensesApi
     {

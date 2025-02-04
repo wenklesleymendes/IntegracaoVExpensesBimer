@@ -2,11 +2,12 @@
 using Newtonsoft.Json;
 using PARS.Inhouse.Systems.Application.Configurations;
 using PARS.Inhouse.Systems.Application.DTOs;
-using PARS.Inhouse.Systems.Infrastructure.APIs;
 using System.Net.Http.Headers;
 using System;
 using System.Text.Json.Nodes;
 using System.Net.Http;
+using PARS.Inhouse.Systems.Application.Interfaces;
+using PARS.Inhouse.Systems.Infrastructure.Interfaces;
 
 namespace PARS.Inhouse.Systems.Application.Services
 {

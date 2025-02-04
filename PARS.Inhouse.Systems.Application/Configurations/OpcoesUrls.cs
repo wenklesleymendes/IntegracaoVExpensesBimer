@@ -9,6 +9,7 @@ namespace PARS.Inhouse.Systems.Application.Configurations
     public class OpcoesUrls
     {
         public string VExpenseReport { get; set; }
+        public string Bimer { get; set; }
         public string Token { get; set; }
     }
 }
