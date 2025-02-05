@@ -28,18 +28,9 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
 
             var response = await _httpClient.PostAsync(uri, content);
 
-            if (response.IsSuccessStatusCode)
-            {
-                var message = await response.Content.ReadAsStringAsync();
+            var responseContent = await response.Content.ReadAsStringAsync();
 
-                return (message);
-            }
-            else
-            {
-                var erroMessage = await response.Content.ReadAsStringAsync();
-
-                return (erroMessage);
-            }
+            return responseContent;
         }
     }
 }

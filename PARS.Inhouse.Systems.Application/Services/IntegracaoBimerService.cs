@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using PARS.Inhouse.Systems.Application.Configurations;
 using PARS.Inhouse.Systems.Application.DTOs;
+using PARS.Inhouse.Systems.Application.DTOs.Response;
 using PARS.Inhouse.Systems.Application.Interfaces;
 using PARS.Inhouse.Systems.Infrastructure.APIs;
 using PARS.Inhouse.Systems.Infrastructure.Interfaces;
@@ -26,14 +27,14 @@ namespace PARS.Inhouse.Systems.Application.Services
             _httpClient = httpClient;
         }
 
-        public async Task<string> CriarTituloAPagar(BimerRequestDto bimerRequestDto, string token)
+        public async Task<TitlePayResponseDto> CriarTituloAPagar(BimerRequestDto bimerRequestDto, string token)
         {
             try
             {
                 var uri = _options.Bimer;
                 var content = JsonConvert.SerializeObject(bimerRequestDto, Formatting.Indented);
                 var reports = await _integracaoBimerAPI.CriarTituloAPagar(content, uri, token);
-                return (reports);
+                return System.Text.Json.JsonSerializer.Deserialize<TitlePayResponseDto>(reports, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
             }
             catch (Exception ex)
             {
