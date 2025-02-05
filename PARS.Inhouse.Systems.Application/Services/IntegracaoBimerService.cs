@@ -26,13 +26,13 @@ namespace PARS.Inhouse.Systems.Application.Services
             _httpClient = httpClient;
         }
 
-        public async Task<string> CriarTituloAPagar(BimerRequestDto bimerRequestDto)
+        public async Task<string> CriarTituloAPagar(BimerRequestDto bimerRequestDto, string token)
         {
             try
             {
                 var uri = _options.Bimer;
                 var content = JsonConvert.SerializeObject(bimerRequestDto, Formatting.Indented);
-                var reports = await _integracaoBimerAPI.CriarTituloAPagar(content, uri);
+                var reports = await _integracaoBimerAPI.CriarTituloAPagar(content, uri, token);
                 return (reports);
             }
             catch (Exception ex)
@@ -53,6 +53,27 @@ namespace PARS.Inhouse.Systems.Application.Services
                 new KeyValuePair<string, string>("password", requestDto.password),
                 new KeyValuePair<string, string>("nonce", requestDto.nonce)
             });
+
+            var response = await _httpClient.PostAsync(uri, content);
+            var responseString = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception($"Erro na autenticação: {responseString}");
+            }
+
+            return System.Text.Json.JsonSerializer.Deserialize<AuthResponseDto>(responseString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        }
+
+        public async Task<AuthResponseDto> ReauthenticateAsync(ReauthenticateRequestDto request)
+        {
+            var uri = _options.TokenServico;
+            var content = new FormUrlEncodedContent(new[]
+            {
+                new KeyValuePair<string, string>("client_id", request.client_id),
+                new KeyValuePair<string, string>("grant_type", request.grant_type),
+                new KeyValuePair<string, string>("refresh_token", request.refresh_token)
+            }) ;
 
             var response = await _httpClient.PostAsync(uri, content);
             var responseString = await response.Content.ReadAsStringAsync();

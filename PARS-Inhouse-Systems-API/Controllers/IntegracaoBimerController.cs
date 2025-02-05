@@ -19,11 +19,11 @@ namespace PARS_Inhouse_Systems_API.Controllers
         }
 
         [HttpPost("TituloAPagar/criarTituloPagar")]
-        public async Task<IActionResult> CreateTitlePay([FromBody] BimerRequestDto bimerRequestDto)
+        public async Task<IActionResult> CreateTitlePay([FromQuery]string token, [FromBody] BimerRequestDto bimerRequestDto)
         {
             try
             {
-                var resultado = await _integracaoBimerService.CriarTituloAPagar(bimerRequestDto);
+                var resultado = await _integracaoBimerService.CriarTituloAPagar(bimerRequestDto, token);
                 return Ok(resultado);
             }
             catch (Exception ex)
@@ -36,6 +36,17 @@ namespace PARS_Inhouse_Systems_API.Controllers
         public async Task<IActionResult> Authenticate([FromBody] AuthRequestDto request)
         {
             var result = await _integracaoBimerService.AuthenticateAsync(request);
+            if (!string.IsNullOrEmpty(result.error))
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+
+        [HttpPost("Autenticacao/ReautenticarTokenUtilizacaoServico")]
+        public async Task<IActionResult> Reauthenticate([FromBody] ReauthenticateRequestDto request)
+        {
+            var result = await _integracaoBimerService.ReauthenticateAsync(request);
             if (!string.IsNullOrEmpty(result.error))
             {
                 return BadRequest(result);

@@ -21,9 +21,10 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
             _httpClient = httpClient;
         }
 
-        public async Task<string> CriarTituloAPagar(string bimerRequest, string uri)
+        public async Task<string> CriarTituloAPagar(string bimerRequest, string uri, string token)
         {
             var content = new StringContent(bimerRequest, Encoding.UTF8, "application/json");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             var response = await _httpClient.PostAsync(uri, content);
 
