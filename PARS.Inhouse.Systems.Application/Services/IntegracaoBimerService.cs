@@ -46,11 +46,12 @@ namespace PARS.Inhouse.Systems.Application.Services
             var uri = _options.TokenServico;
             var content = new FormUrlEncodedContent(new[]
             {
-            new KeyValuePair<string, string>("client_id", requestDto.ClientId),
-                new KeyValuePair<string, string>("client_secret", requestDto.ClientSecret),
-                new KeyValuePair<string, string>("grant_type", requestDto.GrantType),
-                new KeyValuePair<string, string>("username", requestDto.Username),
-                new KeyValuePair<string, string>("password", requestDto.Password)
+                new KeyValuePair<string, string>("client_id", requestDto.client_id),
+                new KeyValuePair<string, string>("client_secret", requestDto.client_secret),
+                new KeyValuePair<string, string>("grant_type", requestDto.grant_type),
+                new KeyValuePair<string, string>("username", requestDto.username),
+                new KeyValuePair<string, string>("password", requestDto.password),
+                new KeyValuePair<string, string>("nonce", requestDto.nonce)
             });
 
             var response = await _httpClient.PostAsync(uri, content);

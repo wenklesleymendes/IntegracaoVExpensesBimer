@@ -36,7 +36,7 @@ namespace PARS_Inhouse_Systems_API.Controllers
         public async Task<IActionResult> Authenticate([FromBody] AuthRequestDto request)
         {
             var result = await _integracaoBimerService.AuthenticateAsync(request);
-            if (!string.IsNullOrEmpty(result.Error))
+            if (!string.IsNullOrEmpty(result.error))
             {
                 return BadRequest(result);
             }
