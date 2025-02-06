@@ -27,7 +27,7 @@ namespace PARS.Inhouse.Systems.Application.Services
             _httpClient = httpClient;
         }
 
-        public async Task<TitlePayResponseDto> CriarTituloAPagar(BimerRequestDto bimerRequestDto, string token)
+        public async Task<TitlePayResponseDto?> CriarTituloAPagar(BimerRequestDto bimerRequestDto, string token)
         {
             try
             {
