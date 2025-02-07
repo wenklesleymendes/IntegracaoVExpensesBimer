@@ -2,11 +2,44 @@
 {
     public class Expense
     {
-        public int Id { get; set; }
-        public string? Title { get; set; }
-        public decimal Value { get; set; }
-        public string? Observation { get; set; }
-        public string? ReceiptUrl { get; set; }
-        public bool Reimbursable { get; set; }
+        public int Id { get; private set; }
+        public string Title { get; private set; }
+        public decimal Value { get; private set; }
+        public string? Observation { get; private set; }
+        public string? ReceiptUrl { get; private set; }
+        public bool Reimbursable { get; private set; }
+
+        public Expense(string title, decimal value, bool reimbursable, string? observation = null, string? receiptUrl = null)
+        {
+            SetTitle(title);
+            SetValue(value);
+            Reimbursable = reimbursable;
+            Observation = observation;
+            ReceiptUrl = receiptUrl;
+        }
+
+        public void SetTitle(string title)
+        {
+            if (string.IsNullOrWhiteSpace(title))
+                throw new ArgumentException("O título da despesa não pode estar vazio.");
+
+            Title = title;
+        }
+
+        public void SetValue(decimal value)
+        {
+            if (value <= 0)
+                throw new ArgumentException("O valor da despesa deve ser maior que zero.");
+
+            Value = value;
+        }
+
+        public void SetReceiptUrl(string? url)
+        {
+            if (url != null && !Uri.IsWellFormedUriString(url, UriKind.Absolute))
+                throw new ArgumentException("A URL do recibo não é válida.");
+
+            ReceiptUrl = url;
+        }
     }
 }

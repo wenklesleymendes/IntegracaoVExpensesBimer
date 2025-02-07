@@ -1,4 +1,4 @@
-using Microsoft.Extensions.Configuration;
+Ôªøusing Microsoft.Extensions.Configuration;
 using Microsoft.OpenApi.Models;
 using PARS.Inhouse.Systems.Application.Configurations;
 using PARS.Inhouse.Systems.Application.Interfaces;
@@ -8,7 +8,7 @@ using PARS.Inhouse.Systems.Infrastructure.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ConfiguraÁıes de serviÁos
+builder.Services.AddMemoryCache();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -17,7 +17,7 @@ builder.Services.AddSwaggerGen(c =>
     {
         Title = "PARS RJ",
         Version = "v1",
-        Description = "Essa API È a principal para utilizaÁ„o de outros EndPoints."
+        Description = "Essa API √© a principal para utiliza√ß√£o de outros EndPoints."
     });
 
     c.DocInclusionPredicate((_, apiDesc) => true);
@@ -26,7 +26,7 @@ builder.Services.AddSwaggerGen(c =>
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         In = ParameterLocation.Header,
-        Description = "Por favor, insira 'Bearer' [espaÁo] e ent„o seu token no campo abaixo.",
+        Description = "Por favor, insira 'Bearer' [espa√ßo] e ent√£o seu token no campo abaixo.",
         Name = "Authorization",
         Type = SecuritySchemeType.ApiKey
     });
@@ -48,33 +48,39 @@ builder.Services.AddSwaggerGen(c =>
             }
         });
 });
-
 builder.Services.Configure<OpcoesUrls>(builder.Configuration.GetSection("VExpense"));
 builder.Services.Configure<OpcoesUrls>(builder.Configuration.GetSection("Integracao"));
 builder.Services.Configure<OpcoesUrls>(builder.Configuration.GetSection("TokenApiKey"));
 
 builder.Services.AddHttpClient<IVExpensesApi, VExpensesApi>(client =>
 {
-    client.BaseAddress = new Uri(builder.Configuration["VExpense:VExpenseReport"]);
+    var baseUrl = builder.Configuration["VExpense:VExpenseReport"];
+    if (string.IsNullOrEmpty(baseUrl)) throw new Exception("Base URL para VExpense n√£o encontrada!");
+    client.BaseAddress = new Uri(baseUrl);
 });
 
 builder.Services.AddHttpClient<IVExpensesService, VExpensesService>(client =>
 {
-    client.BaseAddress = new Uri(builder.Configuration["TokenApiKey:Token"]);
+    var baseUrl = builder.Configuration["VExpense:VExpenseReport"];
+    if (string.IsNullOrEmpty(baseUrl)) throw new Exception("Base URL para VExpense n√£o encontrada!");
+    client.BaseAddress = new Uri(baseUrl);
+});
+
+builder.Services.AddHttpClient<IVExpensesService, VExpensesService>(client =>
+{
+    var tokenApiUrl = builder.Configuration["TokenApiKey:Token"];
+    if (string.IsNullOrEmpty(tokenApiUrl)) throw new Exception("Base URL para TokenApiKey n√£o encontrada!");
+    client.BaseAddress = new Uri(tokenApiUrl);
 });
 
 builder.Services.AddHttpClient<IIntegracaoBimerService, IntegracaoBimerService>(client =>
 {
-    client.BaseAddress = new Uri(builder.Configuration["Integracao:Bimer"]);
-});
-
-builder.Services.AddHttpClient<IIntegracaoBimerService, IntegracaoBimerService>(client =>
-{
-    client.BaseAddress = new Uri(builder.Configuration["Integracao:TokenServico"]);
+    var bimerUrl = builder.Configuration["Integracao:Bimer"];
+    if (string.IsNullOrEmpty(bimerUrl)) throw new Exception("Base URL para Bimer n√£o encontrada!");
+    client.BaseAddress = new Uri(bimerUrl);
 });
 
 builder.Services.AddScoped<IIntegracaoBimerAPI, IntegracaoBimerAPI>();
-
 builder.Services.AddScoped<IIntegracaoBimerService, IntegracaoBimerService>();
 builder.Services.AddScoped<IVExpensesService, VExpensesService>();
 
@@ -87,9 +93,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();

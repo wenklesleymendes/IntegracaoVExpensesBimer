@@ -5,6 +5,6 @@ namespace PARS.Inhouse.Systems.Application.Interfaces
     public interface IVExpensesService
     {
         Task<List<ReportDto>> GetReportsByStatusAsync(string status, FiltrosDto filtrosDto, string token);
-        void TokenValidation(string token);
+        // void TokenValidation(string token);
     }
 }

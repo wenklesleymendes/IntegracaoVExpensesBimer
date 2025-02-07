@@ -55,15 +55,9 @@ namespace PARS.Inhouse.Systems.Application.Services
                 new KeyValuePair<string, string>("nonce", requestDto.nonce)
             });
 
-            var response = await _httpClient.PostAsync(uri, content);
-            var responseString = await response.Content.ReadAsStringAsync();
+            var response = _integracaoBimerAPI.AuthenticateAsync(content, uri);
 
-            if (!response.IsSuccessStatusCode)
-            {
-                throw new Exception($"Erro na autenticação: {responseString}");
-            }
-
-            return System.Text.Json.JsonSerializer.Deserialize<AuthResponseDto>(responseString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            return System.Text.Json.JsonSerializer.Deserialize<AuthResponseDto>(await response, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
 
         public async Task<AuthResponseDto> ReauthenticateAsync(ReauthenticateRequestDto request)
@@ -76,15 +70,9 @@ namespace PARS.Inhouse.Systems.Application.Services
                 new KeyValuePair<string, string>("refresh_token", request.refresh_token)
             }) ;
 
-            var response = await _httpClient.PostAsync(uri, content);
-            var responseString = await response.Content.ReadAsStringAsync();
+            var response = _integracaoBimerAPI.ReauthenticateAsync(content, uri);
 
-            if (!response.IsSuccessStatusCode)
-            {
-                throw new Exception($"Erro na autenticação: {responseString}");
-            }
-
-            return System.Text.Json.JsonSerializer.Deserialize<AuthResponseDto>(responseString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            return System.Text.Json.JsonSerializer.Deserialize<AuthResponseDto>(await response, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
     }
 }

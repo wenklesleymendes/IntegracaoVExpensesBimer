@@ -1,8 +1,9 @@
 ﻿using System.Net.Http;
 using System.Net.Http.Headers;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using PARS.Inhouse.Systems.Domain.Entities;
+using PARS.Inhouse.Systems.Domain.Exceptions;
 using PARS.Inhouse.Systems.Infrastructure.Interfaces;
 
 namespace PARS.Inhouse.Systems.Infrastructure.APIs
@@ -16,37 +17,70 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
             _httpClient = httpClient;
         }
 
-        public async Task<List<Report>> GetReportsByStatusAsync(string status, string filtros, string token, string uri)
+        public async Task<List<Report>> GetReportsByStatusAsync(string status, string filtrosJson, string token, string uri)
         {
-            var content = JsonConvert.DeserializeObject<Filtros>(filtros);
-
-            using var requestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
-            requestMessage.Headers.Authorization = new AuthenticationHeaderValue(token);
-
-            var query = new Dictionary<string, string>
+            try
             {
-                { "include", content.include },
-                { "search", content.search },
-                { "searchField", content.searchField },
-                { "searchJoin", content.searchJoin }
-            };
+                var filtros = JsonSerializer.Deserialize<Filtros>(filtrosJson, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
 
-            var queryString = string.Join("&", query.Where(q => !string.IsNullOrEmpty(q.Value))
-                                                    .Select(q => $"{q.Key}={Uri.EscapeDataString(q.Value)}"));
-            requestMessage.RequestUri = new Uri($"{uri}?{queryString}");
+                if (filtros == null)
+                    throw new BusinessException("Os filtros fornecidos são inválidos.");
 
-            var response = await _httpClient.SendAsync(requestMessage);
+                using var requestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
 
-            response.EnsureSuccessStatusCode();
-            var responseContent = await response.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<ApiResponse>(responseContent);
-            return result?.Data ?? new List<Report>();
+                requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                requestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var queryParams = new Dictionary<string, string?>
+                {
+                    { "include", filtros.include },
+                    { "search", filtros.search },
+                    { "searchField", filtros.searchField },
+                    { "searchJoin", filtros.searchJoin }
+                };
+
+                var queryString = string.Join("&", queryParams
+                    .Where(q => !string.IsNullOrEmpty(q.Value))
+                    .Select(q => $"{q.Key}={Uri.EscapeDataString(q.Value!)}"));
+
+                requestMessage.RequestUri = new Uri($"{uri}?{queryString}");
+
+                var response = await _httpClient.SendAsync(requestMessage);
+                var responseContent = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new BusinessException($"Erro ao buscar relatórios: {response.StatusCode} - {responseContent}");
+                }
+
+                var result = JsonSerializer.Deserialize<ApiResponse<List<Report>>>(responseContent, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true,
+                    DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+                });
+
+                return result?.Data ?? new List<Report>();
+            }
+            catch (HttpRequestException httpEx)
+            {
+                throw new BusinessException($"Erro na comunicação com a API do VExpenses: {httpEx.Message}");
+            }
+            catch (JsonException jsonEx)
+            {
+                throw new BusinessException($"Erro ao processar resposta da API: {jsonEx.Message}");
+            }
+            catch (Exception ex)
+            {
+                throw new BusinessException($"Erro inesperado ao buscar relatórios: {ex.Message}");
+            }
         }
 
-
-        private class ApiResponse
+        private class ApiResponse<T>
         {
-            public List<Report>? Data { get; set; }
+            public T? Data { get; set; }
         }
     }
 }
