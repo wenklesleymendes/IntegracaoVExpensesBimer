@@ -4,14 +4,8 @@ using PARS.Inhouse.Systems.Application.Configurations;
 using PARS.Inhouse.Systems.Application.DTOs;
 using PARS.Inhouse.Systems.Application.DTOs.Response;
 using PARS.Inhouse.Systems.Application.Interfaces;
-using PARS.Inhouse.Systems.Infrastructure.APIs;
 using PARS.Inhouse.Systems.Infrastructure.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace PARS.Inhouse.Systems.Application.Services
 {

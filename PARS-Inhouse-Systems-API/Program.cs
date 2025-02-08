@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Configuration;
 using Microsoft.OpenApi.Models;
 using PARS.Inhouse.Systems.Application.Configurations;
 using PARS.Inhouse.Systems.Application.Interfaces;

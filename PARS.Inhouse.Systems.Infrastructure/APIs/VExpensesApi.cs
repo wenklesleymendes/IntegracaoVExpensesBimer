@@ -1,7 +1,5 @@
-﻿using System.Net.Http;
-using System.Net.Http.Headers;
+﻿using System.Net.Http.Headers;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using PARS.Inhouse.Systems.Domain.Entities;
 using PARS.Inhouse.Systems.Infrastructure.Interfaces;
 

@@ -1,6 +1,4 @@
-﻿using System.Reflection.Metadata.Ecma335;
-
-namespace PARS.Inhouse.Systems.Domain.Entities
+﻿namespace PARS.Inhouse.Systems.Domain.Entities
 {
     public class BimerRequest
     {

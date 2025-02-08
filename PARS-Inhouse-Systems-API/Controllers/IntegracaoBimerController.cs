@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using PARS.Inhouse.Systems.Application.Configurations;
 using PARS.Inhouse.Systems.Application.DTOs;
 using PARS.Inhouse.Systems.Application.Interfaces;
-using PARS.Inhouse.Systems.Application.Services;
 
 namespace PARS_Inhouse_Systems_API.Controllers
 {
