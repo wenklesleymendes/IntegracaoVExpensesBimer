@@ -4,11 +4,17 @@ using PARS.Inhouse.Systems.Application.Interfaces;
 using PARS.Inhouse.Systems.Application.Services;
 using PARS.Inhouse.Systems.Infrastructure.APIs;
 using PARS.Inhouse.Systems.Infrastructure.Interfaces;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddMemoryCache();
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()); // 🔹 Faz a API retornar enums como string
+    });
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -29,24 +35,28 @@ builder.Services.AddSwaggerGen(c =>
         Name = "Authorization",
         Type = SecuritySchemeType.ApiKey
     });
+
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
         {
+            new OpenApiSecurityScheme
             {
-                new OpenApiSecurityScheme
+                Reference = new OpenApiReference
                 {
-                    Reference = new OpenApiReference
-                    {
-                        Type = ReferenceType.SecurityScheme,
-                        Id = "Bearer"
-                    },
-                    Scheme = "oauth2",
-                    Name = "Bearer",
-                    In = ParameterLocation.Header,
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
                 },
-                new List<string>()
-            }
-        });
+                Scheme = "oauth2",
+                Name = "Bearer",
+                In = ParameterLocation.Header,
+            },
+            new List<string>()
+        }
+    });
+
+    c.UseInlineDefinitionsForEnums(); // 🔹 Faz o Swagger exibir enums como strings
 });
+
 builder.Services.Configure<OpcoesUrls>(builder.Configuration.GetSection("VExpense"));
 builder.Services.Configure<OpcoesUrls>(builder.Configuration.GetSection("Integracao"));
 builder.Services.Configure<OpcoesUrls>(builder.Configuration.GetSection("TokenApiKey"));
@@ -56,27 +66,6 @@ builder.Services.AddHttpClient<IVExpensesApi, VExpensesApi>(client =>
     var baseUrl = builder.Configuration["VExpense:VExpenseReport"];
     if (string.IsNullOrEmpty(baseUrl)) throw new Exception("Base URL para VExpense não encontrada!");
     client.BaseAddress = new Uri(baseUrl);
-});
-
-builder.Services.AddHttpClient<IVExpensesService, VExpensesService>(client =>
-{
-    var baseUrl = builder.Configuration["VExpense:VExpenseReport"];
-    if (string.IsNullOrEmpty(baseUrl)) throw new Exception("Base URL para VExpense não encontrada!");
-    client.BaseAddress = new Uri(baseUrl);
-});
-
-builder.Services.AddHttpClient<IVExpensesService, VExpensesService>(client =>
-{
-    var tokenApiUrl = builder.Configuration["TokenApiKey:Token"];
-    if (string.IsNullOrEmpty(tokenApiUrl)) throw new Exception("Base URL para TokenApiKey não encontrada!");
-    client.BaseAddress = new Uri(tokenApiUrl);
-});
-
-builder.Services.AddHttpClient<IIntegracaoBimerService, IntegracaoBimerService>(client =>
-{
-    var bimerUrl = builder.Configuration["Integracao:Bimer"];
-    if (string.IsNullOrEmpty(bimerUrl)) throw new Exception("Base URL para Bimer não encontrada!");
-    client.BaseAddress = new Uri(bimerUrl);
 });
 
 builder.Services.AddScoped<IIntegracaoBimerAPI, IntegracaoBimerAPI>();

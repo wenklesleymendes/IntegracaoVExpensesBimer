@@ -3,7 +3,7 @@ using Microsoft.Extensions.Options;
 using PARS.Inhouse.Systems.Application.Configurations;
 using PARS.Inhouse.Systems.Application.DTOs;
 using PARS.Inhouse.Systems.Application.Interfaces;
-using Swashbuckle.AspNetCore.Annotations;
+using PARS.Inhouse.Systems.Shared.Enums;
 using System.ComponentModel;
 
 namespace PARS_Inhouse_Systems_API.Controllers
@@ -24,28 +24,18 @@ namespace PARS_Inhouse_Systems_API.Controllers
 
         [HttpGet("Relatorio")]
         public async Task<IActionResult> GetReportsByStatus(
-            [FromQuery, DefaultValue("APROVADO"), SwaggerSchema("Status padrão: ABERTO")] string status,
+            [FromQuery, DefaultValue(ReportStatus.APROVADO)] ReportStatus status,
             [FromQuery] FiltrosDto filtros
-            )
+        )
         {
             try
             {
-                // Valores permitidos e padrão
-                var allowedStatuses = new[] { "ABERTO", "APROVADO", "REPROVADO", "REABERTO", "PAGO", "ENVIADO" };
-
-                if (!allowedStatuses.Contains(status))
-                {
-                    return BadRequest(new { Message = $"O status '{status}' não é permitido. Valores permitidos: {string.Join(", ", allowedStatuses)}" });
-                }
-
-                filtros.include ??= "expenses";
-                filtros.search ??= string.Empty;
-                filtros.searchField ??= "approval_date:between";
-                filtros.searchJoin ??= "and";
+                filtros.Include ??= "expenses";
+                filtros.Search ??= string.Empty;
 
                 var token = _options.Token;
 
-                var reports = await _vExpensesService.GetReportsByStatusAsync(status, filtros, token);
+                var reports = await _vExpensesService.GetReportsByStatusAsync(status.ToString(), filtros, token);
                 return Ok(reports);
             }
             catch (Exception ex)
@@ -53,20 +43,5 @@ namespace PARS_Inhouse_Systems_API.Controllers
                 return StatusCode(500, new { Message = ex.Message });
             }
         }
-
-        //[HttpGet("Verify")]
-        //public async Task<IActionResult> VerifyAuthentication()
-        //{
-        //    var token = _options.Token;
-        //    try
-        //    {
-        //        _vExpensesService.TokenValidation(token);
-        //        return Ok("Validação realizada com êxito!");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(500, new { Message = ex.Message });
-        //    }
-        //}
     }
 }
