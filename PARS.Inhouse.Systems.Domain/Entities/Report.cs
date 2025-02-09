@@ -3,7 +3,7 @@
     public class Report
     {
         public int Id { get; private set; }
-        public string Description { get; private set; }
+        public string Description { get; private set; } = string.Empty;
         public ReportStatus Status { get; private set; }
         public DateTime? ApprovalDate { get; private set; }
         public DateTime? PaymentDate { get; private set; }

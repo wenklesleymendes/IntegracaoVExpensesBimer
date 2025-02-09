@@ -4,27 +4,24 @@ using PARS.Inhouse.Systems.Application.Configurations;
 using PARS.Inhouse.Systems.Application.DTOs;
 using PARS.Inhouse.Systems.Application.DTOs.Response;
 using PARS.Inhouse.Systems.Application.Interfaces;
-using PARS.Inhouse.Systems.Infrastructure.APIs;
 using PARS.Inhouse.Systems.Infrastructure.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace PARS.Inhouse.Systems.Application.Services
 {
-    public class IntegracaoBimerService: IIntegracaoBimerService
+    public class IntegracaoBimerService : IIntegracaoBimerService
     {
         private readonly OpcoesUrls _options;
         private readonly HttpClient _httpClient;
         private readonly IIntegracaoBimerAPI _integracaoBimerAPI;
-        public IntegracaoBimerService(IIntegracaoBimerAPI integracaoBimerAPI, IOptions<OpcoesUrls> options, HttpClient httpClient) 
+        private readonly JsonSerializerOptions _jsonSerializerOptions;
+
+        public IntegracaoBimerService(IIntegracaoBimerAPI integracaoBimerAPI, IOptions<OpcoesUrls> options, HttpClient httpClient)
         {
             _integracaoBimerAPI = integracaoBimerAPI;
-            _options = options?.Value;
+            _options = options?.Value ?? throw new ArgumentNullException(nameof(options));
             _httpClient = httpClient;
+            _jsonSerializerOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
         }
 
         public async Task<TitlePayResponseDto?> CriarTituloAPagar(BimerRequestDto bimerRequestDto, string token)
@@ -34,7 +31,7 @@ namespace PARS.Inhouse.Systems.Application.Services
                 var uri = _options.Bimer;
                 var content = JsonConvert.SerializeObject(bimerRequestDto, Formatting.Indented);
                 var reports = await _integracaoBimerAPI.CriarTituloAPagar(content, uri, token);
-                return System.Text.Json.JsonSerializer.Deserialize<TitlePayResponseDto>(reports, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                return System.Text.Json.JsonSerializer.Deserialize<TitlePayResponseDto>(reports, _jsonSerializerOptions);
             }
             catch (Exception ex)
             {
@@ -47,17 +44,26 @@ namespace PARS.Inhouse.Systems.Application.Services
             var uri = _options.TokenServico;
             var content = new FormUrlEncodedContent(new[]
             {
-                new KeyValuePair<string, string>("client_id", requestDto.client_id),
-                new KeyValuePair<string, string>("client_secret", requestDto.client_secret),
-                new KeyValuePair<string, string>("grant_type", requestDto.grant_type),
-                new KeyValuePair<string, string>("username", requestDto.username),
-                new KeyValuePair<string, string>("password", requestDto.password),
-                new KeyValuePair<string, string>("nonce", requestDto.nonce)
-            });
+                    new KeyValuePair<string, string>("client_id", requestDto.ClientId),
+                    new KeyValuePair<string, string>("client_secret", requestDto.ClientSecret),
+                    new KeyValuePair<string, string>("grant_type", requestDto.GrantType),
+                    new KeyValuePair<string, string>("username", requestDto.Username),
+                    new KeyValuePair<string, string>("password", requestDto.Password),
+                    new KeyValuePair<string, string>("nonce", requestDto.Nonce)
+                });
 
-            var response = _integracaoBimerAPI.AuthenticateAsync(content, uri);
+            var response = await _integracaoBimerAPI.AuthenticateAsync(content, uri);
+            var responseString = response;
 
-            return System.Text.Json.JsonSerializer.Deserialize<AuthResponseDto>(await response, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            var authResponse = System.Text.Json.JsonSerializer.Deserialize<AuthResponseDto>(responseString, _jsonSerializerOptions);
+            return authResponse ?? new AuthResponseDto
+            {
+                AccessToken = string.Empty,
+                TokenType = string.Empty,
+                ExpiresIn = 0,
+                RefreshToken = string.Empty,
+                Username = string.Empty
+            };
         }
 
         public async Task<AuthResponseDto> ReauthenticateAsync(ReauthenticateRequestDto request)
@@ -65,14 +71,23 @@ namespace PARS.Inhouse.Systems.Application.Services
             var uri = _options.TokenServico;
             var content = new FormUrlEncodedContent(new[]
             {
-                new KeyValuePair<string, string>("client_id", request.client_id),
-                new KeyValuePair<string, string>("grant_type", request.grant_type),
-                new KeyValuePair<string, string>("refresh_token", request.refresh_token)
-            }) ;
+                        new KeyValuePair<string, string>("client_id", request.ClientId),
+                        new KeyValuePair<string, string>("grant_type", request.GrantType),
+                        new KeyValuePair<string, string>("refresh_token", request.RefreshToken)
+                    });
 
-            var response = _integracaoBimerAPI.ReauthenticateAsync(content, uri);
+            var response = await _integracaoBimerAPI.ReauthenticateAsync(content, uri);
+            var responseString = response;
 
-            return System.Text.Json.JsonSerializer.Deserialize<AuthResponseDto>(await response, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            var authResponse = System.Text.Json.JsonSerializer.Deserialize<AuthResponseDto>(responseString, _jsonSerializerOptions);
+            return authResponse ?? new AuthResponseDto
+            {
+                AccessToken = string.Empty,
+                TokenType = string.Empty,
+                ExpiresIn = 0,
+                RefreshToken = string.Empty,
+                Username = string.Empty
+            };
         }
     }
 }

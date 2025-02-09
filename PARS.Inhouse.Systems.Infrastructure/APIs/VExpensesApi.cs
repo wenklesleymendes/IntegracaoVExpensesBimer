@@ -1,10 +1,9 @@
-﻿using System.Net.Http;
+﻿using PARS.Inhouse.Systems.Domain.Entities;
+using PARS.Inhouse.Systems.Domain.Exceptions;
+using PARS.Inhouse.Systems.Infrastructure.Interfaces;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using PARS.Inhouse.Systems.Domain.Entities;
-using PARS.Inhouse.Systems.Domain.Exceptions;
-using PARS.Inhouse.Systems.Infrastructure.Interfaces;
 
 namespace PARS.Inhouse.Systems.Infrastructure.APIs
 {
@@ -24,7 +23,7 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
                 var filtros = JsonSerializer.Deserialize<Filtros>(filtrosJson, new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true
-                });
+                }) ?? throw new BusinessException("Os filtros fornecidos são inválidos.");
 
                 if (filtros == null)
                     throw new BusinessException("Os filtros fornecidos são inválidos.");
@@ -36,10 +35,10 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
 
                 var queryParams = new Dictionary<string, string?>
                 {
-                    { "include", filtros.include },
-                    { "search", filtros.search },
-                    { "searchField", filtros.searchField },
-                    { "searchJoin", filtros.searchJoin }
+                    { "include", filtros.Include },
+                    { "search", filtros.Search },
+                    { "searchField", filtros.SearchField },
+                    { "searchJoin", filtros.SearchJoin }
                 };
 
                 var queryString = string.Join("&", queryParams

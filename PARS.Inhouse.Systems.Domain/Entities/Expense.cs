@@ -3,7 +3,7 @@
     public class Expense
     {
         public int Id { get; private set; }
-        public string Title { get; private set; }
+        public string Title { get; private set; } = null!;
         public decimal Value { get; private set; }
         public string? Observation { get; private set; }
         public string? ReceiptUrl { get; private set; }

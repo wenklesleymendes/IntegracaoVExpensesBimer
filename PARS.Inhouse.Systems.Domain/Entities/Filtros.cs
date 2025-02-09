@@ -2,9 +2,9 @@
 {
     public class Filtros
     {
-        public string include { get; set; }
-        public string search { get; set; }
-        public string searchField { get; set; }
-        public string searchJoin { get; set; }
+        public string Include { get; set; } = string.Empty;
+        public string Search { get; set; } = string.Empty;
+        public string SearchField { get; set; } = string.Empty;
+        public string SearchJoin { get; set; } = string.Empty;
     }
 }

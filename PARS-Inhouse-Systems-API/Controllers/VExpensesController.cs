@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json.Linq;
 using PARS.Inhouse.Systems.Application.Configurations;
 using PARS.Inhouse.Systems.Application.DTOs;
 using PARS.Inhouse.Systems.Application.Interfaces;
@@ -20,12 +19,12 @@ namespace PARS_Inhouse_Systems_API.Controllers
         public VExpensesController(IVExpensesService vExpensesService, IOptions<OpcoesUrls> options)
         {
             _vExpensesService = vExpensesService;
-            _options = options?.Value;
+            _options = options.Value;
         }
 
         [HttpGet("Relatorio")]
         public async Task<IActionResult> GetReportsByStatus(
-            [FromQuery, DefaultValue("APROVADO"), SwaggerSchema("Status padrão: ABERTO")] string status, 
+            [FromQuery, DefaultValue("APROVADO"), SwaggerSchema("Status padrão: ABERTO")] string status,
             [FromQuery] FiltrosDto filtros
             )
         {
@@ -39,7 +38,7 @@ namespace PARS_Inhouse_Systems_API.Controllers
                     return BadRequest(new { Message = $"O status '{status}' não é permitido. Valores permitidos: {string.Join(", ", allowedStatuses)}" });
                 }
 
-                filtros.include ??= "expenses"; 
+                filtros.include ??= "expenses";
                 filtros.search ??= string.Empty;
                 filtros.searchField ??= "approval_date:between";
                 filtros.searchJoin ??= "and";

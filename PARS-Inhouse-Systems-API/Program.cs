@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.OpenApi.Models;
+﻿using Microsoft.OpenApi.Models;
 using PARS.Inhouse.Systems.Application.Configurations;
 using PARS.Inhouse.Systems.Application.Interfaces;
 using PARS.Inhouse.Systems.Application.Services;
@@ -21,7 +20,7 @@ builder.Services.AddSwaggerGen(c =>
     });
 
     c.DocInclusionPredicate((_, apiDesc) => true);
-    c.TagActionsBy(api => new List<string> { api.GroupName });
+    c.TagActionsBy(api => new List<string> { api.GroupName ?? string.Empty });
 
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {

@@ -1,15 +1,7 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using PARS.Inhouse.Systems.Domain.Entities;
-using PARS.Inhouse.Systems.Domain.Exceptions;
+﻿using PARS.Inhouse.Systems.Domain.Exceptions;
 using PARS.Inhouse.Systems.Infrastructure.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace PARS.Inhouse.Systems.Infrastructure.APIs
 {

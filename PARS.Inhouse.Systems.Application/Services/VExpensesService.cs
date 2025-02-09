@@ -2,10 +2,6 @@
 using Newtonsoft.Json;
 using PARS.Inhouse.Systems.Application.Configurations;
 using PARS.Inhouse.Systems.Application.DTOs;
-using System.Net.Http.Headers;
-using System;
-using System.Text.Json.Nodes;
-using System.Net.Http;
 using PARS.Inhouse.Systems.Application.Interfaces;
 using PARS.Inhouse.Systems.Infrastructure.Interfaces;
 
@@ -20,7 +16,7 @@ namespace PARS.Inhouse.Systems.Application.Services
         public VExpensesService(IVExpensesApi vExpensesApi, IOptionsSnapshot<OpcoesUrls> options, HttpClient httpClient)
         {
             _vExpensesApi = vExpensesApi;
-            _options = options?.Value;
+            _options = options?.Value ?? throw new ArgumentNullException(nameof(options));
             _httpClient = httpClient;
         }
 
