@@ -1,4 +1,4 @@
-﻿using PARS.Inhouse.Systems.Domain.Entities;
+﻿using PARS.Inhouse.Systems.Domain.Entities.vexpense;
 using PARS.Inhouse.Systems.Domain.Exceptions;
 using PARS.Inhouse.Systems.Infrastructure.Interfaces;
 using System.Net.Http.Headers;

@@ -1,4 +1,4 @@
-﻿namespace PARS.Inhouse.Systems.Application.DTOs.Response
+﻿namespace PARS.Inhouse.Systems.Application.DTOs.Response.Bimer
 {
     public class TitlePayResponseDto
     {

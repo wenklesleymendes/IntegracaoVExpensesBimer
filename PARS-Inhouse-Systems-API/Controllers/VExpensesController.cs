@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using PARS.Inhouse.Systems.Application.Configurations;
-using PARS.Inhouse.Systems.Application.DTOs;
+using PARS.Inhouse.Systems.Application.DTOs.Response.Vexpense;
 using PARS.Inhouse.Systems.Application.Interfaces;
 using PARS.Inhouse.Systems.Shared.Enums;
 using System.ComponentModel;
@@ -18,10 +18,13 @@ namespace PARS_Inhouse_Systems_API.Controllers
 
         public VExpensesController(IVExpensesService vExpensesService, IOptions<OpcoesUrls> options)
         {
-            _vExpensesService = vExpensesService;
-            _options = options.Value;
+            _vExpensesService = vExpensesService ?? throw new ArgumentNullException(nameof(vExpensesService));
+            _options = options?.Value ?? throw new ArgumentNullException(nameof(options));
         }
 
+        /// <summary>
+        /// Obtém relatórios filtrados por status e parâmetros adicionais.
+        /// </summary>
         [HttpGet("Relatorio")]
         public async Task<IActionResult> GetReportsByStatus(
             [FromQuery, DefaultValue(ReportStatus.APROVADO)] ReportStatus status,
@@ -30,17 +33,19 @@ namespace PARS_Inhouse_Systems_API.Controllers
         {
             try
             {
-                filtros.Include ??= "expenses";
-                filtros.Search ??= string.Empty;
-
                 var token = _options.Token;
 
-                var reports = await _vExpensesService.GetReportsByStatusAsync(status.ToString(), filtros, token);
+                var reports = await _vExpensesService.GetReportsByStatusAsync(
+                    status.ToString().ToUpperInvariant(),
+                    filtros,
+                    token
+                );
+
                 return Ok(reports);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { Message = ex.Message });
+                return StatusCode(500, new { Message = "Erro ao buscar relatórios.", Detalhes = ex.Message });
             }
         }
     }

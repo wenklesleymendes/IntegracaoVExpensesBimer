@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 using PARS.Inhouse.Systems.Application.Configurations;
-using PARS.Inhouse.Systems.Application.DTOs;
+using PARS.Inhouse.Systems.Application.DTOs.Response.Vexpense;
 using PARS.Inhouse.Systems.Application.Interfaces;
 using PARS.Inhouse.Systems.Infrastructure.Interfaces;
+using PARS.Inhouse.Systems.Shared.Enums;
 
 namespace PARS.Inhouse.Systems.Application.Services
 {
@@ -11,21 +11,23 @@ namespace PARS.Inhouse.Systems.Application.Services
     {
         private readonly IVExpensesApi _vExpensesApi;
         private readonly OpcoesUrls _options;
-        private readonly HttpClient _httpClient;
+        private readonly string _tokenApiKey;
 
-        public VExpensesService(IVExpensesApi vExpensesApi, IOptionsSnapshot<OpcoesUrls> options, HttpClient httpClient)
+        public VExpensesService(IVExpensesApi vExpensesApi, IOptions<OpcoesUrls> options, IOptions<VexpenseTokenApiKeyConfig> tokenApiKey)
         {
-            _vExpensesApi = vExpensesApi;
+            _vExpensesApi = vExpensesApi ?? throw new ArgumentNullException(nameof(vExpensesApi));
             _options = options?.Value ?? throw new ArgumentNullException(nameof(options));
-            _httpClient = httpClient;
+            _tokenApiKey = tokenApiKey.Value.Token;
         }
 
         public async Task<List<ReportDto>> GetReportsByStatusAsync(string status, FiltrosDto filtrosDto, string token)
         {
-            var filtros = JsonConvert.SerializeObject(filtrosDto);
-            var uri = _options.VExpenseReport.Replace("{status}", $"{status}");
+            var filtrosDtoPadrao = AplicarFiltrosPadrao(filtrosDto);
 
-            var reports = await _vExpensesApi.GetReportsByStatusAsync(status, filtros, token, uri);
+            status = status.ToUpper();
+            var uri = _options.VExpenseReport.Replace("{status}", status);
+
+            var reports = await _vExpensesApi.GetReportsByStatusAsync(status, filtrosDtoPadrao, token, uri);
             return reports.Select(r => new ReportDto
             {
                 Id = r.Id,
@@ -35,6 +37,25 @@ namespace PARS.Inhouse.Systems.Application.Services
                 PdfLink = r.PdfLink,
                 ExcelLink = r.ExcelLink
             }).ToList();
+        }
+
+        private string AplicarFiltrosPadrao(FiltrosDto filtrosDto)
+        {
+            var filtros = new FiltrosDto
+            {
+                Include = filtrosDto.Include != default ? filtrosDto.Include : FiltroInclude.expenses,
+                Search = !string.IsNullOrEmpty(filtrosDto.Search) ? filtrosDto.Search : "",
+                SearchField = filtrosDto.SearchField != default ? filtrosDto.SearchField : FiltroSearchField.approval_date_between,
+                SearchJoin = filtrosDto.SearchJoin != default ? filtrosDto.SearchJoin : FiltroSearchJoin.and
+            };
+
+            return $"include={filtros.Include.ToString().ToLower()}&search={Uri.EscapeDataString(filtros.Search)}&" +
+                   $"searchFields={FormatarCampo(filtros.SearchField)}&searchJoin={FormatarCampo(filtros.SearchJoin)}";
+        }
+
+        private string FormatarCampo<T>(T campo) where T : Enum
+        {
+            return campo.ToString().ToLower().Replace("_", ":");
         }
     }
 }

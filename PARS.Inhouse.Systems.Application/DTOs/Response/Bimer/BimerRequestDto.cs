@@ -1,6 +1,6 @@
-﻿namespace PARS.Inhouse.Systems.Domain.Entities
+﻿namespace PARS.Inhouse.Systems.Application.DTOs.Response.Bimer
 {
-    public class BimerRequest
+    public class BimerRequestDto
     {
         public string? dataCadastro { get; set; }
         public string? IdentificadorNaturezaLancamento { get; set; }
@@ -26,30 +26,30 @@
         public DesmembramentoOutros? DesmembramentoOutros { get; set; }
         public DesmembramentoPIS? DesmembramentoPIS { get; set; }
         public DesmembramentoPisCofinsCsll? DesmembramentoPisCofinsCsll { get; set; }
-        public string? IdentificadorPessoa { get; set; }
-        public string? Numero { get; set; }
-        public string? NumeroAgenciaBancaria { get; set; }
-        public string? NumeroCodigoBarra { get; set; }
-        public string? NumeroContaBancaria { get; set; }
-        public string? NumeroTituloBanco { get; set; }
+        public string IdentificadorPessoa { get; set; } = string.Empty;
+        public string Numero { get; set; } = string.Empty;
+        public string NumeroAgenciaBancaria { get; set; } = string.Empty;
+        public string NumeroCodigoBarra { get; set; } = string.Empty;
+        public string NumeroContaBancaria { get; set; } = string.Empty;
+        public string NumeroTituloBanco { get; set; } = string.Empty;
         public string? Observacao { get; set; }
         public bool Previsao { get; set; }
-        public string? TipoLiquidacao { get; set; }
+        public string TipoLiquidacao { get; set; } = string.Empty;
     }
 
     public class Item
     {
-        public string? IdentificadorNaturezaLancamento { get; set; }
+        public string IdentificadorNaturezaLancamento { get; set; } = string.Empty;
         public List<CentroCusto>? CentroDeCusto { get; set; }
-        public string? Observacao { get; set; }
+        public string Observacao { get; set; } = string.Empty;
         public int Valor { get; set; }
     }
 
     public class CentroCusto
     {
         public int AliquotaPorcentagem { get; set; }
-        public string? DataLancamento { get; set; }
-        public string? IdentificadorCentroDeCusto { get; set; }
+        public string DataLancamento { get; set; } = string.Empty;
+        public string IdentificadorCentroDeCusto { get; set; } = string.Empty;
         public int ValorLancamento { get; set; }
     }
 

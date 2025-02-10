@@ -1,4 +1,4 @@
-﻿namespace PARS.Inhouse.Systems.Domain.Entities
+﻿namespace PARS.Inhouse.Systems.Domain.Entities.vexpense
 {
     public class Report
     {

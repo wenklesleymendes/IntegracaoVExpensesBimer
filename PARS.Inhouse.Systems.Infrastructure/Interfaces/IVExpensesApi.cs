@@ -1,4 +1,4 @@
-﻿using PARS.Inhouse.Systems.Domain.Entities;
+﻿using PARS.Inhouse.Systems.Domain.Entities.vexpense;
 
 namespace PARS.Inhouse.Systems.Infrastructure.Interfaces
 {

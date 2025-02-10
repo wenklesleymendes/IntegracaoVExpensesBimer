@@ -1,5 +1,4 @@
-﻿using PARS.Inhouse.Systems.Application.DTOs;
-using PARS.Inhouse.Systems.Application.DTOs.Response;
+﻿using PARS.Inhouse.Systems.Application.DTOs.Response.Bimer;
 
 namespace PARS.Inhouse.Systems.Application.Interfaces
 {
