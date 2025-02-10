@@ -4,6 +4,7 @@ using PARS.Inhouse.Systems.Infrastructure.Interfaces;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Web;
 
 namespace PARS.Inhouse.Systems.Infrastructure.APIs
 {
@@ -20,25 +21,30 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
         {
             try
             {
-                var filtros = JsonSerializer.Deserialize<Filtros>(filtrosJson, new JsonSerializerOptions
+                var parametros = HttpUtility.ParseQueryString(filtrosJson);
+                var filtros = new Filtros
                 {
-                    PropertyNameCaseInsensitive = true
-                }) ?? throw new BusinessException("Os filtros fornecidos são inválidos.");
+                    include = parametros["include"],
+                    search = parametros["search"],
+                    searchField = parametros["searchFields"],
+                    searchJoin = parametros["searchJoin"]
+                };
+
 
                 if (filtros == null)
                     throw new BusinessException("Os filtros fornecidos são inválidos.");
 
                 using var requestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
 
-                requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                requestMessage.Headers.Authorization = new AuthenticationHeaderValue(token);
                 requestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                 var queryParams = new Dictionary<string, string?>
                 {
-                    { "include", filtros.Include },
-                    { "search", filtros.Search },
-                    { "searchField", filtros.SearchField },
-                    { "searchJoin", filtros.SearchJoin }
+                    { "include", filtros.include },
+                    { "search", filtros.search },
+                    { "searchField", filtros.searchField },
+                    { "searchJoin", filtros.searchJoin }
                 };
 
                 var queryString = string.Join("&", queryParams

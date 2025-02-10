@@ -20,8 +20,9 @@ namespace PARS.Inhouse.Systems.Application.Services
             _tokenApiKey = tokenApiKey.Value.Token;
         }
 
-        public async Task<List<ReportDto>> GetReportsByStatusAsync(string status, FiltrosDto filtrosDto, string token)
+        public async Task<List<ReportDto>> GetReportsByStatusAsync(string status, FiltrosDto filtrosDto)
         {
+            var token = _tokenApiKey;
             var filtrosDtoPadrao = AplicarFiltrosPadrao(filtrosDto);
 
             status = status.ToUpper();

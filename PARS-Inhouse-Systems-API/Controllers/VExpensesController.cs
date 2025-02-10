@@ -33,12 +33,9 @@ namespace PARS_Inhouse_Systems_API.Controllers
         {
             try
             {
-                var token = _options.Token;
-
                 var reports = await _vExpensesService.GetReportsByStatusAsync(
                     status.ToString().ToUpperInvariant(),
-                    filtros,
-                    token
+                    filtros
                 );
 
                 return Ok(reports);
