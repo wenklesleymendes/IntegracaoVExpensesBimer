@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using PARS.Inhouse.Systems.Application.Configurations;
-using PARS.Inhouse.Systems.Application.DTOs.Response.Vexpense;
+using PARS.Inhouse.Systems.Application.DTOs.Request.Vexpense;
 using PARS.Inhouse.Systems.Application.Interfaces;
 using PARS.Inhouse.Systems.Shared.Enums;
 using System.ComponentModel;

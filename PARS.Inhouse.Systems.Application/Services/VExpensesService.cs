@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using PARS.Inhouse.Systems.Application.Configurations;
+using PARS.Inhouse.Systems.Application.DTOs.Request.Vexpense;
 using PARS.Inhouse.Systems.Application.DTOs.Response.Vexpense;
 using PARS.Inhouse.Systems.Application.Interfaces;
 using PARS.Inhouse.Systems.Infrastructure.Interfaces;
@@ -31,12 +32,12 @@ namespace PARS.Inhouse.Systems.Application.Services
             var reports = await _vExpensesApi.GetReportsByStatusAsync(status, filtrosDtoPadrao, token, uri);
             return reports.Select(r => new ReportDto
             {
-                Id = r.Id,
-                Description = r.Description,
-                Status = r.Status.ToString(),
-                ApprovalDate = r.ApprovalDate,
-                PdfLink = r.PdfLink,
-                ExcelLink = r.ExcelLink
+                Id = r.id,
+                Description = r.description,
+                Status = r.status.ToString(),
+                ApprovalDate = r.approvalDate,
+                PdfLink = r.pdfLink,
+                ExcelLink = r.excelLink
             }).ToList();
         }
 

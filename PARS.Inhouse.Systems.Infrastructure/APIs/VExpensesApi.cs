@@ -30,22 +30,20 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
                     searchJoin = parametros["searchJoin"]
                 };
 
-
                 if (filtros == null)
                     throw new BusinessException("Os filtros fornecidos são inválidos.");
 
                 using var requestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
-
                 requestMessage.Headers.Authorization = new AuthenticationHeaderValue(token);
                 requestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                 var queryParams = new Dictionary<string, string?>
-                {
-                    { "include", filtros.include },
-                    { "search", filtros.search },
-                    { "searchField", filtros.searchField },
-                    { "searchJoin", filtros.searchJoin }
-                };
+        {
+            { "include", filtros.include },
+            { "search", filtros.search },
+            { "searchField", filtros.searchField },
+            { "searchJoin", filtros.searchJoin }
+        };
 
                 var queryString = string.Join("&", queryParams
                     .Where(q => !string.IsNullOrEmpty(q.Value))
@@ -61,13 +59,22 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
                     throw new BusinessException($"Erro ao buscar relatórios: {response.StatusCode} - {responseContent}");
                 }
 
-                var result = JsonSerializer.Deserialize<ApiResponse<List<Report>>>(responseContent, new JsonSerializerOptions
+                var result = JsonSerializer.Deserialize<ApiResponse<List<VExpenseResponse>>>(responseContent, new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true,
                     DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
                 });
 
-                return result?.Data ?? new List<Report>();
+                return result?.Data?.Select(dto => Report.Create(
+                    dto.id,
+                    dto.description,
+                    Enum.Parse<ReportStatus>(dto.status, true),
+                    dto.approval_date,
+                    dto.payment_date,
+                    dto.pdf_link,
+                    dto.excel_link
+                )).ToList() ?? new List<Report>();
+
             }
             catch (HttpRequestException httpEx)
             {
@@ -83,9 +90,9 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
             }
         }
 
-        private class ApiResponse<T>
+        private class ApiResponse<VExpenseResponse>
         {
-            public T? Data { get; set; }
+            public VExpenseResponse? Data { get; set; }
         }
     }
 }

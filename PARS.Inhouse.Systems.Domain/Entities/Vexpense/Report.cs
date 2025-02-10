@@ -2,47 +2,61 @@
 {
     public class Report
     {
-        public int Id { get; private set; }
-        public string Description { get; private set; } = string.Empty;
-        public ReportStatus Status { get; private set; }
-        public DateTime? ApprovalDate { get; private set; }
-        public DateTime? PaymentDate { get; private set; }
-        public string? PdfLink { get; private set; }
-        public string? ExcelLink { get; private set; }
+        public int id { get; private set; }
+        public string description { get; private set; } = string.Empty;
+        public ReportStatus status { get; private set; }
+        public string? approvalDate { get; private set; }
+        public DateTime? paymentDate { get; private set; }
+        public string? pdfLink { get; private set; }
+        public string? excelLink { get; private set; }
         private readonly List<Expense> _expenses;
         public IReadOnlyCollection<Expense> Expenses => _expenses.AsReadOnly();
 
         public Report(string description)
         {
             SetDescription(description);
-            Status = ReportStatus.Pending;
+            status = ReportStatus.Pending;
             _expenses = new List<Expense>();
         }
+
+        public static Report Create(int? id, string? description, ReportStatus status, string? approvalDate, DateTime? paymentDate, string? pdfLink, string? excelLink)
+        {
+            return new Report(description)
+            {
+                id = (int)id,
+                status = status,
+                approvalDate = approvalDate,
+                paymentDate = paymentDate,
+                pdfLink = pdfLink,
+                excelLink = excelLink
+            };
+        }
+
 
         public void SetDescription(string description)
         {
             if (string.IsNullOrWhiteSpace(description))
                 throw new ArgumentException("A descrição do relatório não pode estar vazia.");
 
-            Description = description;
+            this.description = description;
         }
 
         public void Approve()
         {
-            if (Status != ReportStatus.Pending)
+            if (status != ReportStatus.Pending)
                 throw new InvalidOperationException("Somente relatórios pendentes podem ser aprovados.");
 
-            Status = ReportStatus.Approved;
-            ApprovalDate = DateTime.UtcNow;
+            status = ReportStatus.Approved;
+            approvalDate = DateTime.UtcNow.ToString();
         }
 
         public void ProcessPayment()
         {
-            if (Status != ReportStatus.Approved)
+            if (status != ReportStatus.Approved)
                 throw new InvalidOperationException("Somente relatórios aprovados podem ser pagos.");
 
-            Status = ReportStatus.Paid;
-            PaymentDate = DateTime.UtcNow;
+            status = ReportStatus.Paid;
+            paymentDate = DateTime.UtcNow;
         }
 
         public void AddExpense(Expense expense)
@@ -66,7 +80,7 @@
             if (!Uri.IsWellFormedUriString(pdfLink, UriKind.Absolute))
                 throw new ArgumentException("O link do PDF não é válido.");
 
-            PdfLink = pdfLink;
+            this.pdfLink = pdfLink;
         }
 
         public void SetExcelLink(string excelLink)
@@ -74,7 +88,7 @@
             if (!Uri.IsWellFormedUriString(excelLink, UriKind.Absolute))
                 throw new ArgumentException("O link do Excel não é válido.");
 
-            ExcelLink = excelLink;
+            this.excelLink = excelLink;
         }
     }
 
@@ -82,6 +96,7 @@
     {
         Pending,
         Approved,
-        Paid
+        Paid,
+        APROVADO
     }
 }

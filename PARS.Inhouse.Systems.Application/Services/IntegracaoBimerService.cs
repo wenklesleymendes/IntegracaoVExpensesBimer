@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using PARS.Inhouse.Systems.Application.Configurations;
+using PARS.Inhouse.Systems.Application.DTOs.Request.Bimer;
 using PARS.Inhouse.Systems.Application.DTOs.Response.Bimer;
 using PARS.Inhouse.Systems.Application.Interfaces;
 using PARS.Inhouse.Systems.Infrastructure.Interfaces;

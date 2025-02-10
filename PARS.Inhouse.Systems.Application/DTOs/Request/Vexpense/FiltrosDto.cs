@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Text.Json.Serialization;
 
-namespace PARS.Inhouse.Systems.Application.DTOs.Response.Vexpense
+namespace PARS.Inhouse.Systems.Application.DTOs.Request.Vexpense
 {
     public class FiltrosDto
     {

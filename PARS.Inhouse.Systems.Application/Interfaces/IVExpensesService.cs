@@ -1,4 +1,5 @@
-﻿using PARS.Inhouse.Systems.Application.DTOs.Response.Vexpense;
+﻿using PARS.Inhouse.Systems.Application.DTOs.Request.Vexpense;
+using PARS.Inhouse.Systems.Application.DTOs.Response.Vexpense;
 
 namespace PARS.Inhouse.Systems.Application.Interfaces
 {
