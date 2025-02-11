@@ -1,4 +1,6 @@
-﻿namespace PARS.Inhouse.Systems.Domain.Entities.vexpense
+﻿using PARS.Inhouse.Systems.Shared.Enums;
+
+namespace PARS.Inhouse.Systems.Domain.Entities.vexpense
 {
     public class Report
     {
@@ -15,7 +17,7 @@
         public Report(string description)
         {
             SetDescription(description);
-            status = ReportStatus.Pending;
+            status = ReportStatus.ENVIADO;
             _expenses = new List<Expense>();
         }
 
@@ -43,19 +45,19 @@
 
         public void Approve()
         {
-            if (status != ReportStatus.Pending)
+            if (status != ReportStatus.ENVIADO)
                 throw new InvalidOperationException("Somente relatórios pendentes podem ser aprovados.");
 
-            status = ReportStatus.Approved;
+            status = ReportStatus.APROVADO;
             approvalDate = DateTime.UtcNow.ToString();
         }
 
         public void ProcessPayment()
         {
-            if (status != ReportStatus.Approved)
+            if (status != ReportStatus.APROVADO)
                 throw new InvalidOperationException("Somente relatórios aprovados podem ser pagos.");
 
-            status = ReportStatus.Paid;
+            status = ReportStatus.PAGO;
             paymentDate = DateTime.UtcNow;
         }
 
@@ -92,11 +94,11 @@
         }
     }
 
-    public enum ReportStatus
-    {
-        Pending,
-        Approved,
-        Paid,
-        APROVADO
-    }
+    //public enum ReportStatus
+    //{
+    //    Pending,
+    //    Approved,
+    //    Paid,
+    //    APROVADO
+    //}
 }

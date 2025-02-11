@@ -7,14 +7,27 @@
   "targets": {
     ".NETCoreApp,Version=v8.0": {
       "PARS.Inhouse.Systems.Domain/1.0.0": {
+        "dependencies": {
+          "PARS.Inhouse.Systems.Shared": "1.0.0"
+        },
         "runtime": {
           "PARS.Inhouse.Systems.Domain.dll": {}
+        }
+      },
+      "PARS.Inhouse.Systems.Shared/1.0.0": {
+        "runtime": {
+          "PARS.Inhouse.Systems.Shared.dll": {}
         }
       }
     }
   },
   "libraries": {
     "PARS.Inhouse.Systems.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "PARS.Inhouse.Systems.Shared/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

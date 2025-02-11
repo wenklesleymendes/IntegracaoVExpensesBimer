@@ -1,4 +1,5 @@
 ﻿using PARS.Inhouse.Systems.Domain.Entities.vexpense;
+using PARS.Inhouse.Systems.Shared.Enums;
 using PARS.Inhouse.Systems.Domain.Exceptions;
 using PARS.Inhouse.Systems.Infrastructure.Interfaces;
 using System.Net.Http.Headers;
@@ -17,39 +18,42 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
             _httpClient = httpClient;
         }
 
-        public async Task<List<Report>> GetReportsByStatusAsync(string status, string filtrosJson, string token, string uri)
+        public async Task<List<Report>> GetReportsByStatusAsync(string status, string filtrosJson, string token, string uri, bool statusPago)
         {
             try
             {
-                var parametros = HttpUtility.ParseQueryString(filtrosJson);
-                var filtros = new Filtros
-                {
-                    include = parametros["include"],
-                    search = parametros["search"],
-                    searchField = parametros["searchFields"],
-                    searchJoin = parametros["searchJoin"]
-                };
-
-                if (filtros == null)
-                    throw new BusinessException("Os filtros fornecidos são inválidos.");
-
                 using var requestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
                 requestMessage.Headers.Authorization = new AuthenticationHeaderValue(token);
                 requestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                var queryParams = new Dictionary<string, string?>
-        {
-            { "include", filtros.include },
-            { "search", filtros.search },
-            { "searchField", filtros.searchField },
-            { "searchJoin", filtros.searchJoin }
-        };
+                if (statusPago != true)
+                {
+                    var parametros = HttpUtility.ParseQueryString(filtrosJson);
+                    var filtros = new Filtros
+                    {
+                        include = parametros["include"],
+                        search = parametros["search"],
+                        searchField = parametros["searchFields"],
+                        searchJoin = parametros["searchJoin"]
+                    };
 
-                var queryString = string.Join("&", queryParams
-                    .Where(q => !string.IsNullOrEmpty(q.Value))
-                    .Select(q => $"{q.Key}={Uri.EscapeDataString(q.Value!)}"));
+                    if (filtros == null)
+                        throw new BusinessException("Os filtros fornecidos são inválidos.");
 
-                requestMessage.RequestUri = new Uri($"{uri}?{queryString}");
+                    var queryParams = new Dictionary<string, string?>
+                    {
+                        { "include", filtros.include },
+                        { "search", filtros.search },
+                        { "searchField", filtros.searchField },
+                        { "searchJoin", filtros.searchJoin }
+                    };
+
+                    var queryString = string.Join("&", queryParams
+                        .Where(q => !string.IsNullOrEmpty(q.Value))
+                        .Select(q => $"{q.Key}={Uri.EscapeDataString(q.Value!)}"));
+
+                    requestMessage.RequestUri = new Uri($"{uri}?{queryString}");
+                }
 
                 var response = await _httpClient.SendAsync(requestMessage);
                 var responseContent = await response.Content.ReadAsStringAsync();
@@ -70,7 +74,7 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
                     dto.description,
                     Enum.Parse<ReportStatus>(dto.status, true),
                     dto.approval_date,
-                    dto.payment_date,
+                    dto.GetPaymentDate(),
                     dto.pdf_link,
                     dto.excel_link
                 )).ToList() ?? new List<Report>();

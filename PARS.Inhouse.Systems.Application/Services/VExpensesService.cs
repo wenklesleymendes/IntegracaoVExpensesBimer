@@ -23,13 +23,20 @@ namespace PARS.Inhouse.Systems.Application.Services
 
         public async Task<List<ReportDto>> GetReportsByStatusAsync(string status, FiltrosDto filtrosDto)
         {
+            var statusPago = false;
+
             var token = _tokenApiKey;
             var filtrosDtoPadrao = AplicarFiltrosPadrao(filtrosDto);
 
             status = status.ToUpper();
             var uri = _options.VExpenseReport.Replace("{status}", status);
 
-            var reports = await _vExpensesApi.GetReportsByStatusAsync(status, filtrosDtoPadrao, token, uri);
+            if (status == "PAGO")
+            {
+                statusPago = true;
+            }
+
+            var reports = await _vExpensesApi.GetReportsByStatusAsync(status, filtrosDtoPadrao, token, uri, statusPago);
             return reports.Select(r => new ReportDto
             {
                 Id = r.id,
