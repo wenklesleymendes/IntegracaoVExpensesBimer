@@ -81,3 +81,4 @@ secrets.json
 /PARS.Inhouse.Systems.Shared/obj/PARS.Inhouse.Systems.Shared.csproj.nuget.g.props
 /PARS.Inhouse.Systems.Shared/obj/project.assets.json
 /PARS.Inhouse.Systems.Shared/obj/project.nuget.cache
+/PARS.Inhouse.Systems.Domain/bin/Debug/net8.0/PARS.Inhouse.Systems.Domain.deps.json
