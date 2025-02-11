@@ -7,6 +7,17 @@ using PARS.Inhouse.Systems.Infrastructure.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configuração do appsettings.json e variáveis de ambiente
+builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+builder.Configuration.AddEnvironmentVariables();
+
+var config = builder.Configuration;
+
+// Leitura segura dos valores usando variáveis de ambiente
+string tokenApiKey = Environment.GetEnvironmentVariable("TOKEN_API_KEY") ?? config["TokenApiKey:Token"];
+string bimerUrl = Environment.GetEnvironmentVariable("BIMER_URL") ?? config["Integracao:Bimer"];
+string tokenServicoUrl = Environment.GetEnvironmentVariable("TOKEN_SERVICO_URL") ?? config["Integracao:TokenServico"];
+
 // Configurações de serviços
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -48,32 +59,26 @@ builder.Services.AddSwaggerGen(c =>
         });
 });
 
+// Configuração das URLs de forma segura
 builder.Services.Configure<OpcoesUrls>(builder.Configuration.GetSection("VExpense"));
-builder.Services.Configure<OpcoesUrls>(builder.Configuration.GetSection("Integracao"));
-builder.Services.Configure<OpcoesUrls>(builder.Configuration.GetSection("TokenApiKey"));
 
+// Registra clientes HTTP de forma segura
 builder.Services.AddHttpClient<IVExpensesApi, VExpensesApi>(client =>
 {
-    client.BaseAddress = new Uri(builder.Configuration["VExpense:VExpenseReport"]);
-});
-
-builder.Services.AddHttpClient<IVExpensesService, VExpensesService>(client =>
-{
-    client.BaseAddress = new Uri(builder.Configuration["TokenApiKey:Token"]);
+    client.BaseAddress = new Uri(config["VExpense:VExpenseReport"]);
 });
 
 builder.Services.AddHttpClient<IIntegracaoBimerService, IntegracaoBimerService>(client =>
 {
-    client.BaseAddress = new Uri(builder.Configuration["Integracao:Bimer"]);
+    client.BaseAddress = new Uri(bimerUrl);
 });
 
-builder.Services.AddHttpClient<IIntegracaoBimerService, IntegracaoBimerService>(client =>
+builder.Services.AddHttpClient<IIntegracaoBimerAPI, IntegracaoBimerAPI>(client =>
 {
-    client.BaseAddress = new Uri(builder.Configuration["Integracao:TokenServico"]);
+    client.BaseAddress = new Uri(tokenServicoUrl);
 });
 
-builder.Services.AddScoped<IIntegracaoBimerAPI, IntegracaoBimerAPI>();
-
+// Injeção de dependências
 builder.Services.AddScoped<IIntegracaoBimerService, IntegracaoBimerService>();
 builder.Services.AddScoped<IVExpensesService, VExpensesService>();
 
@@ -86,9 +91,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
