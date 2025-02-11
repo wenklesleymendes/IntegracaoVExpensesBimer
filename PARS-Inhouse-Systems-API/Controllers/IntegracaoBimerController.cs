@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PARS.Inhouse.Systems.Application.DTOs;
+using PARS.Inhouse.Systems.Application.DTOs.Request.Bimer;
 using PARS.Inhouse.Systems.Application.Interfaces;
 
 namespace PARS_Inhouse_Systems_API.Controllers
@@ -16,7 +16,7 @@ namespace PARS_Inhouse_Systems_API.Controllers
         }
 
         [HttpPost("TituloAPagar/criarTituloPagar")]
-        public async Task<IActionResult> CreateTitlePay([FromQuery]string token, [FromBody] BimerRequestDto bimerRequestDto)
+        public async Task<IActionResult> CreateTitlePay([FromQuery] string token, [FromBody] BimerRequestDto bimerRequestDto)
         {
             try
             {
@@ -33,7 +33,7 @@ namespace PARS_Inhouse_Systems_API.Controllers
         public async Task<IActionResult> Authenticate([FromBody] AuthRequestDto request)
         {
             var result = await _integracaoBimerService.AuthenticateAsync(request);
-            if (!string.IsNullOrEmpty(result.error))
+            if (!string.IsNullOrEmpty(result.Error))
             {
                 return BadRequest(result);
             }
@@ -44,7 +44,7 @@ namespace PARS_Inhouse_Systems_API.Controllers
         public async Task<IActionResult> Reauthenticate([FromBody] ReauthenticateRequestDto request)
         {
             var result = await _integracaoBimerService.ReauthenticateAsync(request);
-            if (!string.IsNullOrEmpty(result.error))
+            if (!string.IsNullOrEmpty(result.Error))
             {
                 return BadRequest(result);
             }

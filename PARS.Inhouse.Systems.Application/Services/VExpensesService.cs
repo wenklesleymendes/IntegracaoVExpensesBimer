@@ -1,13 +1,10 @@
 ﻿using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 using PARS.Inhouse.Systems.Application.Configurations;
-using PARS.Inhouse.Systems.Application.DTOs;
-using System.Net.Http.Headers;
-using System;
-using System.Text.Json.Nodes;
-using System.Net.Http;
+using PARS.Inhouse.Systems.Application.DTOs.Request.Vexpense;
+using PARS.Inhouse.Systems.Application.DTOs.Response.Vexpense;
 using PARS.Inhouse.Systems.Application.Interfaces;
 using PARS.Inhouse.Systems.Infrastructure.Interfaces;
+using PARS.Inhouse.Systems.Shared.Enums;
 
 namespace PARS.Inhouse.Systems.Application.Services
 {
@@ -15,47 +12,59 @@ namespace PARS.Inhouse.Systems.Application.Services
     {
         private readonly IVExpensesApi _vExpensesApi;
         private readonly OpcoesUrls _options;
-        private readonly HttpClient _httpClient;
+        private readonly string _tokenApiKey;
 
-        public VExpensesService(IVExpensesApi vExpensesApi, IOptions<OpcoesUrls> options, HttpClient httpClient)
+        public VExpensesService(IVExpensesApi vExpensesApi, IOptions<OpcoesUrls> options, IOptions<VexpenseTokenApiKeyConfig> tokenApiKey)
         {
-            _vExpensesApi = vExpensesApi;
-            _options = options?.Value;
-            _httpClient = httpClient;
+            _vExpensesApi = vExpensesApi ?? throw new ArgumentNullException(nameof(vExpensesApi));
+            _options = options?.Value ?? throw new ArgumentNullException(nameof(options));
+            _tokenApiKey = tokenApiKey.Value.Token;
         }
 
-        public async Task<List<ReportDto>> GetReportsByStatusAsync(string status, FiltrosDto filtrosDto, string token)
+        public async Task<List<ReportDto>> GetReportsByStatusAsync(string status, FiltrosDto filtrosDto)
         {
-            var filtros = JsonConvert.SerializeObject(filtrosDto);
+            var statusPago = false;
 
-            var uri = _options.VExpenseReport.Replace("{status}", $"{status}");
+            var token = _tokenApiKey;
+            var filtrosDtoPadrao = AplicarFiltrosPadrao(filtrosDto);
 
-            var reports = await _vExpensesApi.GetReportsByStatusAsync(status, filtros, token, uri);
+            status = status.ToUpper();
+            var uri = _options.VExpenseReport.Replace("{status}", status);
+
+            if (status == "PAGO")
+            {
+                statusPago = true;
+            }
+
+            var reports = await _vExpensesApi.GetReportsByStatusAsync(status, filtrosDtoPadrao, token, uri, statusPago);
             return reports.Select(r => new ReportDto
             {
-                Id = r.Id,
-                Description = r.Description,
-                Status = r.Status,
-                ApprovalDate = r.ApprovalDate,
-                PdfLink = r.PdfLink,
-                ExcelLink = r.ExcelLink
+                Id = r.id,
+                Description = r.description,
+                Status = r.status.ToString(),
+                ApprovalDate = r.approvalDate,
+                PdfLink = r.pdfLink,
+                ExcelLink = r.excelLink
             }).ToList();
         }
 
-        public void TokenValidation(string token)
+        private string AplicarFiltrosPadrao(FiltrosDto filtrosDto)
         {
-            try
+            var filtros = new FiltrosDto
             {
-                if (string.IsNullOrEmpty(token))
-                {
-                    throw new ArgumentNullException("Token inválido!");
-                }
-               _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(token);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Ocorreu um erro na validação do token! Detalhes: {ex.Message}");
-            }
+                Include = filtrosDto.Include != default ? filtrosDto.Include : FiltroInclude.expenses,
+                Search = !string.IsNullOrEmpty(filtrosDto.Search) ? filtrosDto.Search : "",
+                SearchField = filtrosDto.SearchField != default ? filtrosDto.SearchField : FiltroSearchField.approval_date_between,
+                SearchJoin = filtrosDto.SearchJoin != default ? filtrosDto.SearchJoin : FiltroSearchJoin.and
+            };
+
+            return $"include={filtros.Include.ToString().ToLower()}&search={Uri.EscapeDataString(filtros.Search)}&" +
+                   $"searchFields={FormatarCampo(filtros.SearchField)}&searchJoin={FormatarCampo(filtros.SearchJoin)}";
+        }
+
+        private string FormatarCampo<T>(T campo) where T : Enum
+        {
+            return campo.ToString().ToLower().Replace("_", ":");
         }
     }
 }
