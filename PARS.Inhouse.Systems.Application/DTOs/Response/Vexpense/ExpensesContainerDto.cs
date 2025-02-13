@@ -35,7 +35,7 @@ namespace PARS.Inhouse.Systems.Application.DTOs.Response.Vexpense
         public int? ExternalId { get; set; }
 
         [JsonPropertyName("mileage")]
-        public decimal? Mileage { get; set; }
+        public string? Mileage { get; set; }
 
         [JsonPropertyName("date")]
         public DateTime? Date { get; set; }
@@ -52,11 +52,11 @@ namespace PARS.Inhouse.Systems.Application.DTOs.Response.Vexpense
         [JsonPropertyName("course_id")]
         public int? CourseId { get; set; }
 
-        [JsonPropertyName("receipt_url")]
+        [JsonPropertyName("reicept_url")]
         public string? ReceiptUrl { get; set; }
 
         [JsonPropertyName("value")]
-        public int? Value { get; set; }
+        public decimal? Value { get; set; }
 
         [JsonPropertyName("title")]
         public string? Title { get; set; } = string.Empty;
@@ -77,7 +77,7 @@ namespace PARS.Inhouse.Systems.Application.DTOs.Response.Vexpense
         public bool? On { get; set; }
 
         [JsonPropertyName("mileage_value")]
-        public decimal? MileageValue { get; set; }
+        public string? MileageValue { get; set; }
 
         [JsonPropertyName("original_currency_iso")]
         public string? OriginalCurrencyIso { get; set; } = "BRL";

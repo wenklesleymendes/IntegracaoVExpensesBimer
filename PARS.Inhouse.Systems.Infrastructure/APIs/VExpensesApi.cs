@@ -71,12 +71,10 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
                 var result = System.Text.Json.JsonSerializer.Deserialize<ApiResponse>(responseContent, new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true,
-                    DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-                    IncludeFields = true
+                    DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
                 });
 
-
-            var responseData = result?.data?.Select(dto => Report.Create(
+                var responseData = result?.data?.Select(dto => Report.Create(
                 dto.id,
                 dto.external_id,
                 dto.user_id,
@@ -85,7 +83,7 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
                 dto.status,
                 dto.approval_stage_id,
                 dto.approval_user_id,
-                dto.approval_date,
+                dto.GetApprovalDate(),
                 dto.GetPaymentDate(),
                 dto.payment_method_id,
                 dto.observation,
@@ -94,8 +92,8 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
                 dto.justification,
                 dto.pdf_link?.ToString(),
                 dto.excel_link?.ToString(),
-                DateTime.TryParse(dto.created_at, out DateTime createdAt) ? createdAt.ToString("yyyy-MM-dd HH:mm:ss") : null,
-                DateTime.TryParse(dto.updated_at, out DateTime updatedAt) ? updatedAt.ToString("yyyy-MM-dd HH:mm:ss") : null,
+                dto.created_at,
+                dto.updated_at,
                 new ExpenseContainerResponse
                 {
                     data = dto.expenses?.data?.Select(exp => Expense.Create(
@@ -111,7 +109,7 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
                     exp.payment_method_id,
                     exp.paying_company_id,
                     exp.course_id,
-                    exp.receipt_url,
+                    exp.reicept_url,
                     exp.value,
                     exp.title,
                     exp.validate,
@@ -155,36 +153,46 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
 
         public async Task SalvarListaAprovados(string responseData)
         {
-            string caminhoInfraestrutura = Path.Combine(GetSolutionRootDirectory(), "PARS.Inhouse.Systems.Infrastructure", "Data", "Payload");
-            string caminhoArquivo = Path.Combine(caminhoInfraestrutura, $"ListaDeAprovados.json");
+            try { 
+                string caminhoInfraestrutura = Path.Combine(GetSolutionRootDirectory(), "PARS.Inhouse.Systems.Infrastructure", "Data", "Payload");
+                string caminhoArquivo = Path.Combine(caminhoInfraestrutura, $"ListaDeAprovados.json");
 
-            var arquivoAtualizado = JsonConvert.DeserializeObject<List<Report>>(responseData);
-            bool houveAlteracao = false;
+                var arquivoAtualizado = JsonConvert.DeserializeObject<List<VExpenseResponse>>(responseData);
+                bool houveAlteracao = false;
 
-            if (File.Exists(caminhoArquivo))
-            {
-                string jsonSalvo = await File.ReadAllTextAsync(caminhoArquivo);
-                var pedidoSalvo = JsonConvert.DeserializeObject<List<Report>>(jsonSalvo);
-
-                if (!JToken.DeepEquals(JToken.FromObject(arquivoAtualizado), JToken.FromObject(pedidoSalvo)))
+                if (File.Exists(caminhoArquivo))
                 {
-                    houveAlteracao = true;
+                    string jsonSalvo = await File.ReadAllTextAsync(caminhoArquivo);
+                    var pedidoSalvo = JsonConvert.DeserializeObject<List<VExpenseResponse>>(jsonSalvo);
+
+                    if (!JToken.DeepEquals(JToken.FromObject(arquivoAtualizado), JToken.FromObject(pedidoSalvo)))
+                    {
+                        houveAlteracao = true;
+                    }
+
+                    if (houveAlteracao)
+                    {
+                        var jsonAtualizado = JsonConvert.SerializeObject(arquivoAtualizado);
+                        await File.WriteAllTextAsync(caminhoArquivo, jsonAtualizado);
+                    }
                 }
-
-                if (houveAlteracao)
+                else
                 {
-                    var jsonAtualizado = JsonConvert.SerializeObject(arquivoAtualizado);
-                    await File.WriteAllTextAsync(caminhoArquivo, jsonAtualizado);
+                    var jsonInicial = JsonConvert.SerializeObject(arquivoAtualizado, Formatting.Indented);
+                    Directory.CreateDirectory(Path.GetDirectoryName(caminhoArquivo));
+                    await File.WriteAllTextAsync(caminhoArquivo, jsonInicial);
                 }
             }
-            else
+            catch (System.Text.Json.JsonException jsonEx)
             {
-                var jsonInicial = JsonConvert.SerializeObject(arquivoAtualizado, Formatting.Indented);
-                Directory.CreateDirectory(Path.GetDirectoryName(caminhoArquivo));
-                await File.WriteAllTextAsync(caminhoArquivo, jsonInicial);
+                throw new BusinessException($"Erro ao processar resposta da API: {jsonEx.Message}");
+            }
+            catch (Exception ex)
+            {
+                throw new BusinessException($"Erro inesperado ao buscar relatórios: {ex.Message}");
             }
         }
-
+            
         private string GetSolutionRootDirectory()
         {
             string currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
@@ -195,6 +203,5 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
         {
             public List<VExpenseResponse>? data { get; set; }
         }
-
     }
 }

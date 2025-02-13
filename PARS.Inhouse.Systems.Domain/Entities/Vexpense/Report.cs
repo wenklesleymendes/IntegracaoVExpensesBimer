@@ -5,26 +5,26 @@ namespace PARS.Inhouse.Systems.Domain.Entities.vexpense
 {
     public class Report
     {
-        public int Id { get; private set; }
-        public int? ExternalId { get; set; }
-        public string Description { get; private set; } = string.Empty;
-        public ReportStatus Status { get; private set; }
-        public string? ApprovalDate { get; private set; }
-        public DateTime? PaymentDate { get; private set; }
-        public string? PdfLink { get; private set; }
-        public string? ExcelLink { get; private set; }
-        public int? UserId { get; private set; }
-        public int? DeviceId { get; private set; }
-        public int? ApprovalStageId { get; private set; }
-        public int? ApprovalUserId { get; private set; }
-        public int? PaymentMethodId { get; private set; }
-        public string? Observation { get; private set; }
-        public int? PayingCompanyId { get; private set; }
-        public bool On { get; private set; }
-        public string? Justification { get; private set; }
-        public string? CreatedAt { get; private set; }
-        public string? UpdatedAt { get; private set; }
-        public ExpenseContainerResponse? Expenses { get; private set; }
+        public int Id { get; set; }
+        public string? ExternalId { get; set; }
+        public int? UserId { get; set; }
+        public int? DeviceId { get; set; }
+        public string Description { get; set; }
+        public ReportStatus Status { get; set; }
+        public int? ApprovalStageId { get; set; }
+        public int? ApprovalUserId { get; set; }
+        public DateTime? ApprovalDate { get; set; }
+        public DateTime? PaymentDate { get; set; }
+        public int? PaymentMethodId { get; set; }
+        public string? Observation { get; set; }
+        public int? PayingCompanyId { get; set; }
+        public bool On { get; set; }
+        public string Justification { get; set; }
+        public string PdfLink { get; set; }
+        public string ExcelLink { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+        public ExpenseContainerResponse Expenses { get; set; }
 
         public Report(string description)
         {
@@ -32,9 +32,9 @@ namespace PARS.Inhouse.Systems.Domain.Entities.vexpense
             Status = ReportStatus.ENVIADO;
         }
 
-        public static Report Create(int? id, int? external_id, int? userId, int? deviceId, string? description, ReportStatus status, int? approvalStageId, 
-            int? approvalUserId, string? approvalDate, DateTime? paymentDate, int? paymentMethodId, string? observation, int? payingCompanyId, bool on, 
-            string? justification, string? pdfLink, string? excelLink, string? createdAt, string? updatedAt, ExpenseContainerResponse? expenses)
+        public static Report Create(int? id, string? external_id, int? userId, int? deviceId, string? description, ReportStatus status, int? approvalStageId, 
+            int? approvalUserId, DateTime? approvalDate, DateTime? paymentDate, int? paymentMethodId, string? observation, int? payingCompanyId, bool on, 
+            string? justification, string? pdfLink, string? excelLink, DateTime? createdAt, DateTime? updatedAt, ExpenseContainerResponse? expenses)
         {
             var report = new Report(description ?? "Relatório Sem Nome")
             {

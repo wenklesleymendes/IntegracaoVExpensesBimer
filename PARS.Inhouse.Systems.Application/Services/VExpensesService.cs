@@ -90,7 +90,7 @@ namespace PARS.Inhouse.Systems.Application.Services
                     PaymentMethodId = exp.payment_method_id,
                     PayingCompanyId = exp.paying_company_id,
                     CourseId = exp.course_id,
-                    ReceiptUrl = exp.receipt_url,
+                    ReceiptUrl = exp.reicept_url,
                     Value = exp.value,
                     Title = exp.title,
                     Validate = exp.validate,

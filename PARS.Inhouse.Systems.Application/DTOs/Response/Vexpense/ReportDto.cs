@@ -6,10 +6,10 @@ namespace PARS.Inhouse.Systems.Application.DTOs.Response.Vexpense
     public class ReportDto
     {
         public int Id { get;  set; }
-        public int? ExternalId { get; set; }
-        public string Description { get; set; } = string.Empty;
+        public string? ExternalId { get; set; }
+        public string? Description { get; set; } = string.Empty;
         public ReportStatus Status { get; set; }
-        public string? ApprovalDate { get; set; }
+        public DateTime? ApprovalDate { get; set; }
         public DateTime? PaymentDate { get; set; }
         public string? PdfLink { get; set; }
         public string? ExcelLink { get; set; }
@@ -22,8 +22,8 @@ namespace PARS.Inhouse.Systems.Application.DTOs.Response.Vexpense
         public int? PayingCompanyId { get; set; }
         public bool On { get; set; }
         public string? Justification { get; set; }
-        public string? CreatedAt { get; set; }
-        public string? UpdatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
         public ExpenseContainerDto? expenses { get; set; }
     }
 }

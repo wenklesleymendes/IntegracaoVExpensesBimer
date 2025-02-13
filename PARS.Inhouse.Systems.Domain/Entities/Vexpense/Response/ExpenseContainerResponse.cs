@@ -7,46 +7,52 @@ namespace PARS.Inhouse.Systems.Domain.Entities.Vexpense.Response
 {
     public class ExpenseContainerResponse
     {
-        public List<Expense> data { get; set; } = new();
+        public List<Expense>? data { get; set; }
     }
 
     public class Expense
     {
-        public int? id { get; private set; }
-        public int? user_id { get; private set; }
-        public int? expense_id { get; private set; }
-        public int? device_id { get; private set; }
-        public int? integration_id { get; private set; }
-        public int? external_id { get; private set; }
-        public decimal? mileage { get; private set; }
-        public DateTime? date { get; private set; }
-        public int? expense_type_id { get; private set; }
-        public int? payment_method_id { get; private set; }
-        public int? paying_company_id { get; private set; }
-        public int? course_id { get; private set; }
-        public string? receipt_url { get; private set; }
-        public int? value { get; private set; }
-        public string? title { get; private set; } = string.Empty;
-        public string? validate { get; private set; } = string.Empty;
-        public bool? reimbursable { get; private set; }
-        public string? observation { get; private set; } = string.Empty;
-        public int? rejected { get; private set; }
-        public bool? on { get; private set; }
-        public decimal? mileage_value { get; private set; }
-        public string? original_currency_iso { get; private set; } = "BRL";
-        public decimal? exchange_rate { get; private set; } = 1;
-        public decimal? converted_value { get; private set; }
-        public string? converted_currency_iso { get; private set; } = "BRL";
-        public DateTime? created_at { get; private set; }
-        public DateTime? updated_at { get; private set; }
+        public int id { get; set; }
+        public int? user_id { get; set; }
+        public int? expense_id { get; set; }
+        public int? device_id { get; set; }
+        public int? integration_id { get; set; }
+        public int? external_id { get; set; }
+        public string? mileage { get; set; }
+
+        [JsonConverter(typeof(CustomDateTimeConverter))]
+        public DateTime? date { get; set; }
+        public int? expense_type_id { get; set; }
+        public int? payment_method_id { get; set; }
+        public int? paying_company_id { get; set; }
+        public int? course_id { get; set; }
+        public string? reicept_url { get; set; }
+        public decimal? value { get; set; }
+        public string title { get; set; }
+        public string validate { get; set; }
+        public bool? reimbursable { get; set; }
+        public string observation { get; set; }
+        public int? rejected { get; set; }
+        public bool? on { get; set; }
+        public string? mileage_value { get; set; }
+        public string original_currency_iso { get; set; }
+        public decimal? exchange_rate { get; set; }
+        public decimal? converted_value { get; set; }
+        public string? converted_currency_iso { get; set; }
+
+        [JsonConverter(typeof(CustomDateTimeConverter))]
+        public DateTime? created_at { get; set; }
+
+        [JsonConverter(typeof(CustomDateTimeConverter))]
+        public DateTime? updated_at { get; set; }
 
         public Expense()
         {
         }
 
-        public static Expense Create(int? id, int? user_id, int? expense_id, int? device_id, int? integration_id, int? external_id, decimal? mileage, DateTime? date,
-            int? expense_type_id, int? payment_method_id, int? paying_company_id, int? course_id, string? receipt_url, int? value, string title, string? validade,
-            bool? reimbursable, string? observation, int? rejected, bool? on, decimal? mileage_value, string original_currency_iso,
+        public static Expense Create(int id, int? user_id, int? expense_id, int? device_id, int? integration_id, int? external_id, string? mileage, DateTime? date,
+            int? expense_type_id, int? payment_method_id, int? paying_company_id, int? course_id, string? receipt_url, decimal? value, string title, string? validade,
+            bool? reimbursable, string? observation, int? rejected, bool? on, string? mileage_value, string original_currency_iso,
             decimal? exchange_rate, decimal? converted_value, string converted_currency_iso, DateTime? created_at, DateTime? updated_at)
         {
             var expense = new Expense()
@@ -63,7 +69,7 @@ namespace PARS.Inhouse.Systems.Domain.Entities.Vexpense.Response
                 payment_method_id = payment_method_id,
                 paying_company_id = paying_company_id,
                 course_id = course_id,
-                receipt_url = receipt_url,
+                reicept_url = receipt_url,
                 value = value,
                 title = title,
                 validate = validade,
