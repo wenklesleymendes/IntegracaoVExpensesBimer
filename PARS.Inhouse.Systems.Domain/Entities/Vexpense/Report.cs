@@ -1,104 +1,104 @@
-﻿using PARS.Inhouse.Systems.Shared.Enums;
+﻿using PARS.Inhouse.Systems.Domain.Entities.Vexpense.Response;
+using PARS.Inhouse.Systems.Shared.Enums;
 
 namespace PARS.Inhouse.Systems.Domain.Entities.vexpense
 {
     public class Report
     {
-        public int id { get; private set; }
-        public string description { get; private set; } = string.Empty;
-        public ReportStatus status { get; private set; }
-        public string? approvalDate { get; private set; }
-        public DateTime? paymentDate { get; private set; }
-        public string? pdfLink { get; private set; }
-        public string? excelLink { get; private set; }
-        private readonly List<Expense> _expenses;
-        public IReadOnlyCollection<Expense> Expenses => _expenses.AsReadOnly();
+        public int Id { get; private set; }
+        public int? ExternalId { get; set; }
+        public string Description { get; private set; } = string.Empty;
+        public ReportStatus Status { get; private set; }
+        public string? ApprovalDate { get; private set; }
+        public DateTime? PaymentDate { get; private set; }
+        public string? PdfLink { get; private set; }
+        public string? ExcelLink { get; private set; }
+        public int? UserId { get; private set; }
+        public int? DeviceId { get; private set; }
+        public int? ApprovalStageId { get; private set; }
+        public int? ApprovalUserId { get; private set; }
+        public int? PaymentMethodId { get; private set; }
+        public string? Observation { get; private set; }
+        public int? PayingCompanyId { get; private set; }
+        public bool On { get; private set; }
+        public string? Justification { get; private set; }
+        public string? CreatedAt { get; private set; }
+        public string? UpdatedAt { get; private set; }
+        public ExpenseContainerResponse? Expenses { get; private set; }
 
         public Report(string description)
         {
             SetDescription(description);
-            status = ReportStatus.ENVIADO;
-            _expenses = new List<Expense>();
+            Status = ReportStatus.ENVIADO;
         }
 
-        public static Report Create(int? id, string? description, ReportStatus status, string? approvalDate, DateTime? paymentDate, string? pdfLink, string? excelLink)
+        public static Report Create(int? id, int? external_id, int? userId, int? deviceId, string? description, ReportStatus status, int? approvalStageId, 
+            int? approvalUserId, string? approvalDate, DateTime? paymentDate, int? paymentMethodId, string? observation, int? payingCompanyId, bool on, 
+            string? justification, string? pdfLink, string? excelLink, string? createdAt, string? updatedAt, ExpenseContainerResponse? expenses)
         {
-            return new Report(description)
+            var report = new Report(description ?? "Relatório Sem Nome")
             {
-                id = (int)id,
-                status = status,
-                approvalDate = approvalDate,
-                paymentDate = paymentDate,
-                pdfLink = pdfLink,
-                excelLink = excelLink
+                Id = id ?? 0,
+                ExternalId = external_id,
+                UserId = userId,
+                DeviceId = deviceId,
+                Description = description,
+                Status = status,
+                ApprovalStageId = approvalStageId,
+                ApprovalUserId = approvalUserId,
+                ApprovalDate = approvalDate,
+                PaymentDate = paymentDate,
+                PaymentMethodId = paymentMethodId,
+                Observation = observation,
+                PayingCompanyId = payingCompanyId,
+                On = on,
+                Justification = justification,
+                PdfLink = pdfLink,
+                ExcelLink = excelLink,
+                CreatedAt = createdAt,
+                UpdatedAt = updatedAt,
+                Expenses = expenses
             };
-        }
 
+            report.SetPdfLink(pdfLink);
+            report.SetExcelLink(excelLink);
+            return report;
+        }
 
         public void SetDescription(string description)
         {
             if (string.IsNullOrWhiteSpace(description))
                 throw new ArgumentException("A descrição do relatório não pode estar vazia.");
 
-            this.description = description;
+            this.Description = description;
         }
 
-        public void Approve()
+        public void SetPdfLink(string? pdfLink)
         {
-            if (status != ReportStatus.ENVIADO)
-                throw new InvalidOperationException("Somente relatórios pendentes podem ser aprovados.");
+            if (pdfLink == null)
+            {
+                PdfLink = null;
+                return;
+            }
 
-            status = ReportStatus.APROVADO;
-            approvalDate = DateTime.UtcNow.ToString();
-        }
-
-        public void ProcessPayment()
-        {
-            if (status != ReportStatus.APROVADO)
-                throw new InvalidOperationException("Somente relatórios aprovados podem ser pagos.");
-
-            status = ReportStatus.PAGO;
-            paymentDate = DateTime.UtcNow;
-        }
-
-        public void AddExpense(Expense expense)
-        {
-            if (expense == null)
-                throw new ArgumentException("A despesa não pode ser nula.");
-
-            _expenses.Add(expense);
-        }
-
-        public void RemoveExpense(Expense expense)
-        {
-            if (expense == null || !_expenses.Contains(expense))
-                throw new ArgumentException("A despesa não está no relatório.");
-
-            _expenses.Remove(expense);
-        }
-
-        public void SetPdfLink(string pdfLink)
-        {
-            if (!Uri.IsWellFormedUriString(pdfLink, UriKind.Absolute))
+            if (!Uri.TryCreate(pdfLink, UriKind.Absolute, out Uri? validUri))
                 throw new ArgumentException("O link do PDF não é válido.");
 
-            this.pdfLink = pdfLink;
+            PdfLink = validUri.ToString();
         }
 
-        public void SetExcelLink(string excelLink)
+        public void SetExcelLink(string? excelLink)
         {
-            if (!Uri.IsWellFormedUriString(excelLink, UriKind.Absolute))
+            if (excelLink == null)
+            {
+                ExcelLink = null;
+                return;
+            }
+
+            if (!Uri.TryCreate(excelLink, UriKind.Absolute, out Uri? validUri))
                 throw new ArgumentException("O link do Excel não é válido.");
 
-            this.excelLink = excelLink;
+            ExcelLink = validUri.ToString();
         }
     }
-
-    //public enum ReportStatus
-    //{
-    //    Pending,
-    //    Approved,
-    //    Paid,
-    //    APROVADO
-    //}
 }
