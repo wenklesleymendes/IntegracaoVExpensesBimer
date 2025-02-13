@@ -5,6 +5,5 @@
         public required string VExpenseReport { get; set; }
         public required string Bimer { get; set; }
         public required string TokenServico { get; set; }
-        public required string Token { get; set; }
     }
 }

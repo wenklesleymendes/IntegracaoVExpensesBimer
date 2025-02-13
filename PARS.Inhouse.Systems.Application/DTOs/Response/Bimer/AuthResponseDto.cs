@@ -1,10 +1,10 @@
 ﻿public class AuthResponseDto
 {
-    public required string AccessToken { get; set; }
-    public required string TokenType { get; set; }
-    public required int ExpiresIn { get; set; }
-    public required string RefreshToken { get; set; }
-    public required string Username { get; set; }
-    public string? Error { get; set; }
-    public string? ErrorDescription { get; set; }
+    public required string access_token { get; set; }
+    public required string token_type { get; set; }
+    public required int expires_in { get; set; }
+    public required string refresh_token { get; set; }
+    public required string username { get; set; }
+    public string? error { get; set; }
+    public string? error_description { get; set; }
 }

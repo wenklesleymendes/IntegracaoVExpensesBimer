@@ -1,9 +1,9 @@
 ﻿public class AuthRequestDto
 {
-    public required string ClientId { get; set; }
-    public required string ClientSecret { get; set; }
-    public string GrantType { get; set; } = "password";
-    public required string Username { get; set; }
-    public required string Password { get; set; }
-    public required string Nonce { get; set; }
+    public string client_id { get; set; }
+    public string client_secret { get; set; }
+    public string grant_type { get; set; } = "password";
+    public string username { get; set; }
+    public string password { get; set; }
+    public string nonce { get; set; }
 }

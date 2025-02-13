@@ -153,7 +153,8 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
 
         public async Task SalvarListaAprovados(string responseData)
         {
-            try { 
+            try 
+            { 
                 string caminhoInfraestrutura = Path.Combine(GetSolutionRootDirectory(), "PARS.Inhouse.Systems.Infrastructure", "Data", "Payload");
                 string caminhoArquivo = Path.Combine(caminhoInfraestrutura, $"ListaDeAprovados.json");
 

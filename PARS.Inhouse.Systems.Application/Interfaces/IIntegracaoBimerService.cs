@@ -5,7 +5,7 @@ namespace PARS.Inhouse.Systems.Application.Interfaces
 {
     public interface IIntegracaoBimerService
     {
-        Task<TitlePayResponseDto?> CriarTituloAPagar(BimerRequestDto bimerRequestDto, string token);
+        Task<TitlePayResponseDto?> CreateTitlePay(BimerRequestDto bimerRequestDto, string token);
         Task<AuthResponseDto> AuthenticateAsync(AuthRequestDto request);
         Task<AuthResponseDto> ReauthenticateAsync(ReauthenticateRequestDto request);
     }
