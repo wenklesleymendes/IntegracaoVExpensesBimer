@@ -2,8 +2,8 @@
 {
     public class ReauthenticateRequestDto
     {
-        public required string ClientId { get; set; }
-        public string GrantType { get; set; } = "refresh_token";
-        public required string RefreshToken { get; set; }
+        public required string client_id { get; set; }
+        public string grant_type { get; set; } = "refresh_token";
+        public required string refresh_token { get; set; }
     }
 }

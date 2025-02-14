@@ -46,12 +46,12 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
                         throw new BusinessException("Os filtros fornecidos são inválidos.");
 
                     var queryParams = new Dictionary<string, string?>
-            {
-                { "include", filtros.include },
-                { "search", filtros.search },
-                { "searchField", filtros.searchField },
-                { "searchJoin", filtros.searchJoin }
-            };
+                    {
+                        { "include", filtros.include },
+                        { "search", filtros.search },
+                        { "searchField", filtros.searchField },
+                        { "searchJoin", filtros.searchJoin }
+                    };
 
                     var queryString = string.Join("&", queryParams
                         .Where(q => !string.IsNullOrEmpty(q.Value))
@@ -155,15 +155,15 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
         {
             try 
             { 
-                string caminhoInfraestrutura = Path.Combine(GetSolutionRootDirectory(), "PARS.Inhouse.Systems.Infrastructure", "Data", "Payload");
-                string caminhoArquivo = Path.Combine(caminhoInfraestrutura, $"ListaDeAprovados.json");
+                string caminhoPayload = Path.Combine(GetSolutionRootDirectory(), "PARS.Inhouse.Systems.Infrastructure", "Data", "Payload");
+                string caminhoArquivoListaAprovado = Path.Combine(caminhoPayload, $"ListaDeAprovados.json");
 
                 var arquivoAtualizado = JsonConvert.DeserializeObject<List<VExpenseResponse>>(responseData);
                 bool houveAlteracao = false;
 
-                if (File.Exists(caminhoArquivo))
+                if (File.Exists(caminhoArquivoListaAprovado))
                 {
-                    string jsonSalvo = await File.ReadAllTextAsync(caminhoArquivo);
+                    string jsonSalvo = await File.ReadAllTextAsync(caminhoArquivoListaAprovado);
                     var pedidoSalvo = JsonConvert.DeserializeObject<List<VExpenseResponse>>(jsonSalvo);
 
                     if (!JToken.DeepEquals(JToken.FromObject(arquivoAtualizado), JToken.FromObject(pedidoSalvo)))
@@ -174,14 +174,14 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
                     if (houveAlteracao)
                     {
                         var jsonAtualizado = JsonConvert.SerializeObject(arquivoAtualizado);
-                        await File.WriteAllTextAsync(caminhoArquivo, jsonAtualizado);
+                        await File.WriteAllTextAsync(caminhoArquivoListaAprovado, jsonAtualizado);
                     }
                 }
                 else
                 {
-                    var jsonInicial = JsonConvert.SerializeObject(arquivoAtualizado, Formatting.Indented);
-                    Directory.CreateDirectory(Path.GetDirectoryName(caminhoArquivo));
-                    await File.WriteAllTextAsync(caminhoArquivo, jsonInicial);
+                    var jsonAtualizado = JsonConvert.SerializeObject(arquivoAtualizado, Formatting.Indented);
+                    Directory.CreateDirectory(Path.GetDirectoryName(caminhoArquivoListaAprovado));
+                    await File.WriteAllTextAsync(caminhoArquivoListaAprovado, jsonAtualizado);
                 }
             }
             catch (System.Text.Json.JsonException jsonEx)

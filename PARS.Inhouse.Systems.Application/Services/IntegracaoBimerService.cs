@@ -71,9 +71,9 @@ namespace PARS.Inhouse.Systems.Application.Services
             var uri = _options.TokenServico;
             var content = new FormUrlEncodedContent(new[]
             {
-                        new KeyValuePair<string, string>("client_id", request.ClientId),
-                        new KeyValuePair<string, string>("grant_type", request.GrantType),
-                        new KeyValuePair<string, string>("refresh_token", request.RefreshToken)
+                        new KeyValuePair<string, string>("client_id", request.client_id),
+                        new KeyValuePair<string, string>("grant_type", request.grant_type),
+                        new KeyValuePair<string, string>("refresh_token", request.refresh_token)
                     });
 
             var response = await _integracaoBimerAPI.ReauthenticateAsync(content, uri);
