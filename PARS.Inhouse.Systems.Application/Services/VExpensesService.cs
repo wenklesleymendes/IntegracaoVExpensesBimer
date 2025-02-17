@@ -22,14 +22,14 @@ namespace PARS.Inhouse.Systems.Application.Services
             _tokenApiKey = tokenApiKey?.Value?.Token ?? throw new ArgumentNullException(nameof(tokenApiKey));
         }
 
-        public async Task<List<ReportDto>> GetReportsByStatusAsync(string status, FiltrosDto filtrosDto)
+        public async Task<List<ReportDto>> BuscarRelatorioPorStatusAsync(string status, FiltrosDto filtrosDto)
         {
             var statusPago = status.ToUpper() == "PAGO";
             var token = _tokenApiKey;
             var filtrosDtoPadrao = AplicarFiltrosPadrao(filtrosDto);
             var uri = _options.VExpenseReport.Replace("{status}", status);
 
-            var reports = await _vExpensesApi.GetReportsByStatusAsync(status, filtrosDtoPadrao, token, uri, statusPago);
+            var reports = await _vExpensesApi.BuscarRelatorioPorStatusAsync(status, filtrosDtoPadrao, token, uri, statusPago);
 
             return reports.Select(r => new ReportDto
             {
@@ -52,7 +52,7 @@ namespace PARS.Inhouse.Systems.Application.Services
                 ExcelLink = r.ExcelLink,
                 CreatedAt = r.CreatedAt,
                 UpdatedAt = r.UpdatedAt,
-                expenses = MapToDto(r.Expenses)
+                expenses = MapearDtoResponse(r.Expenses)
             }).ToList();
         }
 
@@ -72,7 +72,7 @@ namespace PARS.Inhouse.Systems.Application.Services
                    $"searchFields={FormatarCampo(filtros.SearchField)}&searchJoin={FormatarCampo(filtros.SearchJoin)}";
         }
 
-        private ExpenseContainerDto MapToDto(ExpenseContainerResponse expenseContainer)
+        private ExpenseContainerDto MapearDtoResponse(ExpenseContainerResponse expenseContainer)
         {
             return new ExpenseContainerDto
             {

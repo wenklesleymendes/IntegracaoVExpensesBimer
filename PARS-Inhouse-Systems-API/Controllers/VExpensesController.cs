@@ -26,14 +26,14 @@ namespace PARS_Inhouse_Systems_API.Controllers
         /// Obtém relatórios filtrados por status e parâmetros adicionais.
         /// </summary>
         [HttpGet("Relatorio")]
-        public async Task<IActionResult> GetReportsByStatus(
+        public async Task<IActionResult> BuscarRelatoriPorStatus(
             [FromQuery, DefaultValue(ReportStatus.APROVADO)] ReportStatus status,
             [FromQuery] FiltrosDto filtros
         )
         {
             try
             {
-                var reports = await _vExpensesService.GetReportsByStatusAsync(
+                var reports = await _vExpensesService.BuscarRelatorioPorStatusAsync(
                     status.ToString().ToUpperInvariant(),
                     filtros
                 );

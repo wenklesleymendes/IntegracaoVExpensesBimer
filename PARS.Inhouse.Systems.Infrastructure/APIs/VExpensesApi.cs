@@ -23,7 +23,7 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
             _httpClient = httpClient;
         }
 
-        public async Task<List<Report>> GetReportsByStatusAsync(string status, string filtrosJson, string token, string uri, bool statusPago)
+        public async Task<List<Report>> BuscarRelatorioPorStatusAsync(string status, string filtrosJson, string token, string uri, bool statusPago)
         {
             try
             {
@@ -75,64 +75,64 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
                 });
 
                 var responseData = result?.data?.Select(dto => Report.Create(
-                dto.id,
-                dto.external_id,
-                dto.user_id,
-                dto.device_id,
-                dto.description,
-                dto.status,
-                dto.approval_stage_id,
-                dto.approval_user_id,
-                dto.GetApprovalDate(),
-                dto.GetPaymentDate(),
-                dto.payment_method_id,
-                dto.observation,
-                dto.paying_company_id,
-                dto.on,
-                dto.justification,
-                dto.pdf_link?.ToString(),
-                dto.excel_link?.ToString(),
-                dto.created_at,
-                dto.updated_at,
-                new ExpenseContainerResponse
-                {
-                    data = dto.expenses?.data?.Select(exp => Expense.Create(
-                    exp.id,
-                    exp.user_id,
-                    exp.expense_id,
-                    exp.device_id,
-                    exp.integration_id,
-                    exp.external_id,
-                    exp.mileage,
-                    exp.date,
-                    exp.expense_type_id,
-                    exp.payment_method_id,
-                    exp.paying_company_id,
-                    exp.course_id,
-                    exp.reicept_url,
-                    exp.value,
-                    exp.title,
-                    exp.validate,
-                    exp.reimbursable,
-                    exp.observation,
-                    exp.rejected,
-                    exp.on,
-                    exp.mileage_value,
-                    exp.original_currency_iso,
-                    exp.exchange_rate,
-                    exp.converted_value,
-                    exp.converted_currency_iso,
-                    exp.created_at,
-                    exp.updated_at
-                    )).ToList() ?? new List<Expense>()
-                }
+                    dto.id,
+                    dto.external_id,
+                    dto.user_id,
+                    dto.device_id,
+                    dto.description,
+                    dto.status,
+                    dto.approval_stage_id,
+                    dto.approval_user_id,
+                    dto.GetApprovalDate(),
+                    dto.GetPaymentDate(),
+                    dto.payment_method_id,
+                    dto.observation,
+                    dto.paying_company_id,
+                    dto.on,
+                    dto.justification,
+                    dto.pdf_link?.ToString(),
+                    dto.excel_link?.ToString(),
+                    dto.created_at,
+                    dto.updated_at,
+                    new ExpenseContainerResponse
+                    {
+                        data = dto.expenses?.data?.Select(exp => Expense.Create(
+                        exp.id,
+                        exp.user_id,
+                        exp.expense_id,
+                        exp.device_id,
+                        exp.integration_id,
+                        exp.external_id,
+                        exp.mileage,
+                        exp.date,
+                        exp.expense_type_id,
+                        exp.payment_method_id,
+                        exp.paying_company_id,
+                        exp.course_id,
+                        exp.reicept_url,
+                        exp.value,
+                        exp.title,
+                        exp.validate,
+                        exp.reimbursable,
+                        exp.observation,
+                        exp.rejected,
+                        exp.on,
+                        exp.mileage_value,
+                        exp.original_currency_iso,
+                        exp.exchange_rate,
+                        exp.converted_value,
+                        exp.converted_currency_iso,
+                        exp.created_at,
+                        exp.updated_at
+                        )).ToList() ?? new List<Expense>()
+                    }
                 )).ToList() ?? new List<Report>();
 
                 if (status == "APROVADO")
                 {
                     var json = JsonConvert.SerializeObject(responseData);
 
-                    SalvarListaAprovados(json);
+                    await AtualizarListasAprovados(json);
                 }
 
                 return responseData;
@@ -150,6 +150,42 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
                 throw new BusinessException($"Erro inesperado ao buscar relatórios: {ex.Message}");
             }
         }
+
+        public async Task AtualizarListasAprovados(string responseData)
+        {
+            try
+            {
+                string caminhoPayload = Path.Combine(GetSolutionRootDirectory(), "PARS.Inhouse.Systems.Infrastructure", "Data", "Payload");
+                string caminhoArquivoListaAprovado = Path.Combine(caminhoPayload, "ListaDeAprovados.json");
+                string caminhoArquivoReavaliacao = Path.Combine(caminhoPayload, "ReavaliacaoAprovados.json");
+
+                var novaListaAprovados = JsonConvert.DeserializeObject<List<VExpenseResponse>>(responseData) ?? new List<VExpenseResponse>();
+                List<VExpenseResponse> listaAntiga = new();
+                List<VExpenseResponse> listaRemovidos = new();
+
+                if (File.Exists(caminhoArquivoListaAprovado))
+                {
+                    string jsonSalvo = await File.ReadAllTextAsync(caminhoArquivoListaAprovado);
+                    listaAntiga = JsonConvert.DeserializeObject<List<VExpenseResponse>>(jsonSalvo) ?? new List<VExpenseResponse>();
+
+                    listaRemovidos = listaAntiga.Where(antigo => !novaListaAprovados.Any(novo => novo.id == antigo.id)).ToList();
+                }
+
+                if (listaRemovidos.Any())
+                {
+                    string jsonRemovidos = JsonConvert.SerializeObject(listaRemovidos, Formatting.Indented);
+                    await File.WriteAllTextAsync(caminhoArquivoReavaliacao, jsonRemovidos);
+                }
+
+                string jsonAtualizado = JsonConvert.SerializeObject(novaListaAprovados, Formatting.Indented);
+                await File.WriteAllTextAsync(caminhoArquivoListaAprovado, jsonAtualizado);
+            }
+            catch (Exception ex)
+            {
+                throw new BusinessException($"Erro ao atualizar lista de aprovados: {ex.Message}");
+            }
+        }
+
 
         public async Task SalvarListaAprovados(string responseData)
         {
@@ -170,6 +206,8 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
                     {
                         houveAlteracao = true;
                     }
+
+                    
 
                     if (houveAlteracao)
                     {
