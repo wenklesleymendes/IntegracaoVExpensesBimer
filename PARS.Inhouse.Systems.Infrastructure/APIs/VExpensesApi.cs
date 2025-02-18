@@ -11,6 +11,7 @@ using PARS.Inhouse.Systems.Domain.Entities.Vexpense.Response;
 using PARS.Inhouse.Systems.Domain.Entities.Vexpense;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Converters;
 
 namespace PARS.Inhouse.Systems.Infrastructure.APIs
 {
@@ -173,11 +174,41 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
 
                 if (listaRemovidos.Any())
                 {
-                    string jsonRemovidos = JsonConvert.SerializeObject(listaRemovidos, Formatting.Indented);
-                    await File.WriteAllTextAsync(caminhoArquivoReavaliacao, jsonRemovidos);
+                    // Carregar a lista de reavaliação existente, se houver
+                    List<VExpenseResponse> listaReavaliacao = new();
+                    if (File.Exists(caminhoArquivoReavaliacao))
+                    {
+                        string jsonReavaliacao = await File.ReadAllTextAsync(caminhoArquivoReavaliacao);
+                        listaReavaliacao = JsonConvert.DeserializeObject<List<VExpenseResponse>>(jsonReavaliacao) ?? new List<VExpenseResponse>();
+                    }
+
+                    // Adicionar itens removidos, evitando duplicatas
+                    foreach (var item in listaRemovidos)
+                    {
+                        if (!listaReavaliacao.Any(reav => reav.id == item.id))
+                        {
+                            listaReavaliacao.Add(item);
+                        }
+                    }
+
+                    // Remover da lista de reavaliação os itens que já estão na nova lista de aprovados
+                    listaReavaliacao = listaReavaliacao
+                        .Where(reav => !novaListaAprovados.Any(aprov => aprov.id == reav.id && JsonConvert.SerializeObject(aprov) == JsonConvert.SerializeObject(reav)))
+                        .ToList();
+
+                    var jsonReavaliacaoAtualizada = JsonConvert.SerializeObject(listaReavaliacao, Formatting.Indented, new JsonSerializerSettings
+                    {
+                        Converters = { new StringEnumConverter() }
+                    });
+
+                    await File.WriteAllTextAsync(caminhoArquivoReavaliacao, jsonReavaliacaoAtualizada);
                 }
 
-                string jsonAtualizado = JsonConvert.SerializeObject(novaListaAprovados, Formatting.Indented);
+                var jsonAtualizado = JsonConvert.SerializeObject(novaListaAprovados, Formatting.Indented, new JsonSerializerSettings
+                {
+                    Converters = { new StringEnumConverter() }
+                });
+
                 await File.WriteAllTextAsync(caminhoArquivoListaAprovado, jsonAtualizado);
             }
             catch (Exception ex)
@@ -206,8 +237,6 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
                     {
                         houveAlteracao = true;
                     }
-
-                    
 
                     if (houveAlteracao)
                     {
