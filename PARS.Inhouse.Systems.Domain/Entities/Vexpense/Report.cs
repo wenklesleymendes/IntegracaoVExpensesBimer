@@ -1,5 +1,5 @@
 ﻿using PARS.Inhouse.Systems.Domain.Entities.Vexpense.Response;
-using PARS.Inhouse.Systems.Shared.Enums;
+using PARS.Inhouse.Systems.Shared.Enums.Vexpenses;
 
 namespace PARS.Inhouse.Systems.Domain.Entities.vexpense
 {

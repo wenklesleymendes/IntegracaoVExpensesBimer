@@ -1,4 +1,4 @@
-﻿using PARS.Inhouse.Systems.Shared.Enums;
+﻿using PARS.Inhouse.Systems.Shared.Enums.Vexpenses;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
 

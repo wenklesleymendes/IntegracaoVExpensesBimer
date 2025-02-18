@@ -4,7 +4,7 @@ using Microsoft.Extensions.Options;
 using PARS.Inhouse.Systems.Application.Configurations;
 using PARS.Inhouse.Systems.Application.DTOs.Request.Vexpense;
 using PARS.Inhouse.Systems.Application.Interfaces;
-using PARS.Inhouse.Systems.Shared.Enums;
+using PARS.Inhouse.Systems.Shared.Enums.Vexpenses;
 using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
