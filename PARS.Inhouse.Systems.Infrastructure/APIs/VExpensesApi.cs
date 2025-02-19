@@ -25,14 +25,13 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public async Task<IReadOnlyList<Report>> BuscarRelatorioPorStatusAsync(ReportStatus status, FiltrosDto filtros)
+        public async Task<IReadOnlyList<Report>> BuscarRelatorioPorStatusAsync(string status, string uri, string token, FiltrosDto filtros)
         {
             try
             {
-                var uri = "/vexpenses/reports";
                 var queryString = GerarQueryString(filtros);
                 var requestMessage = new HttpRequestMessage(HttpMethod.Get, $"{uri}?{queryString}");
-                requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", "TOKEN_AQUI");
+                requestMessage.Headers.Authorization = new AuthenticationHeaderValue(token);
                 requestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                 var response = await _httpClient.SendAsync(requestMessage);

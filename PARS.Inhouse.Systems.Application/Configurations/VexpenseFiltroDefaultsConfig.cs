@@ -4,9 +4,9 @@ namespace PARS.Inhouse.Systems.Application.Configurations
 {
     public class VexpenseFiltroDefaultsConfig
     {
-        public string Include { get; set; } = FiltroInclude.Expenses.ToString();
+        public string Include { get; set; } = FiltroInclude.expenses.ToString();
         public string Search { get; set; } = "";
-        public string SearchField { get; set; } = FiltroSearchField.ApprovalDateBetween.ToString();
-        public string SearchJoin { get; set; } = FiltroSearchJoin.And.ToString();
+        public string SearchField { get; set; } = FiltroSearchField.approval_date_between.ToString();
+        public string SearchJoin { get; set; } = FiltroSearchJoin.and.ToString();
     }
 }

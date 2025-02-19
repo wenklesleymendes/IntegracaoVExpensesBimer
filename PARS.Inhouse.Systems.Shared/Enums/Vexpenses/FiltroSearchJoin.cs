@@ -13,12 +13,12 @@ namespace PARS.Inhouse.Systems.Shared.Enums.Vexpenses
         /// Operador lógico AND (and).
         /// </summary>
         [EnumMember(Value = "and")]
-        And,
+        and,
 
         /// <summary>
         /// Operador lógico OR (or).
         /// </summary>
         [EnumMember(Value = "or")]
-        Or
+        or
     }
 }

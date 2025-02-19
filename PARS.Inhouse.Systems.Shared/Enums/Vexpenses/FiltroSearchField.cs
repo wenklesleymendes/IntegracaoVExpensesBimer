@@ -13,18 +13,18 @@ namespace PARS.Inhouse.Systems.Shared.Enums.Vexpenses
         /// Filtra por intervalo de datas de aprovação (approval_date_between).
         /// </summary>
         [EnumMember(Value = "approval_date_between")]
-        ApprovalDateBetween,
+        approval_date_between,
 
         /// <summary>
         /// Filtra por intervalo de datas de pagamento (payment_date_between).
         /// </summary>
         [EnumMember(Value = "payment_date_between")]
-        PaymentDateBetween,
+        payment_date_between,
 
         /// <summary>
         /// Filtra pela data de criação (created_at).
         /// </summary>
         [EnumMember(Value = "created_at")]
-        CreatedAt
+        created_at
     }
 }

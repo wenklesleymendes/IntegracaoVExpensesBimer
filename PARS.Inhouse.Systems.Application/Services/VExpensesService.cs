@@ -28,9 +28,8 @@ namespace PARS.Inhouse.Systems.Application.Services
             var token = _tokenApiKey;
             var filtrosDtoPadrao = AplicarFiltrosPadrao(filtrosDto);
             var uri = _options.VExpenseReport.Replace("{status}", status);
-            var statusEnum = statusPago ? ReportStatus.Aprovado : ReportStatus.Pago;
 
-            var reports = await _vExpensesApi.BuscarRelatorioPorStatusAsync(statusEnum, filtrosDtoPadrao);
+            var reports = await _vExpensesApi.BuscarRelatorioPorStatusAsync(status, uri, token, filtrosDtoPadrao);
 
             return reports.Select(r => new ReportDto
             {
@@ -61,9 +60,9 @@ namespace PARS.Inhouse.Systems.Application.Services
         {
             return new FiltrosDto
             {
-                SearchField = filtrosDto.SearchField != default ? filtrosDto.SearchField : FiltroSearchField.ApprovalDateBetween,
+                SearchField = filtrosDto.SearchField != default ? filtrosDto.SearchField : FiltroSearchField.approval_date_between,
                 Search = !string.IsNullOrEmpty(filtrosDto.Search) ? filtrosDto.Search : "",
-                SearchJoin = filtrosDto.SearchJoin != default ? filtrosDto.SearchJoin : FiltroSearchJoin.And
+                SearchJoin = filtrosDto.SearchJoin != default ? filtrosDto.SearchJoin : FiltroSearchJoin.and
             };
         }
 

@@ -22,34 +22,34 @@ namespace PARS.Inhouse.Systems.Shared.Enums.Vexpenses
         /// </summary>
         [EnumMember(Value = "APROVADO")]
         [Description("Relatório aprovado.")]
-        Aprovado,
+        APROVADO,
 
         /// <summary>
         /// O relatório foi reprovado.
         /// </summary>
         [EnumMember(Value = "REPROVADO")]
         [Description("Relatório reprovado.")]
-        Reprovado,
+        REPROVADO,
 
         /// <summary>
         /// O relatório foi reaberto.
         /// </summary>
         [EnumMember(Value = "REABERTO")]
         [Description("Relatório reaberto.")]
-        Reaberto,
+        REABERTO,
 
         /// <summary>
         /// O relatório foi pago.
         /// </summary>
         [EnumMember(Value = "PAGO")]
         [Description("Relatório pago.")]
-        Pago,
+        PAGO,
 
         /// <summary>
         /// O relatório foi enviado.
         /// </summary>
         [EnumMember(Value = "ENVIADO")]
         [Description("Relatório enviado.")]
-        Enviado
+        ENVIADO
     }
 }

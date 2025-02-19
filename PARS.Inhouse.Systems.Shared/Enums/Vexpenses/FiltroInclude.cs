@@ -13,18 +13,18 @@ namespace PARS.Inhouse.Systems.Shared.Enums.Vexpenses
         /// Incluir despesas (expenses).
         /// </summary>
         [EnumMember(Value = "expenses")]
-        Expenses,
+        expenses,
 
         /// <summary>
         /// Incluir usuários (users).
         /// </summary>
         [EnumMember(Value = "users")]
-        Users,
+        users,
 
         /// <summary>
         /// Incluir transações (transactions).
         /// </summary>
         [EnumMember(Value = "transactions")]
-        Transactions
+        transactions
     }
 }
