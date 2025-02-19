@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using PARS.Inhouse.Systems.Application.Configurations;
-using PARS.Inhouse.Systems.Application.DTOs.Request.Bimer;
-using PARS.Inhouse.Systems.Application.DTOs.Response.Bimer;
 using PARS.Inhouse.Systems.Application.Interfaces;
 using PARS.Inhouse.Systems.Infrastructure.Interfaces;
+using PARS.Inhouse.Systems.Shared.DTOs.Request.Bimer;
+using PARS.Inhouse.Systems.Shared.DTOs.Response.Bimer;
 using System.Text.Json;
 
 namespace PARS.Inhouse.Systems.Application.Services

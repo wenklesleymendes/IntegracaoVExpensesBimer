@@ -1,9 +1,20 @@
-﻿using PARS.Inhouse.Systems.Domain.Entities.vexpense;
+﻿using PARS.Inhouse.Systems.Application.DTOs.Request.Vexpense;
+using PARS.Inhouse.Systems.Domain.Entities.vexpense;
+using PARS.Inhouse.Systems.Shared.Enums.Vexpenses;
 
 namespace PARS.Inhouse.Systems.Infrastructure.Interfaces
 {
+    /// <summary>
+    /// Interface para comunicação com a API VExpenses.
+    /// </summary>
     public interface IVExpensesApi
     {
-        Task<List<Report>> BuscarRelatorioPorStatusAsync(string status, string filtros, string token, string uri, bool statusPago);
+        /// <summary>
+        /// Busca relatórios filtrados pelo status e filtros adicionais.
+        /// </summary>
+        /// <param name="status">Status do relatório.</param>
+        /// <param name="filtros">Objeto contendo os filtros de pesquisa.</param>
+        /// <returns>Lista de relatórios encontrados.</returns>
+        Task<IReadOnlyList<Report>> BuscarRelatorioPorStatusAsync(ReportStatus status, FiltrosDto filtros);
     }
 }

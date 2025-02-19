@@ -1,4 +1,4 @@
-﻿namespace PARS.Inhouse.Systems.Application.DTOs.Request.Bimer
+﻿namespace PARS.Inhouse.Systems.Shared.DTOs.Request.Bimer
 {
     public class ReauthenticateRequestDto
     {

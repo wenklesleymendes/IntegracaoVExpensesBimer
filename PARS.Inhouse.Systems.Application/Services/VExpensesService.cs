@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.Options;
 using PARS.Inhouse.Systems.Application.Configurations;
 using PARS.Inhouse.Systems.Application.DTOs.Request.Vexpense;
-using PARS.Inhouse.Systems.Application.DTOs.Response.Vexpense;
 using PARS.Inhouse.Systems.Application.Interfaces;
 using PARS.Inhouse.Systems.Domain.Entities.Vexpense.Response;
 using PARS.Inhouse.Systems.Infrastructure.Interfaces;
+using PARS.Inhouse.Systems.Shared.DTOs.Response.Vexpense;
 using PARS.Inhouse.Systems.Shared.Enums.Vexpenses;
 
 namespace PARS.Inhouse.Systems.Application.Services
@@ -28,8 +28,9 @@ namespace PARS.Inhouse.Systems.Application.Services
             var token = _tokenApiKey;
             var filtrosDtoPadrao = AplicarFiltrosPadrao(filtrosDto);
             var uri = _options.VExpenseReport.Replace("{status}", status);
+            var statusEnum = statusPago ? ReportStatus.Aprovado : ReportStatus.Pago;
 
-            var reports = await _vExpensesApi.BuscarRelatorioPorStatusAsync(status, filtrosDtoPadrao, token, uri, statusPago);
+            var reports = await _vExpensesApi.BuscarRelatorioPorStatusAsync(statusEnum, filtrosDtoPadrao);
 
             return reports.Select(r => new ReportDto
             {
@@ -56,20 +57,14 @@ namespace PARS.Inhouse.Systems.Application.Services
             }).ToList();
         }
 
-
-
-        private string AplicarFiltrosPadrao(FiltrosDto filtrosDto)
+        private FiltrosDto AplicarFiltrosPadrao(FiltrosDto filtrosDto)
         {
-            var filtros = new FiltrosDto
+            return new FiltrosDto
             {
-                Include = filtrosDto.Include != default ? filtrosDto.Include : FiltroInclude.expenses,
+                SearchField = filtrosDto.SearchField != default ? filtrosDto.SearchField : FiltroSearchField.ApprovalDateBetween,
                 Search = !string.IsNullOrEmpty(filtrosDto.Search) ? filtrosDto.Search : "",
-                SearchField = filtrosDto.SearchField != default ? filtrosDto.SearchField : FiltroSearchField.approval_date_between,
-                SearchJoin = filtrosDto.SearchJoin != default ? filtrosDto.SearchJoin : FiltroSearchJoin.and
+                SearchJoin = filtrosDto.SearchJoin != default ? filtrosDto.SearchJoin : FiltroSearchJoin.And
             };
-
-            return $"include={filtros.Include.ToString().ToLower()}&search={Uri.EscapeDataString(filtros.Search)}&" +
-                   $"searchFields={FormatarCampo(filtros.SearchField)}&searchJoin={FormatarCampo(filtros.SearchJoin)}";
         }
 
         private ExpenseContainerDto MapearDtoResponse(ExpenseContainerResponse expenseContainer)

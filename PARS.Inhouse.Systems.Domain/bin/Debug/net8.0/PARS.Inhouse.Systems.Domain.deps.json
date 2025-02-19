@@ -16,7 +16,10 @@
       },
       "PARS.Inhouse.Systems.Shared/1.0.0": {
         "runtime": {
-          "PARS.Inhouse.Systems.Shared.dll": {}
+          "PARS.Inhouse.Systems.Shared.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       }
     }

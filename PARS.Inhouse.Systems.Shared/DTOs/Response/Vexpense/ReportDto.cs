@@ -1,7 +1,6 @@
-﻿using PARS.Inhouse.Systems.Domain.Entities.vexpense;
-using PARS.Inhouse.Systems.Shared.Enums.Vexpenses;
+﻿using PARS.Inhouse.Systems.Shared.Enums.Vexpenses;
 
-namespace PARS.Inhouse.Systems.Application.DTOs.Response.Vexpense
+namespace PARS.Inhouse.Systems.Shared.DTOs.Response.Vexpense
 {
     public class ReportDto
     {

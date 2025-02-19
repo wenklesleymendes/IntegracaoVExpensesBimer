@@ -38,14 +38,14 @@ namespace PARS_Inhouse_Systems_API.Controllers
         /// <returns>Lista de relatórios filtrados.</returns>
         [HttpGet("Relatorio")]
         public async Task<IActionResult> BuscarRelatorioPorStatus(
-            [FromQuery, DefaultValue(ReportStatus.APROVADO)] ReportStatus status,
+            [FromQuery, DefaultValue(ReportStatus.Aprovado)] ReportStatus status,
             [FromQuery] FiltrosDto filtros)
         {
             try
             {
                 _logger.LogInformation("Buscando relatórios com status: {Status}", status);
 
-                string statusString = Enum.GetName(typeof(ReportStatus), status) ?? ReportStatus.APROVADO.ToString();
+                string statusString = Enum.GetName(typeof(ReportStatus), status) ?? ReportStatus.Aprovado.ToString();
 
                 var reports = await _vExpensesService.BuscarRelatorioPorStatusAsync(statusString, filtros);
 

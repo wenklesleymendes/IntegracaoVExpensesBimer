@@ -6,20 +6,20 @@ namespace PARS.Inhouse.Systems.Application.DTOs.Request.Vexpense
 {
     public class FiltrosDto
     {
-        [DefaultValue(FiltroInclude.expenses)]
+        [DefaultValue(FiltroInclude.Expenses)]
         [JsonConverter(typeof(JsonStringEnumConverter))]
-        public FiltroInclude Include { get; set; } = FiltroInclude.expenses;
+        public FiltroInclude Include { get; set; } = FiltroInclude.Expenses;
 
         [DefaultValue("")]
         public string? Search { get; set; } = "";
 
-        [DefaultValue(FiltroSearchField.approval_date_between)]
+        [DefaultValue(FiltroSearchField.ApprovalDateBetween)]
         [JsonConverter(typeof(JsonStringEnumConverter))]
-        public FiltroSearchField SearchField { get; set; } = FiltroSearchField.approval_date_between;
+        public FiltroSearchField SearchField { get; set; } = FiltroSearchField.ApprovalDateBetween;
 
-        [DefaultValue(FiltroSearchJoin.and)]
+        [DefaultValue(FiltroSearchJoin.And)]
         [JsonConverter(typeof(JsonStringEnumConverter))]
-        public FiltroSearchJoin SearchJoin { get; set; } = FiltroSearchJoin.and;
+        public FiltroSearchJoin SearchJoin { get; set; } = FiltroSearchJoin.And;
 
         public string ConstruirFiltro()
         {

@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+﻿using System.Text.Json.Serialization;
 
-namespace PARS.Inhouse.Systems.Application.DTOs.Response.Vexpense
+namespace PARS.Inhouse.Systems.Shared.DTOs.Response.Vexpense
 {
 
     public class ExpenseContainerDto

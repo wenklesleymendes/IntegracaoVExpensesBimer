@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PARS.Inhouse.Systems.Application.DTOs.Request.Bimer;
 using PARS.Inhouse.Systems.Application.Interfaces;
+using PARS.Inhouse.Systems.Shared.DTOs.Request.Bimer;
 
 namespace PARS_Inhouse_Systems_API.Controllers
 {
