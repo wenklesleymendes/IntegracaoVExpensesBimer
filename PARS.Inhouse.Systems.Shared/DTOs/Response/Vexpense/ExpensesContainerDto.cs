@@ -6,117 +6,84 @@ namespace PARS.Inhouse.Systems.Shared.DTOs.Response.Vexpense
     public class ExpenseContainerDto
     {
         [JsonPropertyName("data")]
-        public List<ExpenseDto> Data { get; set; } = new();
+        public List<ExpenseDto>? data { get; set; } = new();
     }
 
     public class ExpenseDto
     {
-        [JsonPropertyName("id")]
-        public int? Id { get; set; }
+        public int id { get; set; }
+        public int? user_id { get; set; }
+        public int? expense_id { get; set; }
+        public int? device_id { get; set; }
+        public int? integration_id { get; set; }
+        public int? external_id { get; set; }
+        public string? mileage { get; set; }
 
-        [JsonPropertyName("user_id")]
-        public int? UserId { get; set; }
+        [JsonConverter(typeof(CustomDateTimeConverter))]
+        public DateTime? date { get; set; }
+        public int? expense_type_id { get; set; }
+        public int? payment_method_id { get; set; }
+        public int? paying_company_id { get; set; }
+        public int? course_id { get; set; }
+        public string? reicept_url { get; set; }
+        public decimal? value { get; set; }
+        public string title { get; set; }
+        public string validate { get; set; }
+        public bool? reimbursable { get; set; }
+        public string observation { get; set; }
+        public int? rejected { get; set; }
+        public bool? on { get; set; }
+        public string? mileage_value { get; set; }
+        public string original_currency_iso { get; set; }
+        public decimal? exchange_rate { get; set; }
+        public decimal? converted_value { get; set; }
+        public string? converted_currency_iso { get; set; }
 
-        [JsonPropertyName("expense_id")]
-        public int? ExpenseId { get; set; }
+        [JsonConverter(typeof(CustomDateTimeConverter))]
+        public DateTime? created_at { get; set; }
 
-        [JsonPropertyName("device_id")]
-        public int? DeviceId { get; set; }
+        [JsonConverter(typeof(CustomDateTimeConverter))]
+        public DateTime? updated_at { get; set; }
 
-        [JsonPropertyName("integration_id")]
-        public int? IntegrationId { get; set; }
-
-        [JsonPropertyName("external_id")]
-        public int? ExternalId { get; set; }
-
-        [JsonPropertyName("mileage")]
-        public string? Mileage { get; set; }
-
-        [JsonPropertyName("date")]
-        public DateTime? Date { get; set; }
-
-        [JsonPropertyName("expense_type_id")]
-        public int? ExpenseTypeId { get; set; }
-
-        [JsonPropertyName("payment_method_id")]
-        public int? PaymentMethodId { get; set; }
-
-        [JsonPropertyName("paying_company_id")]
-        public int? PayingCompanyId { get; set; }
-
-        [JsonPropertyName("course_id")]
-        public int? CourseId { get; set; }
-
-        [JsonPropertyName("reicept_url")]
-        public string? ReceiptUrl { get; set; }
-
-        [JsonPropertyName("value")]
-        public decimal? Value { get; set; }
-
-        [JsonPropertyName("title")]
-        public string? Title { get; set; } = string.Empty;
-
-        [JsonPropertyName("validate")]
-        public string? Validate { get; set; } = string.Empty;
-
-        [JsonPropertyName("reimbursable")]
-        public bool? Reimbursable { get; set; }
-
-        [JsonPropertyName("observation")]
-        public string? Observation { get; set; } = string.Empty;
-
-        [JsonPropertyName("rejected")]
-        public int? Rejected { get; set; }
-
-        [JsonPropertyName("on")]
-        public bool? On { get; set; }
-
-        [JsonPropertyName("mileage_value")]
-        public string? MileageValue { get; set; }
-
-        [JsonPropertyName("original_currency_iso")]
-        public string? OriginalCurrencyIso { get; set; } = "BRL";
-
-        [JsonPropertyName("exchange_rate")]
-        public decimal? ExchangeRate { get; set; } = 1;
-
-        [JsonPropertyName("converted_value")]
-        public decimal? ConvertedValue { get; set; }
-
-        [JsonPropertyName("converted_currency_iso")]
-        public string? ConvertedCurrencyIso { get; set; } = "BRL";
-
-        [JsonPropertyName("created_at")]
-        public DateTime? CreatedAt { get; set; }
-
-        [JsonPropertyName("updated_at")]
-        public DateTime? UpdatedAt { get; set; }
 
         public ExpenseDto()
         {
         }
 
-        public static ExpenseDto Create(int? id, int? userId, int? expenseId, int value, string title, int expenseTypeId, int paymentMethodId,
-                                     int payingCompanyId, bool reimbursable, DateTime? date, string? observation, string? receiptUrl,
-                                     decimal exchangeRate, string originalCurrencyIso, string convertedCurrencyIso)
+        public static ExpenseDto Create(int id, int? user_id, int? expense_id, int? device_id, int? integration_id, int? external_id, string? mileage, DateTime? date,
+            int? expense_type_id, int? payment_method_id, int? paying_company_id, int? course_id, string? receipt_url, decimal? value, string title, string? validade,
+            bool? reimbursable, string? observation, int? rejected, bool? on, string? mileage_value, string original_currency_iso,
+            decimal? exchange_rate, decimal? converted_value, string converted_currency_iso, DateTime? created_at, DateTime? updated_at)
         {
             var expense = new ExpenseDto()
             {
-                Id = id,
-                UserId = userId,
-                ExpenseId = expenseId,
-                Value = value,
-                Title = title,
-                ExpenseTypeId = expenseTypeId,
-                PaymentMethodId = paymentMethodId,
-                PayingCompanyId = payingCompanyId,
-                Reimbursable = reimbursable,
-                Date = date ?? DateTime.UtcNow,
-                Observation = observation,
-                ReceiptUrl = receiptUrl,
-                ExchangeRate = exchangeRate,
-                OriginalCurrencyIso = originalCurrencyIso,
-                ConvertedCurrencyIso = convertedCurrencyIso
+                id = id,
+                user_id = user_id,
+                expense_id = expense_id,
+                device_id = device_id,
+                integration_id = integration_id,
+                external_id = external_id,
+                mileage = mileage,
+                date = date ?? DateTime.UtcNow,
+                expense_type_id = expense_type_id,
+                payment_method_id = payment_method_id,
+                paying_company_id = paying_company_id,
+                course_id = course_id,
+                reicept_url = receipt_url,
+                value = value,
+                title = title,
+                validate = validade,
+                reimbursable = reimbursable,
+                observation = observation,
+                rejected = rejected,
+                on = on,
+                mileage_value = mileage_value,
+                original_currency_iso = original_currency_iso,
+                exchange_rate = exchange_rate,
+                converted_value = converted_value,
+                converted_currency_iso = converted_currency_iso,
+                created_at = created_at,
+                updated_at = updated_at
             };
 
 
@@ -127,26 +94,26 @@ namespace PARS.Inhouse.Systems.Shared.DTOs.Response.Vexpense
         {
             if (string.IsNullOrWhiteSpace(title))
                 throw new ArgumentException("O título da despesa não pode estar vazio.");
-            Title = title;
+            this.title = title;
         }
 
         public void SetValue(int? value)
         {
             if (value <= 0)
                 throw new ArgumentException("O valor da despesa deve ser maior que zero.");
-            Value = value;
+            this.value = value;
         }
 
         public void SetObservation(string? observation)
         {
-            Observation = observation ?? string.Empty;
+            this.observation = observation ?? string.Empty;
         }
 
         public void SetReceiptUrl(string? url)
         {
             if (url != null && !Uri.IsWellFormedUriString(url, UriKind.Absolute))
                 throw new ArgumentException("A URL do recibo não é válida.");
-            ReceiptUrl = url;
+            reicept_url = url;
         }
 
         public void SetExchangeRate(decimal exchangeRate, string originalCurrency, string convertedCurrency)
@@ -154,13 +121,13 @@ namespace PARS.Inhouse.Systems.Shared.DTOs.Response.Vexpense
             if (exchangeRate <= 0)
                 throw new ArgumentException("A taxa de câmbio deve ser maior que zero.");
 
-            ExchangeRate = exchangeRate;
-            OriginalCurrencyIso = originalCurrency;
-            ConvertedCurrencyIso = convertedCurrency;
-            ConvertedValue = Value * exchangeRate;
+            exchange_rate = exchangeRate;
+            original_currency_iso = originalCurrency;
+            converted_currency_iso = convertedCurrency;
+            converted_value = value * exchangeRate;
         }
 
-        public static ExpenseDto Create(int? id, int? userId, int? expenseId, int? deviceId,
+        public static ExpenseDto Create(int id, int? userId, int? expenseId, int? deviceId,
             int? integrationId, int? externalId, decimal? mileage, DateTime? date,
             int? expenseTypeId, int? paymentMethodId, int? payingCompanyId,
             int? courseId, string? receiptUrl, int? value, string? title, string? validate,
@@ -171,23 +138,23 @@ namespace PARS.Inhouse.Systems.Shared.DTOs.Response.Vexpense
         {
             var expense = new ExpenseDto()
             {
-                Id = id,
-                UserId = userId,
-                ExpenseId = expenseId,
-                Value = value,
-                Title = title,
-                ExpenseTypeId = expenseTypeId,
-                PaymentMethodId = paymentMethodId,
-                PayingCompanyId = payingCompanyId,
-                Reimbursable = reimbursable,
-                Date = date ?? DateTime.UtcNow,
-                Observation = observation,
-                ReceiptUrl = receiptUrl,
-                ExchangeRate = exchangeRate,
-                OriginalCurrencyIso = originalCurrencyIso,
-                ConvertedCurrencyIso = convertedCurrencyIso,
-                CreatedAt = createdAt,
-                UpdatedAt = updatedAt
+                id = id,
+                user_id = userId,
+                expense_id = expenseId,
+                value = value,
+                title = title,
+                expense_type_id = expenseTypeId,
+                payment_method_id = paymentMethodId,
+                paying_company_id = payingCompanyId,
+                reimbursable = reimbursable,
+                date = date ?? DateTime.UtcNow,
+                observation = observation,
+                reicept_url = receiptUrl,
+                exchange_rate = exchangeRate,
+                original_currency_iso = originalCurrencyIso,
+                converted_currency_iso = convertedCurrencyIso,
+                created_at = createdAt,
+                updated_at = updatedAt
             };
 
 

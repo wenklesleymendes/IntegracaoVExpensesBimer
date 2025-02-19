@@ -29,30 +29,38 @@ namespace PARS.Inhouse.Systems.Application.Services
             var filtrosDtoPadrao = AplicarFiltrosPadrao(filtrosDto);
             var uri = _options.VExpenseReport.Replace("{status}", status);
 
-            var reports = await _vExpensesApi.BuscarRelatorioPorStatusAsync(status, uri, token, filtrosDtoPadrao);
+            IReadOnlyList<ReportDto>? reports;
+            if (statusPago)
+            {
+                reports = await _vExpensesApi.BuscarRelatorioPorStatusPagoAsync(uri, token);
+            }
+            else
+            {
+                reports = await _vExpensesApi.BuscarRelatorioPorStatusAsync(status, uri, token, filtrosDtoPadrao);
+            }
 
             return reports.Select(r => new ReportDto
             {
-                Id = r.Id,
-                ExternalId = r.ExternalId,
-                UserId = r.UserId,
-                DeviceId = r.DeviceId,
-                Description = r.Description,
-                Status = r.Status,
-                ApprovalStageId = r.ApprovalStageId,
-                ApprovalUserId = r.ApprovalUserId,
-                ApprovalDate = r.ApprovalDate,
-                PaymentDate = r.PaymentDate,
-                PaymentMethodId = r.PaymentMethodId,
-                Observation = r.Observation,
-                PayingCompanyId = r.PayingCompanyId,
-                On = r.On,
-                Justification = r.Justification,
-                PdfLink = r.PdfLink,
-                ExcelLink = r.ExcelLink,
-                CreatedAt = r.CreatedAt,
-                UpdatedAt = r.UpdatedAt,
-                expenses = MapearDtoResponse(r.Expenses)
+                id = r.id,
+                external_id = r.external_id,
+                user_id = r.user_id,
+                device_id = r.device_id,
+                description = r.description,
+                status = r.status,
+                approval_stage_id = r.approval_stage_id,
+                approval_user_id = r.approval_user_id,
+                approval_date = r.approval_date,
+                payment_date = r.payment_date,
+                payment_method_id = r.payment_method_id,
+                observation = r.observation,
+                paying_company_id = r.paying_company_id,
+                on = r.on,
+                justification = r.justification,
+                pdf_link = r.pdf_link,
+                excel_link = r.excel_link,
+                created_at = r.created_at,
+                updated_at = r.updated_at,
+                expenses = MapearDtoResponse(r.expenses)
             }).ToList();
         }
 
@@ -66,39 +74,39 @@ namespace PARS.Inhouse.Systems.Application.Services
             };
         }
 
-        private ExpenseContainerDto MapearDtoResponse(ExpenseContainerResponse expenseContainer)
+        private ExpenseContainerDto MapearDtoResponse(ExpenseContainerDto expenseContainer)
         {
             return new ExpenseContainerDto
             {
-                Data = expenseContainer?.data?.Select(exp => new ExpenseDto
+                data = expenseContainer?.data?.Select(exp => new ExpenseDto
                 {
-                    Id = exp.id,
-                    UserId = exp.user_id,
-                    ExpenseId = exp.expense_id,
-                    DeviceId = exp.device_id,
-                    IntegrationId = exp.integration_id,
-                    ExternalId = exp.external_id,
-                    Mileage = exp.mileage,
-                    Date = exp.date,
-                    ExpenseTypeId = exp.expense_type_id,
-                    PaymentMethodId = exp.payment_method_id,
-                    PayingCompanyId = exp.paying_company_id,
-                    CourseId = exp.course_id,
-                    ReceiptUrl = exp.reicept_url,
-                    Value = exp.value,
-                    Title = exp.title,
-                    Validate = exp.validate,
-                    Reimbursable = exp.reimbursable,
-                    Observation = exp.observation,
-                    Rejected = exp.rejected,
-                    On = exp.on,
-                    MileageValue = exp.mileage_value,
-                    OriginalCurrencyIso = exp.original_currency_iso,
-                    ExchangeRate = exp.exchange_rate,
-                    ConvertedValue = exp.converted_value,
-                    ConvertedCurrencyIso = exp.converted_currency_iso,
-                    CreatedAt = exp.created_at,
-                    UpdatedAt = exp.updated_at
+                    id = exp.id,
+                    user_id = exp.user_id,
+                    expense_id = exp.expense_id,
+                    device_id = exp.device_id,
+                    integration_id = exp.integration_id,
+                    external_id = exp.external_id,
+                    mileage = exp.mileage,
+                    date = exp.date,
+                    expense_type_id = exp.expense_type_id,
+                    payment_method_id = exp.payment_method_id,
+                    paying_company_id = exp.paying_company_id,
+                    course_id = exp.course_id,
+                    reicept_url = exp.reicept_url,
+                    value = exp.value,
+                    title = exp.title,
+                    validate = exp.validate,
+                    reimbursable = exp.reimbursable,
+                    observation = exp.observation,
+                    rejected = exp.rejected,
+                    on = exp.on,
+                    mileage_value = exp.mileage_value,
+                    original_currency_iso = exp.original_currency_iso,
+                    exchange_rate = exp.exchange_rate,
+                    converted_value = exp.converted_value,
+                    converted_currency_iso = exp.converted_currency_iso,
+                    created_at = exp.created_at,
+                    updated_at = exp.updated_at
                 }).ToList() ?? new List<ExpenseDto>()
             };
         }

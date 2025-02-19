@@ -33,7 +33,7 @@ namespace PARS_Inhouse_Systems_API.Controllers
         /// <summary>
         /// Obtém relatórios filtrados por status e parâmetros adicionais.
         /// </summary>
-        /// <param name="status">Status do relatório (APROVADO por padrão).</param>
+        /// <param name="status">status do relatório (APROVADO por padrão).</param>
         /// <param name="filtros">Filtros adicionais para consulta.</param>
         /// <returns>Lista de relatórios filtrados.</returns>
         [HttpGet("Relatorio")]
@@ -43,7 +43,7 @@ namespace PARS_Inhouse_Systems_API.Controllers
         {
             try
             {
-                _logger.LogInformation("Buscando relatórios com status: {Status}", status);
+                _logger.LogInformation("Buscando relatórios com status: {status}", status);
 
                 string statusString = Enum.GetName(typeof(ReportStatus), status) ?? ReportStatus.APROVADO.ToString();
 
@@ -51,7 +51,7 @@ namespace PARS_Inhouse_Systems_API.Controllers
 
                 if (reports == null)
                 {
-                    _logger.LogWarning("Nenhum relatório encontrado para o status: {Status}", status);
+                    _logger.LogWarning("Nenhum relatório encontrado para o status: {status}", status);
                     return NotFound(new { Message = "Nenhum relatório encontrado." });
                 }
 
@@ -59,7 +59,7 @@ namespace PARS_Inhouse_Systems_API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro ao buscar relatórios com status: {Status}", status);
+                _logger.LogError(ex, "Erro ao buscar relatórios com status: {status}", status);
                 return StatusCode(500, new { Message = "Erro interno ao buscar relatórios.", Detalhes = ex.Message });
             }
         }
