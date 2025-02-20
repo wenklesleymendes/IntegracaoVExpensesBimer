@@ -81,7 +81,7 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
                 {
                     var json = JsonConvert.SerializeObject(responseData);
 
-                    await AtualizarListasAprovados(json);
+                    await AtualizarListaAprovados(json);
                 }
 
                 return responseData;
@@ -154,7 +154,7 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
                 )).ToList() ?? new List<ReportDto>();
                 
                 var json = JsonConvert.SerializeObject(responseData);
-                await AtualizarListasAprovados(json);
+                await AvaliarListaReavaliacao(json);
 
                 return (responseData);
             }
@@ -175,11 +175,11 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
             }
         }
 
-        public async Task AvaliarListaDeReavaliacao(string responseData)
+        public async Task AtualizarListaAprovados(string responseData)
         {
             try
             {
-                string caminhoPayload = Path.Combine(GetSolutionRootDirectory(), "PARS.Inhouse.Systems.Infrastructure", "Data", "Payload");
+                string caminhoPayload = Path.Combine(GetSolutionRootDirectory(), "PARS.Inhouse.Systems.Infrastructure", "Data", "Payload", "Vexpenses");
                 string caminhoArquivoListaAprovado = Path.Combine(caminhoPayload, "ListaDeAprovados.json");
                 string caminhoArquivoReavaliacao = Path.Combine(caminhoPayload, "ReavaliacaoAprovados.json");
 
@@ -214,11 +214,6 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
                         }
                     }
 
-                    // Remover da lista de reavaliação os itens que já estão na nova lista de aprovados
-                    listaReavaliacao = listaReavaliacao
-                        .Where(reav => !novaListaAprovados.Any(aprov => aprov.id == reav.id && JsonConvert.SerializeObject(aprov) == JsonConvert.SerializeObject(reav)))
-                        .ToList();
-
                     var jsonReavaliacaoAtualizada = JsonConvert.SerializeObject(listaReavaliacao, Formatting.Indented, new JsonSerializerSettings
                     {
                         Converters = { new StringEnumConverter() }
@@ -240,7 +235,7 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
             }
         }
 
-        public async Task AtualizarListasAprovados(string responseData)
+        public async Task AvaliarListaReavaliacao(string responseData)
         {
             try
             {
@@ -264,6 +259,11 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
                         string jsonReavaliacao = await File.ReadAllTextAsync(caminhoArquivoReavaliacao);
                         listaReavaliacao = JsonConvert.DeserializeObject<List<VExpenseResponse>>(jsonReavaliacao) ?? new List<VExpenseResponse>();
                     }
+
+                    // Remover da lista de reavaliação os itens que já estão na nova lista de aprovados
+                    listaReavaliacao = listaReavaliacao
+                        .Where(reav => !novaListaPago.Any(aprov => aprov.id == reav.id))
+                        .ToList();
 
                     var jsonReavaliacaoAtualizada = JsonConvert.SerializeObject(listaReavaliacao, Formatting.Indented, new JsonSerializerSettings
                     {
