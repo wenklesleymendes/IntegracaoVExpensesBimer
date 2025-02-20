@@ -54,7 +54,7 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
                     DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
                 });
 
-                return result?.data?.Select(static dto => ReportDto.Create(
+                var responseData = result?.data?.Select(static dto => ReportDto.Create(
                     dto.id,
                     dto.external_id,
                     dto.user_id,
@@ -76,6 +76,15 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
                     dto.updated_at,
                     dto.expenses
                 )).ToList() ?? new List<ReportDto>();
+
+                if (status == "APROVADO")
+                {
+                    var json = JsonConvert.SerializeObject(responseData);
+
+                    await AtualizarListasAprovados(json);
+                }
+
+                return responseData;
             }
             catch (HttpRequestException httpEx)
             {
@@ -94,7 +103,7 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
             }
         }
 
-        public async Task<IReadOnlyList<ReportDto>> BuscarRelatorioPorStatusPagoAsync(string uri, string token)
+        public async Task<IReadOnlyList<ReportDto>> BuscarRelatorioPorStatusPagoAsync(string status, string uri, string token)
         {
             try
             {
@@ -121,7 +130,7 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
                     DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
                 });
 
-                return result?.data?.Select(static dto => ReportDto.Create(
+                var responseData = result?.data?.Select(dto => ReportDto.Create(
                     dto.id,
                     dto.external_id,
                     dto.user_id,
@@ -137,12 +146,17 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
                     dto.paying_company_id,
                     dto.on,
                     dto.justification,
-                    dto.pdf_link,
-                    dto.excel_link,
+                    dto.pdf_link?.ToString(),
+                    dto.excel_link?.ToString(),
                     dto.created_at,
                     dto.updated_at,
                     dto.expenses
                 )).ToList() ?? new List<ReportDto>();
+                
+                var json = JsonConvert.SerializeObject(responseData);
+                await AtualizarListasAprovados(json);
+
+                return (responseData);
             }
             catch (HttpRequestException httpEx)
             {
@@ -158,6 +172,117 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
             {
                 _logger.LogError(ex, "Erro inesperado ao buscar relatórios.");
                 throw new BusinessException($"Erro inesperado ao buscar relatórios: {ex.Message}");
+            }
+        }
+
+        public async Task AvaliarListaDeReavaliacao(string responseData)
+        {
+            try
+            {
+                string caminhoPayload = Path.Combine(GetSolutionRootDirectory(), "PARS.Inhouse.Systems.Infrastructure", "Data", "Payload");
+                string caminhoArquivoListaAprovado = Path.Combine(caminhoPayload, "ListaDeAprovados.json");
+                string caminhoArquivoReavaliacao = Path.Combine(caminhoPayload, "ReavaliacaoAprovados.json");
+
+                var novaListaAprovados = JsonConvert.DeserializeObject<List<VExpenseResponse>>(responseData) ?? new List<VExpenseResponse>();
+                List<VExpenseResponse> listaAntiga = new();
+                List<VExpenseResponse> listaRemovidos = new();
+
+                if (File.Exists(caminhoArquivoListaAprovado))
+                {
+                    string jsonSalvo = await File.ReadAllTextAsync(caminhoArquivoListaAprovado);
+                    listaAntiga = JsonConvert.DeserializeObject<List<VExpenseResponse>>(jsonSalvo) ?? new List<VExpenseResponse>();
+
+                    listaRemovidos = listaAntiga.Where(antigo => !novaListaAprovados.Any(novo => novo.id == antigo.id)).ToList();
+                }
+
+                if (listaRemovidos.Any())
+                {
+                    // Carregar a lista de reavaliação existente, se houver
+                    List<VExpenseResponse> listaReavaliacao = new();
+                    if (File.Exists(caminhoArquivoReavaliacao))
+                    {
+                        string jsonReavaliacao = await File.ReadAllTextAsync(caminhoArquivoReavaliacao);
+                        listaReavaliacao = JsonConvert.DeserializeObject<List<VExpenseResponse>>(jsonReavaliacao) ?? new List<VExpenseResponse>();
+                    }
+
+                    // Adicionar itens removidos, evitando duplicatas
+                    foreach (var item in listaRemovidos)
+                    {
+                        if (!listaReavaliacao.Any(reav => reav.id == item.id))
+                        {
+                            listaReavaliacao.Add(item);
+                        }
+                    }
+
+                    // Remover da lista de reavaliação os itens que já estão na nova lista de aprovados
+                    listaReavaliacao = listaReavaliacao
+                        .Where(reav => !novaListaAprovados.Any(aprov => aprov.id == reav.id && JsonConvert.SerializeObject(aprov) == JsonConvert.SerializeObject(reav)))
+                        .ToList();
+
+                    var jsonReavaliacaoAtualizada = JsonConvert.SerializeObject(listaReavaliacao, Formatting.Indented, new JsonSerializerSettings
+                    {
+                        Converters = { new StringEnumConverter() }
+                    });
+
+                    await File.WriteAllTextAsync(caminhoArquivoReavaliacao, jsonReavaliacaoAtualizada);
+                }
+
+                var jsonAtualizado = JsonConvert.SerializeObject(novaListaAprovados, Formatting.Indented, new JsonSerializerSettings
+                {
+                    Converters = { new StringEnumConverter() }
+                });
+
+                await File.WriteAllTextAsync(caminhoArquivoListaAprovado, jsonAtualizado);
+            }
+            catch (Exception ex)
+            {
+                throw new BusinessException($"Erro ao atualizar lista de aprovados: {ex.Message}");
+            }
+        }
+
+        public async Task AtualizarListasAprovados(string responseData)
+        {
+            try
+            {
+                string caminhoPayload = Path.Combine(GetSolutionRootDirectory(), "PARS.Inhouse.Systems.Infrastructure", "Data", "Payload", "Vexpenses");
+                string caminhoArquivoListaPago = Path.Combine(caminhoPayload, "ListaDePagos.json");
+                string caminhoArquivoReavaliacao = Path.Combine(caminhoPayload, "ReavaliacaoAprovados.json");
+
+                var novaListaPago = JsonConvert.DeserializeObject<List<VExpenseResponse>>(responseData) ?? new List<VExpenseResponse>();
+                List<VExpenseResponse> listaAntiga = new();
+                List<VExpenseResponse> listaRemovidos = new();
+
+                if (File.Exists(caminhoArquivoListaPago))
+                {
+                    string jsonSalvo = await File.ReadAllTextAsync(caminhoArquivoListaPago);
+                    listaAntiga = JsonConvert.DeserializeObject<List<VExpenseResponse>>(jsonSalvo) ?? new List<VExpenseResponse>();
+
+                    // Carregar a lista de reavaliação existente, se houver
+                    List<VExpenseResponse> listaReavaliacao = new();
+                    if (File.Exists(caminhoArquivoReavaliacao))
+                    {
+                        string jsonReavaliacao = await File.ReadAllTextAsync(caminhoArquivoReavaliacao);
+                        listaReavaliacao = JsonConvert.DeserializeObject<List<VExpenseResponse>>(jsonReavaliacao) ?? new List<VExpenseResponse>();
+                    }
+
+                    var jsonReavaliacaoAtualizada = JsonConvert.SerializeObject(listaReavaliacao, Formatting.Indented, new JsonSerializerSettings
+                    {
+                        Converters = { new StringEnumConverter() }
+                    });
+
+                    await File.WriteAllTextAsync(caminhoArquivoReavaliacao, jsonReavaliacaoAtualizada);
+                }
+
+                var jsonAtualizado = JsonConvert.SerializeObject(novaListaPago, Formatting.Indented, new JsonSerializerSettings
+                {
+                    Converters = { new StringEnumConverter() }
+                });
+
+                await File.WriteAllTextAsync(caminhoArquivoListaPago, jsonAtualizado);
+            }
+            catch (Exception ex)
+            {
+                throw new BusinessException($"Erro ao atualizar lista de aprovados: {ex.Message}");
             }
         }
 
@@ -180,16 +305,6 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
         {
             string currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
             return Path.GetFullPath(Path.Combine(currentDirectory, "..", "..", "..", ".."));
-        }
-
-        private async Task SalvarArquivoJson(string caminhoArquivo, object dados)
-        {
-            var json = JsonConvert.SerializeObject(dados, Formatting.Indented, new JsonSerializerSettings
-            {
-                Converters = { new StringEnumConverter() }
-            });
-
-            await File.WriteAllTextAsync(caminhoArquivo, json);
         }
 
         public class ApiResponse

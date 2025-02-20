@@ -50,6 +50,8 @@ namespace PARS.Inhouse.Systems.Shared.DTOs.Response.Vexpense
                 external_id = externalId,
                 user_id = userId,
                 device_id = deviceId,
+                description = description,
+                status = status,
                 approval_stage_id = approvalStageId,
                 approval_user_id = approvalUserId,
                 approval_date = approvalDate,

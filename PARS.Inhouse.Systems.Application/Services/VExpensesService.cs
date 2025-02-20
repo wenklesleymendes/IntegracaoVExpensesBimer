@@ -32,7 +32,7 @@ namespace PARS.Inhouse.Systems.Application.Services
             IReadOnlyList<ReportDto>? reports;
             if (statusPago)
             {
-                reports = await _vExpensesApi.BuscarRelatorioPorStatusPagoAsync(uri, token);
+                reports = await _vExpensesApi.BuscarRelatorioPorStatusPagoAsync(status, uri, token);
             }
             else
             {

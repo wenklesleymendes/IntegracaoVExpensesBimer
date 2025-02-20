@@ -15,7 +15,7 @@ namespace PARS.Inhouse.Systems.Shared.Enums.Vexpenses
         /// </summary>
         [EnumMember(Value = "ABERTO")]
         [Description("Relatório em aberto.")]
-        Aberto,
+        ABERTO,
 
         /// <summary>
         /// O relatório foi aprovado.

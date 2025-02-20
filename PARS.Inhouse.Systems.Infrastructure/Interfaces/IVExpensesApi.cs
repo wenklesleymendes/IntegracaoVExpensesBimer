@@ -17,6 +17,6 @@ namespace PARS.Inhouse.Systems.Infrastructure.Interfaces
         /// <param name="filtros">Objeto contendo os filtros de pesquisa.</param>
         /// <returns>Lista de relatórios encontrados.</returns>
         Task<IReadOnlyList<ReportDto>> BuscarRelatorioPorStatusAsync(string status, string uri, string token, FiltrosDto filtros);
-        Task<IReadOnlyList<ReportDto>>  BuscarRelatorioPorStatusPagoAsync(string uri, string token);
+        Task<IReadOnlyList<ReportDto>>  BuscarRelatorioPorStatusPagoAsync(string status, string uri, string token);
     }
 }
