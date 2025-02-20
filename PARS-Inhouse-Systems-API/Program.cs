@@ -36,14 +36,17 @@ void ConfigureServices(IServiceCollection services, IConfiguration configuration
 
     // 🔹 Registro de configurações via appsettings.json
     services.Configure<OpcoesUrls>(configuration.GetSection("VExpense"));
+    services.Configure<OpcoesUrls>(configuration.GetSection("Integracao"));
     services.Configure<VexpenseTokenApiKeyConfig>(configuration.GetSection("TokenApiKey"));
     services.Configure<VexpenseFiltroDefaultsConfig>(configuration.GetSection("FiltroDefaults"));
 
     // 🔹 Configuração de clientes HTTP
     services.AddHttpClient<IVExpensesApi, VExpensesApi>();
+    services.AddHttpClient<IIntegracaoBimerAPI, IntegracaoBimerAPI>();
 
     // 🔹 Registro de dependências (IoC)
     services.AddScoped<IVExpensesService, VExpensesService>();
+    services.AddHttpClient<IIntegracaoBimerService, IntegracaoBimerService>();
 }
 
 /// <summary>

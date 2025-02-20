@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using PARS.Inhouse.Systems.Application.Configurations;
-using PARS.Inhouse.Systems.Application.DTOs.Request.Bimer;
-using PARS.Inhouse.Systems.Application.DTOs.Response.Bimer;
 using PARS.Inhouse.Systems.Application.Interfaces;
 using PARS.Inhouse.Systems.Infrastructure.Interfaces;
+using PARS.Inhouse.Systems.Shared.DTOs.Request.Bimer;
+using PARS.Inhouse.Systems.Shared.DTOs.Response.Bimer;
 using System.Text.Json;
 
 namespace PARS.Inhouse.Systems.Application.Services
@@ -24,7 +24,7 @@ namespace PARS.Inhouse.Systems.Application.Services
             _jsonSerializerOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
         }
 
-        public async Task<TitlePayResponseDto?> CriarTituloAPagar(BimerRequestDto bimerRequestDto, string token)
+        public async Task<TitlePayResponseDto?> CreateTitlePay(BimerRequestDto bimerRequestDto, string token)
         {
             try
             {
@@ -44,12 +44,12 @@ namespace PARS.Inhouse.Systems.Application.Services
             var uri = _options.TokenServico;
             var content = new FormUrlEncodedContent(new[]
             {
-                    new KeyValuePair<string, string>("client_id", requestDto.ClientId),
-                    new KeyValuePair<string, string>("client_secret", requestDto.ClientSecret),
-                    new KeyValuePair<string, string>("grant_type", requestDto.GrantType),
-                    new KeyValuePair<string, string>("username", requestDto.Username),
-                    new KeyValuePair<string, string>("password", requestDto.Password),
-                    new KeyValuePair<string, string>("nonce", requestDto.Nonce)
+                    new KeyValuePair<string, string>("client_id", requestDto.client_id),
+                    new KeyValuePair<string, string>("client_secret", requestDto.client_secret),
+                    new KeyValuePair<string, string>("grant_type", requestDto.grant_type),
+                    new KeyValuePair<string, string>("username", requestDto.username),
+                    new KeyValuePair<string, string>("password", requestDto.password),
+                    new KeyValuePair<string, string>("nonce", requestDto.nonce)
                 });
 
             var response = await _integracaoBimerAPI.AuthenticateAsync(content, uri);
@@ -58,11 +58,11 @@ namespace PARS.Inhouse.Systems.Application.Services
             var authResponse = System.Text.Json.JsonSerializer.Deserialize<AuthResponseDto>(responseString, _jsonSerializerOptions);
             return authResponse ?? new AuthResponseDto
             {
-                AccessToken = string.Empty,
-                TokenType = string.Empty,
-                ExpiresIn = 0,
-                RefreshToken = string.Empty,
-                Username = string.Empty
+                access_token = string.Empty,
+                token_type = string.Empty,
+                expires_in = 0,
+                refresh_token = string.Empty,
+                username = string.Empty
             };
         }
 
@@ -71,9 +71,9 @@ namespace PARS.Inhouse.Systems.Application.Services
             var uri = _options.TokenServico;
             var content = new FormUrlEncodedContent(new[]
             {
-                        new KeyValuePair<string, string>("client_id", request.ClientId),
-                        new KeyValuePair<string, string>("grant_type", request.GrantType),
-                        new KeyValuePair<string, string>("refresh_token", request.RefreshToken)
+                        new KeyValuePair<string, string>("client_id", request.client_id),
+                        new KeyValuePair<string, string>("grant_type", request.grant_type),
+                        new KeyValuePair<string, string>("refresh_token", request.refresh_token)
                     });
 
             var response = await _integracaoBimerAPI.ReauthenticateAsync(content, uri);
@@ -82,11 +82,11 @@ namespace PARS.Inhouse.Systems.Application.Services
             var authResponse = System.Text.Json.JsonSerializer.Deserialize<AuthResponseDto>(responseString, _jsonSerializerOptions);
             return authResponse ?? new AuthResponseDto
             {
-                AccessToken = string.Empty,
-                TokenType = string.Empty,
-                ExpiresIn = 0,
-                RefreshToken = string.Empty,
-                Username = string.Empty
+                access_token = string.Empty,
+                token_type = string.Empty,
+                expires_in = 0,
+                refresh_token = string.Empty,
+                username = string.Empty
             };
         }
     }

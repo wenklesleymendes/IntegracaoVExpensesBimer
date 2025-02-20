@@ -1,10 +1,11 @@
 ﻿using Microsoft.Extensions.Options;
 using PARS.Inhouse.Systems.Application.Configurations;
 using PARS.Inhouse.Systems.Application.DTOs.Request.Vexpense;
-using PARS.Inhouse.Systems.Application.DTOs.Response.Vexpense;
 using PARS.Inhouse.Systems.Application.Interfaces;
+using PARS.Inhouse.Systems.Domain.Entities.Vexpense.Response;
 using PARS.Inhouse.Systems.Infrastructure.Interfaces;
-using PARS.Inhouse.Systems.Shared.Enums;
+using PARS.Inhouse.Systems.Shared.DTOs.Response.Vexpense;
+using PARS.Inhouse.Systems.Shared.Enums.Vexpenses;
 
 namespace PARS.Inhouse.Systems.Application.Services
 {
@@ -18,48 +19,96 @@ namespace PARS.Inhouse.Systems.Application.Services
         {
             _vExpensesApi = vExpensesApi ?? throw new ArgumentNullException(nameof(vExpensesApi));
             _options = options?.Value ?? throw new ArgumentNullException(nameof(options));
-            _tokenApiKey = tokenApiKey.Value.Token;
+            _tokenApiKey = tokenApiKey?.Value?.Token ?? throw new ArgumentNullException(nameof(tokenApiKey));
         }
 
-        public async Task<List<ReportDto>> GetReportsByStatusAsync(string status, FiltrosDto filtrosDto)
+        public async Task<List<ReportDto>> BuscarRelatorioPorStatusAsync(string status, FiltrosDto filtrosDto)
         {
-            var statusPago = false;
-
+            var statusPago = status.ToUpper() == "PAGO";
             var token = _tokenApiKey;
             var filtrosDtoPadrao = AplicarFiltrosPadrao(filtrosDto);
-
-            status = status.ToUpper();
             var uri = _options.VExpenseReport.Replace("{status}", status);
 
-            if (status == "PAGO")
+            IReadOnlyList<ReportDto>? reports;
+            if (statusPago)
             {
-                statusPago = true;
+                reports = await _vExpensesApi.BuscarRelatorioPorStatusPagoAsync(status, uri, token);
+            }
+            else
+            {
+                reports = await _vExpensesApi.BuscarRelatorioPorStatusAsync(status, uri, token, filtrosDtoPadrao);
             }
 
-            var reports = await _vExpensesApi.GetReportsByStatusAsync(status, filtrosDtoPadrao, token, uri, statusPago);
             return reports.Select(r => new ReportDto
             {
-                Id = r.id,
-                Description = r.description,
-                Status = r.status.ToString(),
-                ApprovalDate = r.approvalDate,
-                PdfLink = r.pdfLink,
-                ExcelLink = r.excelLink
+                id = r.id,
+                external_id = r.external_id,
+                user_id = r.user_id,
+                device_id = r.device_id,
+                description = r.description,
+                status = r.status,
+                approval_stage_id = r.approval_stage_id,
+                approval_user_id = r.approval_user_id,
+                approval_date = r.approval_date,
+                payment_date = r.payment_date,
+                payment_method_id = r.payment_method_id,
+                observation = r.observation,
+                paying_company_id = r.paying_company_id,
+                on = r.on,
+                justification = r.justification,
+                pdf_link = r.pdf_link,
+                excel_link = r.excel_link,
+                created_at = r.created_at,
+                updated_at = r.updated_at,
+                expenses = MapearDtoResponse(r.expenses)
             }).ToList();
         }
 
-        private string AplicarFiltrosPadrao(FiltrosDto filtrosDto)
+        private FiltrosDto AplicarFiltrosPadrao(FiltrosDto filtrosDto)
         {
-            var filtros = new FiltrosDto
+            return new FiltrosDto
             {
-                Include = filtrosDto.Include != default ? filtrosDto.Include : FiltroInclude.expenses,
-                Search = !string.IsNullOrEmpty(filtrosDto.Search) ? filtrosDto.Search : "",
                 SearchField = filtrosDto.SearchField != default ? filtrosDto.SearchField : FiltroSearchField.approval_date_between,
+                Search = !string.IsNullOrEmpty(filtrosDto.Search) ? filtrosDto.Search : "",
                 SearchJoin = filtrosDto.SearchJoin != default ? filtrosDto.SearchJoin : FiltroSearchJoin.and
             };
+        }
 
-            return $"include={filtros.Include.ToString().ToLower()}&search={Uri.EscapeDataString(filtros.Search)}&" +
-                   $"searchFields={FormatarCampo(filtros.SearchField)}&searchJoin={FormatarCampo(filtros.SearchJoin)}";
+        private ExpenseContainerDto MapearDtoResponse(ExpenseContainerDto expenseContainer)
+        {
+            return new ExpenseContainerDto
+            {
+                data = expenseContainer?.data?.Select(exp => new ExpenseDto
+                {
+                    id = exp.id,
+                    user_id = exp.user_id,
+                    expense_id = exp.expense_id,
+                    device_id = exp.device_id,
+                    integration_id = exp.integration_id,
+                    external_id = exp.external_id,
+                    mileage = exp.mileage,
+                    date = exp.date,
+                    expense_type_id = exp.expense_type_id,
+                    payment_method_id = exp.payment_method_id,
+                    paying_company_id = exp.paying_company_id,
+                    course_id = exp.course_id,
+                    reicept_url = exp.reicept_url,
+                    value = exp.value,
+                    title = exp.title,
+                    validate = exp.validate,
+                    reimbursable = exp.reimbursable,
+                    observation = exp.observation,
+                    rejected = exp.rejected,
+                    on = exp.on,
+                    mileage_value = exp.mileage_value,
+                    original_currency_iso = exp.original_currency_iso,
+                    exchange_rate = exp.exchange_rate,
+                    converted_value = exp.converted_value,
+                    converted_currency_iso = exp.converted_currency_iso,
+                    created_at = exp.created_at,
+                    updated_at = exp.updated_at
+                }).ToList() ?? new List<ExpenseDto>()
+            };
         }
 
         private string FormatarCampo<T>(T campo) where T : Enum
