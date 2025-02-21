@@ -63,7 +63,7 @@ namespace PARS.Inhouse.Systems.Shared.DTOs.Response.Vexpense
                 justification = justification,
                 created_at = createdAt,
                 updated_at = updatedAt,
-                expenses = expenses ?? new ExpenseContainerDto() // Evita nulos
+                expenses = expenses ?? new ExpenseContainerDto()
             };
 
             report.SetPdfLink(pdfLink);

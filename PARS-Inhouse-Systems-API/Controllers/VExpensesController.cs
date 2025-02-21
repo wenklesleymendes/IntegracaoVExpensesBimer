@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using PARS.Inhouse.Systems.Application.Configurations;
 using PARS.Inhouse.Systems.Application.DTOs.Request.Vexpense;
 using PARS.Inhouse.Systems.Application.Interfaces;
+using PARS.Inhouse.Systems.Domain.Exceptions;
 using PARS.Inhouse.Systems.Shared.Enums.Vexpenses;
 using System;
 using System.ComponentModel;
@@ -61,6 +61,33 @@ namespace PARS_Inhouse_Systems_API.Controllers
             {
                 _logger.LogError(ex, "Erro ao buscar relatórios com status: {status}", status);
                 return StatusCode(500, new { Message = "Erro interno ao buscar relatórios.", Detalhes = ex.Message });
+            }
+        }
+
+        [HttpPut("atualizaStatus")]
+        public async Task<IActionResult> AtualizaStatusRelatorio([FromQuery] int? id, [FromBody] AtualizaStatusDto requestDto)
+        {
+            try
+            {
+                if (!id.HasValue || id == 0)
+                {
+                    return BadRequest(new { Message = "O id é obrigatório!" });
+                }
+
+                _logger.LogInformation($"Alterando status do relatório => {id}");
+
+                var response = await _vExpensesService.AlterarStatus(id.Value, requestDto);
+                return Ok(response);
+            }
+            catch (BusinessException ex)
+            {
+                _logger.LogWarning(ex, "Erro de negócio ao alterar status do relatório.");
+                return BadRequest(new { Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro inesperado ao alterar status do relatório.");
+                return StatusCode(500, new { Message = "Erro interno no servidor." });
             }
         }
     }

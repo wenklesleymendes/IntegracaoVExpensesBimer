@@ -1,7 +1,5 @@
 ﻿using PARS.Inhouse.Systems.Application.DTOs.Request.Vexpense;
-using PARS.Inhouse.Systems.Domain.Entities.vexpense;
 using PARS.Inhouse.Systems.Shared.DTOs.Response.Vexpense;
-using PARS.Inhouse.Systems.Shared.Enums.Vexpenses;
 
 namespace PARS.Inhouse.Systems.Infrastructure.Interfaces
 {
@@ -10,6 +8,8 @@ namespace PARS.Inhouse.Systems.Infrastructure.Interfaces
     /// </summary>
     public interface IVExpensesApi
     {
+        Task<string> AlterarRelatorio(string uri, string token, AtualizaStatusDto requestDto);
+
         /// <summary>
         /// Busca relatórios filtrados pelo status e filtros adicionais.
         /// </summary>

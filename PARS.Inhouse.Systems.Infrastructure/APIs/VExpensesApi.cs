@@ -2,14 +2,13 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using PARS.Inhouse.Systems.Application.DTOs.Request.Vexpense;
-using PARS.Inhouse.Systems.Domain.Entities.vexpense;
 using PARS.Inhouse.Systems.Domain.Entities.Vexpense.Response;
 using PARS.Inhouse.Systems.Domain.Exceptions;
 using PARS.Inhouse.Systems.Infrastructure.Interfaces;
 using PARS.Inhouse.Systems.Shared.DTOs.Response.Vexpense;
-using PARS.Inhouse.Systems.Shared.Enums.Vexpenses;
 using System.Net;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -121,7 +120,7 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
                 var responseContent = await response.Content.ReadAsStringAsync();
                 if (!response.IsSuccessStatusCode)
                 {
-                    throw new BusinessException($"Erro ao buscar relatórios: {response.StatusCode} - {responseContent}");
+                    throw new BusinessException($"{response.StatusCode} - {responseContent}");
                 }
 
                 var result = System.Text.Json.JsonSerializer.Deserialize<ApiResponse>(responseContent, new JsonSerializerOptions
@@ -305,6 +304,46 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
         {
             string currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
             return Path.GetFullPath(Path.Combine(currentDirectory, "..", "..", "..", ".."));
+        }
+
+        public async Task<string> AlterarRelatorio(string uri, string token, AtualizaStatusDto requestDto)
+        {
+            try
+            {
+                var jsonContent = new StringContent(System.Text.Json.JsonSerializer.Serialize(requestDto), Encoding.UTF8, "application/json");
+
+                var requestMessage = new HttpRequestMessage(HttpMethod.Put, uri)
+                {
+                    Content = jsonContent
+                };
+                requestMessage.Headers.Authorization = new AuthenticationHeaderValue(token);
+                requestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var response = await _httpClient.SendAsync(requestMessage);
+                var responseContent = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new BusinessException($"{response.StatusCode} - {responseContent}");
+                }
+
+                return responseContent;
+            }
+            catch (HttpRequestException httpEx)
+            {
+                _logger.LogError(httpEx, "Erro na comunicação com a API do VExpenses.");
+                throw new BusinessException($"Erro na comunicação com a API: {httpEx.Message}");
+            }
+            catch (System.Text.Json.JsonException jsonEx)
+            {
+                _logger.LogError(jsonEx, "Erro ao processar resposta JSON da API.");
+                throw new BusinessException($"Erro ao processar resposta da API: {jsonEx.Message}");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro inesperado ao buscar relatórios.");
+                throw new BusinessException($"Erro inesperado ao buscar relatórios: {ex.Message}");
+            }
         }
 
         public class ApiResponse

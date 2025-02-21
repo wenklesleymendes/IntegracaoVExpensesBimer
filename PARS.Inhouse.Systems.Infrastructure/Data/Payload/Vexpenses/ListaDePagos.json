@@ -117478,5 +117478,29 @@
     "expenses": {
       "data": []
     }
+  },
+  {
+    "id": 6779103,
+    "external_id": null,
+    "user_id": 852135,
+    "device_id": null,
+    "description": "Integração APIs - Vexpenses X Bimer",
+    "status": "PAGO",
+    "approval_stage_id": 11009877,
+    "approval_user_id": null,
+    "approval_date": "2025-02-13T11:57:27",
+    "payment_date": "2025-02-21T11:28:30",
+    "payment_method_id": 47441,
+    "observation": "Integração APIs - Vexpenses X Bimer",
+    "paying_company_id": 64176,
+    "on": true,
+    "justification": null,
+    "pdf_link": "http://app.vexpenses.com/relatorios/download/pdf/z3P2A7K4lRX0vKp1brDZ",
+    "excel_link": "http://app.vexpenses.com/relatorios/download/excel/z3P2A7K4lRX0vKp1brDZ",
+    "created_at": "2025-02-13T11:44:56",
+    "updated_at": "2025-02-21T11:36:46",
+    "expenses": {
+      "data": []
+    }
   }
 ]

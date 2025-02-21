@@ -9,12 +9,10 @@ using System.Text.Json.Serialization;
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
-// 🔹 Configuração de serviços
 ConfigureServices(builder.Services, configuration);
 
 var app = builder.Build();
 
-// 🔹 Configuração dos middlewares
 ConfigureMiddlewares(app);
 
 app.Run();
@@ -28,23 +26,19 @@ void ConfigureServices(IServiceCollection services, IConfiguration configuration
     services.AddControllers()
         .AddJsonOptions(options =>
         {
-            options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()); // Retorna enums como string na API
+            options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
         });
 
-    // 🔹 Configuração do Swagger
     ConfigureSwagger(services);
 
-    // 🔹 Registro de configurações via appsettings.json
     services.Configure<OpcoesUrls>(configuration.GetSection("VExpense"));
     services.Configure<OpcoesUrls>(configuration.GetSection("Integracao"));
     services.Configure<VexpenseTokenApiKeyConfig>(configuration.GetSection("TokenApiKey"));
     services.Configure<VexpenseFiltroDefaultsConfig>(configuration.GetSection("FiltroDefaults"));
 
-    // 🔹 Configuração de clientes HTTP
     services.AddHttpClient<IVExpensesApi, VExpensesApi>();
     services.AddHttpClient<IIntegracaoBimerAPI, IntegracaoBimerAPI>();
 
-    // 🔹 Registro de dependências (IoC)
     services.AddScoped<IVExpensesService, VExpensesService>();
     services.AddHttpClient<IIntegracaoBimerService, IntegracaoBimerService>();
 }
@@ -64,11 +58,9 @@ void ConfigureSwagger(IServiceCollection services)
             Description = "Essa API é a principal para utilização de outros EndPoints."
         });
 
-        // 🔹 Garante que todas as controllers apareçam no Swagger
         c.DocInclusionPredicate((_, apiDesc) => true);
         c.TagActionsBy(api => new List<string> { api.GroupName ?? string.Empty });
 
-        // 🔹 Configuração de autenticação via Bearer Token
         c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
         {
             In = ParameterLocation.Header,
@@ -95,7 +87,6 @@ void ConfigureSwagger(IServiceCollection services)
             }
         });
 
-        // 🔹 Exibir enums como strings no Swagger
         c.UseInlineDefinitionsForEnums();
     });
 }
@@ -113,7 +104,6 @@ void ConfigureMiddlewares(WebApplication app)
 
     app.UseHttpsRedirection();
 
-    // 🔹 Autenticação e autorização (se necessário)
     app.UseAuthorization();
     app.MapControllers();
 }

@@ -1,8 +1,9 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using PARS.Inhouse.Systems.Application.Configurations;
 using PARS.Inhouse.Systems.Application.DTOs.Request.Vexpense;
 using PARS.Inhouse.Systems.Application.Interfaces;
-using PARS.Inhouse.Systems.Domain.Entities.Vexpense.Response;
+using PARS.Inhouse.Systems.Domain.Exceptions;
 using PARS.Inhouse.Systems.Infrastructure.Interfaces;
 using PARS.Inhouse.Systems.Shared.DTOs.Response.Vexpense;
 using PARS.Inhouse.Systems.Shared.Enums.Vexpenses;
@@ -14,12 +15,14 @@ namespace PARS.Inhouse.Systems.Application.Services
         private readonly IVExpensesApi _vExpensesApi;
         private readonly OpcoesUrls _options;
         private readonly string _tokenApiKey;
+        private readonly ILogger<VExpensesService> _logger;
 
-        public VExpensesService(IVExpensesApi vExpensesApi, IOptions<OpcoesUrls> options, IOptions<VexpenseTokenApiKeyConfig> tokenApiKey)
+        public VExpensesService(IVExpensesApi vExpensesApi, IOptions<OpcoesUrls> options, IOptions<VexpenseTokenApiKeyConfig> tokenApiKey, ILogger<VExpensesService> logger)
         {
             _vExpensesApi = vExpensesApi ?? throw new ArgumentNullException(nameof(vExpensesApi));
             _options = options?.Value ?? throw new ArgumentNullException(nameof(options));
             _tokenApiKey = tokenApiKey?.Value?.Token ?? throw new ArgumentNullException(nameof(tokenApiKey));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public async Task<List<ReportDto>> BuscarRelatorioPorStatusAsync(string status, FiltrosDto filtrosDto)
@@ -114,6 +117,26 @@ namespace PARS.Inhouse.Systems.Application.Services
         private string FormatarCampo<T>(T campo) where T : Enum
         {
             return campo.ToString().ToLower().Replace("_", ":");
+        }
+
+        public async Task<string> AlterarStatus(int id, AtualizaStatusDto requestDto)
+        {
+            try
+            {
+                var token = _tokenApiKey;
+                var uri = _options.VExpenseStatus.Replace("{id}", id.ToString());
+
+                return await _vExpensesApi.AlterarRelatorio(uri, token, requestDto);
+            }
+            catch (BusinessException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao alterar status do relatório.");
+                throw new BusinessException("Erro ao alterar status do relatório.");
+            }
         }
     }
 }
