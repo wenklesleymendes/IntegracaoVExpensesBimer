@@ -1,10 +1,13 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using AutoMapper;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using PARS.Inhouse.Systems.Application.DTOs.Request.Vexpense;
 using PARS.Inhouse.Systems.Domain.Entities.vexpense;
+using PARS.Inhouse.Systems.Domain.Entities.Vexpense;
 using PARS.Inhouse.Systems.Domain.Entities.Vexpense.Response;
 using PARS.Inhouse.Systems.Domain.Exceptions;
+using PARS.Inhouse.Systems.Infrastructure.Data.DbContext;
 using PARS.Inhouse.Systems.Infrastructure.Interfaces;
 using PARS.Inhouse.Systems.Shared.DTOs.Response.Vexpense;
 using PARS.Inhouse.Systems.Shared.Enums.Vexpenses;
@@ -19,11 +22,15 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
     {
         private readonly HttpClient _httpClient;
         private readonly ILogger<VExpensesApi> _logger;
+        private readonly Context _context;
+        private readonly IMapper _mapper;
 
-        public VExpensesApi(HttpClient httpClient, ILogger<VExpensesApi> logger)
+        public VExpensesApi(HttpClient httpClient, ILogger<VExpensesApi> logger, Context context, IMapper mapper)
         {
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _context = context;
+            _mapper = mapper;
         }
 
         public async Task<IReadOnlyList<ReportDto>> BuscarRelatorioPorStatusAsync(string status, string uri, string token, FiltrosDto filtros)
@@ -154,6 +161,7 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
                 )).ToList() ?? new List<ReportDto>();
                 
                 var json = JsonConvert.SerializeObject(responseData);
+
                 await AtualizarListasAprovados(json);
 
                 return (responseData);
@@ -305,6 +313,39 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
         {
             string currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
             return Path.GetFullPath(Path.Combine(currentDirectory, "..", "..", "..", ".."));
+        }
+
+        public async Task SaveChanges(List<ReportDto> reports)
+        {
+            foreach (ReportDto report in reports)
+            {
+                try
+                {
+                    var tituloAprovado = _mapper.Map<TitulosAprovados>(report);
+
+                    tituloAprovado.IdResponse = tituloAprovado.Id;
+                    tituloAprovado.Id = 0;
+                    _context.TitulosAprovados.Add(tituloAprovado);
+                    await _context.SaveChangesAsync();
+
+                    report.expenses.data.ForEach(expense =>
+                    {
+                        var despesa = _mapper.Map<TituloAprovadoDespesa>(expense);
+                        despesa.IdTituloAprovado = tituloAprovado.Id;
+                        despesa.IdResponse = despesa.Id;
+                        despesa.Id = 0;
+
+                        _context.TituloAprovadoDespesa.Add(despesa);
+                        _context.SaveChanges();
+
+                    });
+                }
+                catch (Exception ex)
+                {
+
+                    throw ex;
+                }
+            }
         }
 
         public class ApiResponse

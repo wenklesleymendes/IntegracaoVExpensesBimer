@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.Options;
 using PARS.Inhouse.Systems.Application.Configurations;
 using PARS.Inhouse.Systems.Application.DTOs.Request.Vexpense;
 using PARS.Inhouse.Systems.Application.Interfaces;
@@ -39,7 +40,7 @@ namespace PARS.Inhouse.Systems.Application.Services
                 reports = await _vExpensesApi.BuscarRelatorioPorStatusAsync(status, uri, token, filtrosDtoPadrao);
             }
 
-            return reports.Select(r => new ReportDto
+            List<ReportDto> reportsList = reports.Select(r => new ReportDto
             {
                 id = r.id,
                 external_id = r.external_id,
@@ -62,6 +63,10 @@ namespace PARS.Inhouse.Systems.Application.Services
                 updated_at = r.updated_at,
                 expenses = MapearDtoResponse(r.expenses)
             }).ToList();
+
+            await SaveReports(reportsList);
+
+            return reportsList;
         }
 
         private FiltrosDto AplicarFiltrosPadrao(FiltrosDto filtrosDto)
@@ -115,5 +120,11 @@ namespace PARS.Inhouse.Systems.Application.Services
         {
             return campo.ToString().ToLower().Replace("_", ":");
         }
+
+        private async Task SaveReports(List<ReportDto> reportsList)
+        {
+            await _vExpensesApi.SaveChanges(reportsList);
+        }
+
     }
 }
