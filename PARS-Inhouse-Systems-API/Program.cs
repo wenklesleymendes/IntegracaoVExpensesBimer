@@ -1,12 +1,24 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using PARS.Inhouse.Systems.Application.Configurations;
 using PARS.Inhouse.Systems.Application.Interfaces;
 using PARS.Inhouse.Systems.Application.Services;
 using PARS.Inhouse.Systems.Infrastructure.APIs;
+using PARS.Inhouse.Systems.Infrastructure.Data.DbContext;
 using PARS.Inhouse.Systems.Infrastructure.Interfaces;
+using PARS_Inhouse_Systems_API.Config;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<Context>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ParsInhouseContext") ?? throw new InvalidOperationException("Connection string 'ParsInhouseContext' not found.")));
+
+builder.Services.ConfigureIdentity();
+builder.Services.ConfigureJwtAuthentication(builder.Configuration);
+builder.Services.ConfigureCors();
+
+
 var configuration = builder.Configuration;
 
 // 🔹 Configuração de serviços
@@ -47,6 +59,8 @@ void ConfigureServices(IServiceCollection services, IConfiguration configuration
     // 🔹 Registro de dependências (IoC)
     services.AddScoped<IVExpensesService, VExpensesService>();
     services.AddHttpClient<IIntegracaoBimerService, IntegracaoBimerService>();
+    services.AddAutoMapper(typeof(Program));
+
 }
 
 /// <summary>
