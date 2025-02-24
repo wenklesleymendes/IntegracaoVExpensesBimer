@@ -16,8 +16,17 @@ builder.Services.AddDbContext<Context>(options =>
 
 builder.Services.ConfigureIdentity();
 builder.Services.ConfigureJwtAuthentication(builder.Configuration);
-builder.Services.ConfigureCors();
 
+// 🔹 Configuração de CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
 
 var configuration = builder.Configuration;
 
@@ -40,7 +49,7 @@ void ConfigureServices(IServiceCollection services, IConfiguration configuration
     services.AddControllers()
         .AddJsonOptions(options =>
         {
-            options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()); // Retorna enums como string na API
+            options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
         });
 
     // 🔹 Configuração do Swagger
@@ -60,7 +69,6 @@ void ConfigureServices(IServiceCollection services, IConfiguration configuration
     services.AddScoped<IVExpensesService, VExpensesService>();
     services.AddHttpClient<IIntegracaoBimerService, IntegracaoBimerService>();
     services.AddAutoMapper(typeof(Program));
-
 }
 
 /// <summary>
@@ -78,11 +86,9 @@ void ConfigureSwagger(IServiceCollection services)
             Description = "Essa API é a principal para utilização de outros EndPoints."
         });
 
-        // 🔹 Garante que todas as controllers apareçam no Swagger
         c.DocInclusionPredicate((_, apiDesc) => true);
         c.TagActionsBy(api => new List<string> { api.GroupName ?? string.Empty });
 
-        // 🔹 Configuração de autenticação via Bearer Token
         c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
         {
             In = ParameterLocation.Header,
@@ -109,7 +115,6 @@ void ConfigureSwagger(IServiceCollection services)
             }
         });
 
-        // 🔹 Exibir enums como strings no Swagger
         c.UseInlineDefinitionsForEnums();
     });
 }
@@ -127,7 +132,10 @@ void ConfigureMiddlewares(WebApplication app)
 
     app.UseHttpsRedirection();
 
-    // 🔹 Autenticação e autorização (se necessário)
+    // 🔹 Aplicação do CORS antes do mapeamento das rotas
+    app.UseCors("CorsPolicy");
+
+    // 🔹 Autenticação e autorização
     app.UseAuthorization();
     app.MapControllers();
 }
