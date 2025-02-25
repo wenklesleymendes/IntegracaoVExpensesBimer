@@ -1,9 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using PARS.Inhouse.Systems.Application.Configurations;
 using PARS.Inhouse.Systems.Application.DTOs.Request.Vexpense;
 using PARS.Inhouse.Systems.Application.Interfaces;
-using PARS.Inhouse.Systems.Domain.Entities.Vexpense.Response;
 using PARS.Inhouse.Systems.Infrastructure.Interfaces;
 using PARS.Inhouse.Systems.Shared.DTOs.Response.Vexpense;
 using PARS.Inhouse.Systems.Shared.Enums.Vexpenses;
@@ -114,11 +112,6 @@ namespace PARS.Inhouse.Systems.Application.Services
                     updated_at = exp.updated_at
                 }).ToList() ?? new List<ExpenseDto>()
             };
-        }
-
-        private string FormatarCampo<T>(T campo) where T : Enum
-        {
-            return campo.ToString().ToLower().Replace("_", ":");
         }
 
         private async Task SaveReports(List<ReportDto> reportsList)
