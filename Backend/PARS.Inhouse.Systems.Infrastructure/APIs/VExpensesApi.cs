@@ -88,7 +88,7 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
                 {
                     var json = JsonConvert.SerializeObject(responseData);
 
-                    await AtualizarListasAprovados(json);
+                    await AvaliarListaDeReavaliacao(json);
                 }
 
                 return responseData;
@@ -162,7 +162,7 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
                 
                 var json = JsonConvert.SerializeObject(responseData);
 
-                await AtualizarListasAprovados(json);
+                await AvaliarListaDeReavaliacao(json);
 
                 return (responseData);
             }
@@ -183,7 +183,7 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
             }
         }
 
-        public async Task AvaliarListaDeReavaliacao(string responseData)
+        public async Task AtualizarListasAprovados(string responseData)
         {
             try
             {
@@ -205,7 +205,6 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
 
                 if (listaRemovidos.Any())
                 {
-                    // Carregar a lista de reavaliação existente, se houver
                     List<VExpenseResponse> listaReavaliacao = new();
                     if (File.Exists(caminhoArquivoReavaliacao))
                     {
@@ -213,7 +212,6 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
                         listaReavaliacao = JsonConvert.DeserializeObject<List<VExpenseResponse>>(jsonReavaliacao) ?? new List<VExpenseResponse>();
                     }
 
-                    // Adicionar itens removidos, evitando duplicatas
                     foreach (var item in listaRemovidos)
                     {
                         if (!listaReavaliacao.Any(reav => reav.id == item.id))
@@ -222,7 +220,6 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
                         }
                     }
 
-                    // Remover da lista de reavaliação os itens que já estão na nova lista de aprovados
                     listaReavaliacao = listaReavaliacao
                         .Where(reav => !novaListaAprovados.Any(aprov => aprov.id == reav.id && JsonConvert.SerializeObject(aprov) == JsonConvert.SerializeObject(reav)))
                         .ToList();
@@ -248,7 +245,7 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
             }
         }
 
-        public async Task AtualizarListasAprovados(string responseData)
+        public async Task AvaliarListaDeReavaliacao(string responseData)
         {
             try
             {
