@@ -342,8 +342,7 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
                 }
                 catch (Exception ex)
                 {
-
-                    throw ex;
+                    throw new BusinessException($"Erro durante a salvação no banco de dados: {ex.Message}");
                 }
             }
         }

@@ -36,7 +36,7 @@ namespace PARS.Inhouse.Systems.Domain.Entities.Vexpense
         public string title { get; set; }
         public string validate { get; set; }
         public bool? reimbursable { get; set; }
-        public string observation { get; set; }
+        public string? observation { get; set; }
         public int? rejected { get; set; }
         public bool? on { get; set; }
         public string? mileage_value { get; set; }
