@@ -88,7 +88,7 @@ namespace PARS.Inhouse.Systems.Infrastructure.APIs
                 {
                     var json = JsonConvert.SerializeObject(responseData);
 
-                    await AvaliarListaDeReavaliacao(json);
+                    await AtualizarListasAprovados(json);
                 }
 
                 return responseData;
