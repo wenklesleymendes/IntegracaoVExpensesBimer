@@ -6,5 +6,6 @@ namespace PARS.Inhouse.Systems.Application.Interfaces
     public interface IVExpensesService
     {
         Task<List<ReportDto>> BuscarRelatorioPorStatusAsync(string status, FiltrosDto filtrosDto);
+        Task<string> AlterarStatus(int id, AtualizaStatusDto requestDto);
     }
 }

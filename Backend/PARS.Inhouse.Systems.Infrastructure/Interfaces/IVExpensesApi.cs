@@ -18,6 +18,7 @@ namespace PARS.Inhouse.Systems.Infrastructure.Interfaces
         /// <returns>Lista de relatórios encontrados.</returns>
         Task<IReadOnlyList<ReportDto>> BuscarRelatorioPorStatusAsync(string status, string uri, string token, FiltrosDto filtros);
         Task<IReadOnlyList<ReportDto>>  BuscarRelatorioPorStatusPagoAsync(string status, string uri, string token);
+        Task<string> AlterarRelatorio(string uri, string token, AtualizaStatusDto requestDto);
         Task SaveChanges(List<ReportDto> reports);
     }
 }

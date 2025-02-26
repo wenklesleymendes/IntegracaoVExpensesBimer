@@ -2,6 +2,7 @@
 using PARS.Inhouse.Systems.Application.Configurations;
 using PARS.Inhouse.Systems.Application.DTOs.Request.Vexpense;
 using PARS.Inhouse.Systems.Application.Interfaces;
+using PARS.Inhouse.Systems.Domain.Exceptions;
 using PARS.Inhouse.Systems.Infrastructure.Interfaces;
 using PARS.Inhouse.Systems.Shared.DTOs.Response.Vexpense;
 using PARS.Inhouse.Systems.Shared.Enums.Vexpenses;
@@ -65,6 +66,24 @@ namespace PARS.Inhouse.Systems.Application.Services
             await SaveReports(reportsList);
 
             return reportsList;
+        }
+        public async Task<string> AlterarStatus(int id, AtualizaStatusDto requestDto)
+        {
+            try
+            {
+                var token = _tokenApiKey;
+                var uri = _options.VExpenseStatus.Replace("{id}", id.ToString());
+
+                return await _vExpensesApi.AlterarRelatorio(uri, token, requestDto);
+            }
+            catch (BusinessException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new BusinessException($"Erro ao alterar status do relatório. Detalhes: {ex.Message}");
+            }
         }
 
         private FiltrosDto AplicarFiltrosPadrao(FiltrosDto filtrosDto)
